@@ -170,3 +170,8 @@ dmypy.json
 
 # UI generated files
 ui_*.py
+
+# Images
+*.png
+*.jpg
+*.jpeg
