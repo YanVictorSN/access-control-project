@@ -166,3 +166,7 @@ dmypy.json
 # .idea/modules
 # *.iml
 # *.ipr
+
+
+# UI generated files
+ui_*.py
