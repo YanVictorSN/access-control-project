@@ -8,15 +8,15 @@ attrs==22.2.0
     # via pytest
 autopep8==2.0.2
     # via -r requirements.in
-build==0.10.0
-    # via pip-tools
 cfgv==3.3.1
     # via pre-commit
-click==8.1.3
-    # via pip-tools
+click==7.1.2
+    # via
+    #   pyqt5-plugins
+    #   pyqt5-tools
+    #   qt5-tools
 colorama==0.4.6
     # via
-    #   build
     #   click
     #   pytest
 distlib==0.3.6
@@ -45,11 +45,7 @@ opencv-contrib-python==4.7.0.72
 opencv-python==4.7.0.72
     # via -r requirements.in
 packaging==23.0
-    # via
-    #   build
-    #   pytest
-pip-tools==6.12.3
-    # via -r requirements.in
+    # via pytest
 platformdirs==3.1.1
     # via virtualenv
 pluggy==1.0.0
@@ -62,30 +58,37 @@ pycodestyle==2.10.0
     #   flake8
 pyflakes==3.0.1
     # via flake8
-pyproject-hooks==1.0.0
-    # via build
-pyqt5==5.15.9
-    # via -r requirements.in
+pyqt5==5.15.4
+    # via
+    #   -r requirements.in
+    #   pyqt5-plugins
+    #   pyqt5-tools
+pyqt5-plugins==5.15.4.2.2
+    # via pyqt5-tools
 pyqt5-qt5==5.15.2
     # via pyqt5
 pyqt5-sip==12.11.1
     # via pyqt5
+pyqt5-tools==5.15.4.3.2
+    # via -r requirements.in
 pytest==7.2.2
     # via -r requirements.in
+python-dotenv==1.0.0
+    # via pyqt5-tools
 pyyaml==6.0
     # via pre-commit
+qt5-applications==5.15.2.2.2
+    # via qt5-tools
+qt5-tools==5.15.2.1.2
+    # via pyqt5-plugins
 tomli==2.0.1
     # via
     #   autopep8
-    #   build
     #   pytest
 virtualenv==20.21.0
     # via
     #   -r requirements.in
     #   pre-commit
-wheel==0.40.0
-    # via pip-tools
 
 # The following packages are considered to be unsafe in a requirements file:
-# pip
 # setuptools
