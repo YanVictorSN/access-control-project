@@ -6,12 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>344</width>
-    <height>285</height>
+    <width>400</width>
+    <height>330</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>4Safety - Face Recognition App</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="2" column="0">
