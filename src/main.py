@@ -3,6 +3,8 @@ from __future__ import annotations
 import sys
 
 import cv2
+from PyQt5 import QtCore
+from PyQt5 import QtWidgets
 from PyQt5 import uic
 from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtCore import Qt
@@ -14,9 +16,22 @@ from PyQt5.QtWidgets import QWidget
 
 
 class MainWindow(QWidget):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, parent=None):
+        super().__init__(parent)
         self.ui = uic.loadUi('home.ui', self)
+        self.train_QPB.clicked.connect(self.goToTraining)
+        self.training_window = TrainingWindow(self)
+        self.close_QPB.clicked.connect(self.close)
+        self.show()
+
+    def goToTraining(self):
+        self.training_window.show()
+
+
+class TrainingWindow(QWidget):
+    def __init__(self, parent=None):
+        super().__init__(parent, QtCore.Qt.Window)
+        self.ui = uic.loadUi('training.ui', self)
 
         self.cancel_QPB.clicked.connect(self.CancelFeed)
 
@@ -60,6 +75,5 @@ class Worker1(QThread):
 
 if __name__ == '__main__':
     App = QApplication(sys.argv)
-    Root = MainWindow()
-    Root.show()
+    Home = MainWindow()
     sys.exit(App.exec())
