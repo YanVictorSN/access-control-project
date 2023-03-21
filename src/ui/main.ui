@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>235</width>
-    <height>264</height>
+    <width>240</width>
+    <height>231</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -17,7 +17,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>4Safety</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
    <item row="3" column="0">
@@ -28,28 +28,15 @@
     </widget>
    </item>
    <item row="0" column="0">
-    <layout class="QGridLayout" name="gridLayout" rowstretch="0,0,0,0,0,0">
+    <layout class="QGridLayout" name="gridLayout" rowstretch="0,0,0,0,0">
      <property name="sizeConstraint">
       <enum>QLayout::SetDefaultConstraint</enum>
      </property>
      <property name="verticalSpacing">
       <number>0</number>
      </property>
-     <item row="3" column="0">
-      <spacer name="verticalSpacer">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
-         <height>40</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
      <item row="2" column="0">
-      <widget class="QPushButton" name="train_QPB">
+      <widget class="QPushButton" name="training_QPB">
        <property name="minimumSize">
         <size>
          <width>0</width>
@@ -57,12 +44,12 @@
         </size>
        </property>
        <property name="text">
-        <string>Treinar o reconhecimento</string>
+        <string>Cadastrar biometria</string>
        </property>
       </widget>
      </item>
-     <item row="5" column="0">
-      <spacer name="verticalSpacer_2">
+     <item row="1" column="0">
+      <spacer name="verticalSpacer_3">
        <property name="orientation">
         <enum>Qt::Vertical</enum>
        </property>
@@ -74,7 +61,7 @@
        </property>
       </spacer>
      </item>
-     <item row="4" column="0">
+     <item row="3" column="0">
       <widget class="QPushButton" name="attendence_QPB">
        <property name="minimumSize">
         <size>
@@ -93,8 +80,8 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="0">
-      <spacer name="verticalSpacer_3">
+     <item row="4" column="0">
+      <spacer name="verticalSpacer_2">
        <property name="orientation">
         <enum>Qt::Vertical</enum>
        </property>
