@@ -10,6 +10,7 @@ from PyQt5.QtCore import QThread
 from PyQt5.QtGui import QImage
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QApplication
+from PyQt5.QtWidgets import QDesktopWidget
 from PyQt5.QtWidgets import QWidget
 
 
@@ -17,6 +18,7 @@ class TrainingWindow(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.ui = uic.loadUi('ui/training.ui', self)
+        self.setPosition()
 
         self.cancel_QPB.clicked.connect(self.CancelFeed)
 
@@ -30,6 +32,13 @@ class TrainingWindow(QWidget):
 
     def CancelFeed(self):
         self.Worker1.stop()
+
+    def setPosition(self):
+        desktop = QDesktopWidget().availableGeometry()
+        center = desktop.center()
+        x = center.x() + 120
+        y = center.y() - (self.height() // 2) - 50
+        self.move(x, y)
 
 
 class Worker1(QThread):
