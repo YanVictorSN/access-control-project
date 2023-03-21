@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Home_QW</class>
- <widget class="QWidget" name="Home_QW">
+ <class>Main_QW</class>
+ <widget class="QWidget" name="Main_QW">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -28,7 +28,7 @@
     </widget>
    </item>
    <item row="0" column="0">
-    <layout class="QGridLayout" name="gridLayout" rowstretch="0,0,0,0,0">
+    <layout class="QGridLayout" name="Main_QGL" rowstretch="0,0,0,0,0">
      <property name="sizeConstraint">
       <enum>QLayout::SetDefaultConstraint</enum>
      </property>
