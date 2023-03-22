@@ -70,14 +70,11 @@ class TrainingWindow(QWidget):
 
     def validate_name(self):
         if not self.student_name:
-            self.message_QL.setText(
-                'O campo está vazio. Digite um nome válido.')
+            self.message_QL.setText('O campo está vazio. Digite um nome válido.')
         elif any(char.isdigit() for char in self.student_name):
-            self.message_QL.setText(
-                'O nome não pode conter números. Digite um nome válido.')
+            self.message_QL.setText('O nome não pode conter números. Digite um nome válido.')
         elif not all(char.isalpha() or char.isspace() for char in self.student_name):
-            self.message_QL.setText(
-                'O nome não pode conter caracteres especiais. Digite um nome válido.')
+            self.message_QL.setText('O nome não pode conter caracteres especiais. Digite um nome válido.')
         else:
             self.message_QL.setText('Aluno(a) cadastrado com sucesso!')
             self.take_picture()
@@ -92,8 +89,7 @@ class TrainingWindow(QWidget):
             filename = f'{self.student_name}_{self.counter}.jpg'
             path_data = os.path.join(DATASET_FOLDER, filename)
             picture.save(path_data)
-            self.message_QL.setText(
-                f'Imagem {self.counter} salva com sucesso para {self.student_name}.')
+            self.message_QL.setText(f'Imagem {self.counter} salva com sucesso para {self.student_name}.')
         else:
             self.message_QL.setText('Nenhuma imagem para salvar.')
 
