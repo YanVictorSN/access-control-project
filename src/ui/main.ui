@@ -108,7 +108,7 @@
         </font>
        </property>
        <property name="text">
-        <string>4Safety</string>
+        <string>Menu</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -119,6 +119,11 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>training_QPB</tabstop>
+  <tabstop>attendence_QPB</tabstop>
+  <tabstop>close_QPB</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
