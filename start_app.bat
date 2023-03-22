@@ -7,6 +7,7 @@ set "venv=.venv\Scripts\activate"
 set "pip-compile=pip-compile --upgrade --resolver=backtracking"
 set "pip-tools=python -m pip install pip-tools"
 set "virtualenv=python -m pip install virtualenv"
+set "click=python -m pip install --upgrade click"
 
 
 :Menu
@@ -31,7 +32,7 @@ goto Menu
 :Option1
 cls
 echo Atualizando requirements.txt
-cmd /k "%get_parent_dir% & %venv% & %pip-compile% & pip-sync"
+cmd /k "%get_parent_dir% & %venv% & %click% & %pip-compile% & pip-sync"
 
 :: [2] - Setup do ambiente
 :Option2
@@ -40,7 +41,7 @@ echo Efeituando o setup do ambiente
 %pip-tools%
 %virtualenv%
 virtualenv .venv
-cmd /k "%get_parent_dir% & %venv% & %pip-tools% & %pip-compile% & pip-sync"
+cmd /k "%get_parent_dir% & %venv% & %pip-tools% & %click% & %pip-compile% & pip-sync"
 
 :: [3] - Ativar ambiente virtual
 :Option3

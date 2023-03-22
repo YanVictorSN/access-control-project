@@ -1,10 +1,10 @@
 PyQt5
+pyqt5-tools
 autopep8
 flake8
 numpy
 opencv-python
 opencv-contrib-python
-pip-tools
 pre-commit
 pytest
 virtualenv
