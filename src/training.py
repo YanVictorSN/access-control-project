@@ -77,18 +77,21 @@ class TrainingWindow(QWidget):
             self.message_QL.setText('O nome não pode conter caracteres especiais. Digite um nome válido.')
         else:
             self.message_QL.setText('Aluno(a) cadastrado com sucesso!')
+            self.get_student_image_count()
             self.take_picture()
+
+    def get_student_image_count(self):
+        filenames = os.listdir(DATASET_FOLDER)
+        student_filenames = [f for f in filenames if f.startswith(self.student_name)]
+        self.counter = len(student_filenames)
 
     def take_picture(self):
         picture = self.camera_QL.pixmap()
         if picture is not None:
-            if self.student_name != self.student_name:
-                self.counter = 0
-                self.student_name = self.student_name
-            self.counter += 1
-            filename = f'{self.student_name}_{self.counter}.jpg'
+            filename = f'{self.student_name}_{self.counter + 1}.jpg'
             path_data = os.path.join(DATASET_FOLDER, filename)
             picture.save(path_data)
+            self.counter += 1
             self.message_QL.setText(f'Imagem {self.counter} salva com sucesso para {self.student_name}.')
         else:
             self.message_QL.setText('Nenhuma imagem para salvar.')
