@@ -71,34 +71,40 @@ class GalleryWindow(QWidget):
         return None
 
     def mousePressEvent(self, event):
-        # Deselect all image labels
+        self.deselect_all_widgets()
+        clicked_widget = self.get_clicked_widget()
+        if clicked_widget is not None:
+            self.set_widget_properties(
+                clicked_widget,
+                selected=True,
+                stylesheet='background-color: #4a90e2'
+            )
+            self.set_widget_filename(clicked_widget)
+
+    def deselect_all_widgets(self):
         for i in range(self.Gallery_QGL.count()):
             widget = self.Gallery_QGL.itemAt(i).widget()
-            self.set_widget_properties(widget)
-            # Set an empty filename property
-            widget.setProperty('filename', '')
+            self.set_widget_properties(widget, selected=False, stylesheet='')
 
-        # Get the clicked image label
+    def get_clicked_widget(self):
         for i in range(self.Gallery_QGL.count()):
             widget = self.Gallery_QGL.itemAt(i).widget()
             if widget.underMouse():
-                self.set_widget_properties(
-                    widget,
-                    selected=True,
-                    stylesheet='background-color: #4a90e2'
-                )
-                # Set the filename property on the clicked image label
-                filename = widget.property('filename')
-                if not filename:
-                    filename = self.images[i][0]
-                    widget.setProperty('filename', filename)
-                break
+                return widget
+        return None
 
     def set_widget_properties(self, widget, selected=False, stylesheet=''):
         widget.setProperty('selected', selected)
         widget.setStyleSheet(stylesheet)
         widget.style().unpolish(widget)
         widget.style().polish(widget)
+
+    def set_widget_filename(self, widget):
+        filename = widget.property('filename')
+        if not filename:
+            i = self.Gallery_QGL.indexOf(widget)
+            filename = self.images[i][0]
+            widget.setProperty('filename', filename)
 
 
 if __name__ == '__main__':
