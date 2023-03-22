@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+import subprocess
 import sys
 
 import cv2
@@ -14,81 +15,95 @@ from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QDesktopWidget
 from PyQt5.QtWidgets import QWidget
 
+UI_PATH = 'ui/training.ui'
+TRAINING_GALLERY = 'training_gallery.py'
+DATASET_FOLDER = 'training_dataset'
+
 
 class TrainingWindow(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.ui = uic.loadUi('ui/training.ui', self)
-        self.counter = 0
-        self.current_name = ''
-
-        self.student_name_LE.editingFinished.connect(self.reset_counter)
-
-        self.cancel_QPB.clicked.connect(self.CancelFeed)
-        self.save_image_QPB.clicked.connect(self.validate_name)
-
-        self.Worker1 = Worker1()
-        self.Worker1.start()
-        self.Worker1.ImageUpdate.connect(self.ImageUpdateSlot)
+        self.ui = uic.loadUi(UI_PATH, self)
+        self.initUI()
+        self.buttonClickedEvent()
+        self.setWorker()
         self.show()
 
-    def ImageUpdateSlot(self, Image):
+    def initUI(self):
+        self.setStartingPosition()
+        self.createDatasetFolder()
+        self.counter = 0
+        self.student_name = self.student_name_LE.text().lower().strip()
+        self.student_name_LE.editingFinished.connect(self.resetCounter)
+
+    def buttonClickedEvent(self):
+        self.gallery_QPB.clicked.connect(self.goToGallery)
+        self.save_image_QPB.clicked.connect(self.validateName)
+        self.cancel_QPB.clicked.connect(self.cancel)
+
+    def setWorker(self):
+        self.Worker1 = Worker()
+        self.Worker1.start()
+        self.Worker1.ImageUpdate.connect(self.getImage)
+
+    def goToGallery(self):
+        subprocess.Popen(['python', TRAINING_GALLERY, f'{self.student_name}'])
+
+    def getImage(self, Image):
         self.camera_QL.setPixmap(QPixmap.fromImage(Image))
 
-    def CancelFeed(self):
+    def cancel(self):
         self.Worker1.stop()
 
-    def setPosition(self):
+    def setStartingPosition(self):
         desktop = QDesktopWidget().availableGeometry()
         center = desktop.center()
         x = center.x() + 120
         y = center.y() - (self.height() // 2) - 50
         self.move(x, y)
 
-    def reset_counter(self):
+    def resetCounter(self):
         self.counter = 0
-        self.current_name = self.student_name_LE.text()
+        self.student_name = self.student_name_LE.text()
 
-    def create_folder_if_not_exists(self):
-        if not os.path.exists('training_dataset'):
-            os.makedirs('training_dataset', exist_ok=True)
+    def createDatasetFolder(self):
+        if not os.path.exists(DATASET_FOLDER):
+            os.makedirs(DATASET_FOLDER, exist_ok=True)
 
-    def validate_name(self):
-        student_name = self.student_name_LE.text()
-        if not student_name:
+    def validateName(self):
+        if not self.student_name:
             self.message_QL.setText(
                 'O campo está vazio. Digite um nome válido.')
-        elif any(char.isdigit() for char in student_name):
+        elif any(char.isdigit() for char in self.student_name):
             self.message_QL.setText(
                 'O nome não pode conter números. Digite um nome válido.')
-        elif not all(char.isalpha() or char.isspace() for char in student_name):
+        elif not all(char.isalpha() or char.isspace() for char in self.student_name):
             self.message_QL.setText(
                 'O nome não pode conter caracteres especiais. Digite um nome válido.')
         else:
             self.message_QL.setText('Aluno(a) cadastrado com sucesso!')
-            self.take_pictures(student_name)
+            self.takePicture()
 
-    def take_pictures(self, student_name):
-        picture = self.camera_QL.pixmap()
-        if picture is not None:
-            student_name = self.student_name_LE.text()
-            if student_name != self.current_name:
+    def takePicture(self):
+        Picture = self.camera_QL.pixmap()
+        if Picture is not None:
+            self.student_name = self.student_name_LE.text()
+            if self.student_name != self.student_name:
                 self.counter = 0
-                self.current_name = student_name
+                self.student_name = self.student_name
             self.counter += 1
-            filename = f'{student_name}_{self.counter}.jpg'
-            folder_path = 'training_dataset'
-            if not os.path.exists(folder_path):
-                os.makedirs(folder_path)
-            path_data = os.path.join(folder_path, filename)
-            picture.save(path_data)
+            filename = f'{self.student_name}_{self.counter}.jpg'
+            if not os.path.exists(DATASET_FOLDER):
+                os.makedirs(DATASET_FOLDER)
+            path_data = os.path.join(DATASET_FOLDER, filename)
+            Picture.save(path_data)
             self.message_QL.setText(
-                f'Imagem {self.counter} salva com sucesso para {student_name}.')
+                f'Imagem {self.counter} salva com sucesso para {self.student_name}.')
         else:
             self.message_QL.setText('Nenhuma imagem para salvar.')
 
 
-class Worker1(QThread):
+class Worker(QThread):
     ImageUpdate = pyqtSignal(QImage)
 
     def run(self):
@@ -111,11 +126,11 @@ class Worker1(QThread):
 
     def stop(self):
         self.ThreadActive = False
-        self.wait()  # Wait for the thread to finish
+        self.wait()
         self.quit()
 
 
 if __name__ == '__main__':
-    App = QApplication(sys.argv)
+    App = QApplication([])
     Home = TrainingWindow()
     sys.exit(App.exec())
