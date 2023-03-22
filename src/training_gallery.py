@@ -71,21 +71,28 @@ class GalleryWindow(QWidget):
         return None
 
     def mousePressEvent(self, event):
-        self.deselect_all_image_labels()
-        for i in range(self.ui.Gallery_QGL.count()):
-            widget = self.ui.Gallery_QGL.itemAt(i).widget()
+        # Deselect all image labels
+        for i in range(self.Gallery_QGL.count()):
+            widget = self.Gallery_QGL.itemAt(i).widget()
+            self.set_widget_properties(widget)
+            # Set an empty filename property
+            widget.setProperty('filename', '')
+
+        # Get the clicked image label
+        for i in range(self.Gallery_QGL.count()):
+            widget = self.Gallery_QGL.itemAt(i).widget()
             if widget.underMouse():
-                self.select_image_label(widget)
-
-    def deselect_all_image_labels(self):
-        for i in range(self.ui.Gallery_QGL.count()):
-            widget = self.ui.Gallery_QGL.itemAt(i).widget()
-            self.set_widget_properties(widget, selected=False, stylesheet='')
-
-    def select_image_label(self, widget):
-        self.set_widget_properties(widget, selected=True, stylesheet='background-color: #4a90e2')
-        filename = widget.property('filename') or self.images[widget.index][0]
-        widget.setProperty('filename', filename)
+                self.set_widget_properties(
+                    widget,
+                    selected=True,
+                    stylesheet='background-color: #4a90e2'
+                )
+                # Set the filename property on the clicked image label
+                filename = widget.property('filename')
+                if not filename:
+                    filename = self.images[i][0]
+                    widget.setProperty('filename', filename)
+                break
 
     def set_widget_properties(self, widget, selected=False, stylesheet=''):
         widget.setProperty('selected', selected)
