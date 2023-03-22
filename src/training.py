@@ -24,53 +24,51 @@ class TrainingWindow(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.ui = uic.loadUi(UI_PATH, self)
-        self.initUI()
-        self.buttonClickedEvent()
-        self.setWorker()
+        self.init_ui()
+        self.button_clicked_event()
+        self.set_worker()
         self.show()
 
-    def initUI(self):
-        self.setStartingPosition()
-        self.createDatasetFolder()
-        self.counter = 0
-        self.student_name = self.student_name_LE.text().lower().strip()
-        self.student_name_LE.editingFinished.connect(self.resetCounter)
+    def init_ui(self):
+        self.set_starting_position()
+        self.create_dataset_folder()
+        self.student_name = ''
+        self.student_name_LE.editingFinished.connect(self.reset_counter)
 
-    def buttonClickedEvent(self):
-        self.gallery_QPB.clicked.connect(self.goToGallery)
-        self.save_image_QPB.clicked.connect(self.validateName)
+    def button_clicked_event(self):
+        self.gallery_QPB.clicked.connect(self.go_to_gallery)
+        self.save_image_QPB.clicked.connect(self.validate_name)
         self.cancel_QPB.clicked.connect(self.cancel)
 
-    def setWorker(self):
-        self.Worker1 = Worker()
-        self.Worker1.start()
-        self.Worker1.ImageUpdate.connect(self.getImage)
+    def set_worker(self):
+        self.worker = Worker()
+        self.worker.start()
+        self.worker.ImageUpdate.connect(self.get_image)
 
-    def goToGallery(self):
+    def go_to_gallery(self):
         subprocess.Popen(['python', TRAINING_GALLERY, f'{self.student_name}'])
 
-    def getImage(self, Image):
-        self.camera_QL.setPixmap(QPixmap.fromImage(Image))
+    def get_image(self, image):
+        self.camera_QL.setPixmap(QPixmap.fromImage(image))
 
     def cancel(self):
-        self.Worker1.stop()
+        self.worker.stop()
 
-    def setStartingPosition(self):
+    def set_starting_position(self):
         desktop = QDesktopWidget().availableGeometry()
         center = desktop.center()
         x = center.x() + 120
         y = center.y() - (self.height() // 2) - 50
         self.move(x, y)
 
-    def resetCounter(self):
+    def reset_counter(self):
         self.counter = 0
-        self.student_name = self.student_name_LE.text()
+        self.student_name = self.student_name_LE.text().lower().strip()
 
-    def createDatasetFolder(self):
-        if not os.path.exists(DATASET_FOLDER):
-            os.makedirs(DATASET_FOLDER, exist_ok=True)
+    def create_dataset_folder(self):
+        os.makedirs(DATASET_FOLDER, exist_ok=True)
 
-    def validateName(self):
+    def validate_name(self):
         if not self.student_name:
             self.message_QL.setText(
                 'O campo está vazio. Digite um nome válido.')
@@ -82,21 +80,18 @@ class TrainingWindow(QWidget):
                 'O nome não pode conter caracteres especiais. Digite um nome válido.')
         else:
             self.message_QL.setText('Aluno(a) cadastrado com sucesso!')
-            self.takePicture()
+            self.take_picture()
 
-    def takePicture(self):
-        Picture = self.camera_QL.pixmap()
-        if Picture is not None:
-            self.student_name = self.student_name_LE.text()
+    def take_picture(self):
+        picture = self.camera_QL.pixmap()
+        if picture is not None:
             if self.student_name != self.student_name:
                 self.counter = 0
                 self.student_name = self.student_name
             self.counter += 1
             filename = f'{self.student_name}_{self.counter}.jpg'
-            if not os.path.exists(DATASET_FOLDER):
-                os.makedirs(DATASET_FOLDER)
             path_data = os.path.join(DATASET_FOLDER, filename)
-            Picture.save(path_data)
+            picture.save(path_data)
             self.message_QL.setText(
                 f'Imagem {self.counter} salva com sucesso para {self.student_name}.')
         else:

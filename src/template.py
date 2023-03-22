@@ -15,14 +15,14 @@ class TemplateWindow(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.ui = uic.loadUi(UI_PATH, self)
-        self.buttonClickedEvent()
+        self.button_clicked_event()
         self.show()
 
-    def buttonClickedEvent(self):
-        self.example_QPB.clicked.connect(self.goToExample)
+    def button_clicked_event(self):
+        self.example_QPB.clicked.connect(self.go_to_example)
         self.close_QPB.clicked.connect(self.close)
 
-    def goToExample(self):
+    def go_to_example(self):
         # # function to go to example.py
         # subprocess.Popen(['python', EXAMPLE])
         print(f'fui para o {EXAMPLE}')

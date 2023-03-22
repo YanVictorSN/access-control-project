@@ -19,19 +19,20 @@ class GalleryWindow(QWidget):
     def __init__(self):
         super().__init__()
         self.ui = uic.loadUi(UI_PATH, self)
-        self.initUI()
-        self.buttonClickedEvent()
-        self.getImages()
-        self.addImageToGrid()
+        self.init_ui()
+        self.button_clicked_event()
+        self.get_images()
+        self.add_image_to_grid()
         self.show()
 
-    def initUI(self):
+    def init_ui(self):
         self.student_name = sys.argv[1] if len(sys.argv) > 1 else ''
 
-    def buttonClickedEvent(self):
-        self.delete_image_QPB.clicked.connect(self.deleteImage)
+    def button_clicked_event(self):
+        self.delete_image_QPB.clicked.connect(self.delete_image)
+        self.close_QPB.clicked.connect(self.close)
 
-    def getImages(self):
+    def get_images(self):
         base_directory = os.path.abspath(os.path.dirname(__file__))
         self.image_directory = os.path.join(base_directory, DATASET_FOLDER)
         self.image_files = os.listdir(self.image_directory)
@@ -43,7 +44,7 @@ class GalleryWindow(QWidget):
                 if not pixmap.isNull():
                     self.images.append((filename, pixmap))
 
-    def addImageToGrid(self):
+    def add_image_to_grid(self):
         row, col = 0, 0
         for filename, pixmap in self.images:
             image_label = QLabel(self)
@@ -55,7 +56,7 @@ class GalleryWindow(QWidget):
                 row += 1
                 col = 0
 
-    def deleteImage(self):
+    def delete_image(self):
         # Get the selected image label
         selected_label = None
         for i in range(self.Gallery_QGL.count()):
@@ -80,7 +81,7 @@ class GalleryWindow(QWidget):
         # Deselect all image labels
         for i in range(self.Gallery_QGL.count()):
             widget = self.Gallery_QGL.itemAt(i).widget()
-            self.setColors(widget)
+            self.set_colors(widget)
             # Set an empty filename property
             widget.setProperty('filename', '')
 
@@ -88,7 +89,7 @@ class GalleryWindow(QWidget):
         for i in range(self.Gallery_QGL.count()):
             widget = self.Gallery_QGL.itemAt(i).widget()
             if widget.underMouse():
-                self.setColors(
+                self.set_colors(
                     widget,
                     is_selected=True,
                     stylesheet='background-color: #4a90e2'
@@ -100,7 +101,7 @@ class GalleryWindow(QWidget):
                     widget.setProperty('filename', filename)
                 break
 
-    def setColors(self, widget, is_selected=False, stylesheet=''):
+    def set_colors(self, widget, is_selected=False, stylesheet=''):
         widget.setProperty('selected', is_selected)
         widget.setStyleSheet(stylesheet)
         widget.style().unpolish(widget)

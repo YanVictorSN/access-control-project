@@ -16,14 +16,14 @@ class MainWindow(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.ui = uic.loadUi(UI_PATH, self)
-        self.buttonClickedEvent()
+        self.button_clicked_event()
         self.show()
 
-    def buttonClickedEvent(self):
-        self.training_QPB.clicked.connect(self.goToTraining)
+    def button_clicked_event(self):
+        self.training_QPB.clicked.connect(self.go_to_training)
         self.close_QPB.clicked.connect(self.close)
 
-    def goToTraining(self):
+    def go_to_training(self):
         subprocess.Popen(['python', TRAINING])
 
 
