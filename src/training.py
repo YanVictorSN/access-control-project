@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import os
-import subprocess
 import sys
 
 import cv2
@@ -15,6 +14,7 @@ from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QDesktopWidget
 from PyQt5.QtWidgets import QWidget
+from run_subprocess import run_subprocess
 
 
 CURRENT_FILE_PATH = os.path.abspath(__file__)
@@ -51,7 +51,7 @@ class TrainingWindow(QWidget):
         self.worker.ImageUpdate.connect(self.get_image)
 
     def go_to_gallery(self):
-        subprocess.Popen(['python', TRAINING_GALLERY, f'{self.student_name}'])
+        run_subprocess(TRAINING_GALLERY, self.student_name)
 
     def get_image(self, image):
         self.camera_qL.setPixmap(QPixmap.fromImage(image))

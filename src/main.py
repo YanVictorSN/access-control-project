@@ -1,12 +1,12 @@
 from __future__ import annotations
 
 import os
-import subprocess
 import sys
 
 from PyQt5 import uic
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QWidget
+from run_subprocess import run_subprocess
 
 
 CURRENT_FILE_PATH = os.path.abspath(__file__)
@@ -26,7 +26,7 @@ class MainWindow(QWidget):
         self.close_qPB.clicked.connect(self.close)
 
     def go_to_training(self):
-        subprocess.Popen(['python', TRAINING])
+        run_subprocess(TRAINING)
 
 
 if __name__ == '__main__':
