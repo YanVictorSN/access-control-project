@@ -20,15 +20,41 @@
    <string>4Safety</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
+   <item row="2" column="1">
+    <widget class="QPushButton" name="train_qPB">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>50</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>Adicionar ao banco de dados</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0" colspan="2">
+    <widget class="QPushButton" name="close_qPB">
+     <property name="text">
+      <string>Fechar</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QPushButton" name="delete_image_qPB">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>50</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>Deletar selecionada</string>
+     </property>
+    </widget>
+   </item>
    <item row="0" column="0" colspan="2">
     <layout class="QGridLayout" name="Images_qGL">
-     <item row="2" column="0">
-      <layout class="QGridLayout" name="Gallery_qGL">
-       <property name="spacing">
-        <number>10</number>
-       </property>
-      </layout>
-     </item>
      <item row="0" column="0">
       <widget class="QLabel" name="logo_qL">
        <property name="maximumSize">
@@ -62,45 +88,44 @@
        <property name="sizeHint" stdset="0">
         <size>
          <width>20</width>
-         <height>10</height>
+         <height>13</height>
         </size>
        </property>
       </spacer>
      </item>
+     <item row="2" column="0">
+      <widget class="QScrollArea" name="scrollArea">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="widgetResizable">
+        <bool>true</bool>
+       </property>
+       <widget class="QWidget" name="scrollAreaWidgetContents_4">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>778</width>
+          <height>431</height>
+         </rect>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_2">
+         <item row="0" column="0">
+          <layout class="QGridLayout" name="Gallery_qGL">
+           <property name="spacing">
+            <number>10</number>
+           </property>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+     </item>
     </layout>
-   </item>
-   <item row="3" column="0" colspan="2">
-    <widget class="QPushButton" name="close_qPB">
-     <property name="text">
-      <string>Fechar</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="1">
-    <widget class="QPushButton" name="train_qPB">
-     <property name="minimumSize">
-      <size>
-       <width>0</width>
-       <height>50</height>
-      </size>
-     </property>
-     <property name="text">
-      <string>Adicionar ao banco de dados</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0">
-    <widget class="QPushButton" name="delete_image_qPB">
-     <property name="minimumSize">
-      <size>
-       <width>0</width>
-       <height>50</height>
-      </size>
-     </property>
-     <property name="text">
-      <string>Deletar selecionada</string>
-     </property>
-    </widget>
    </item>
   </layout>
  </widget>
