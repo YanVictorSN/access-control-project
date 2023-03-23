@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Images_QW</class>
- <widget class="QWidget" name="Images_QW">
+ <class>Images_qW</class>
+ <widget class="QWidget" name="Images_qW">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -15,16 +15,16 @@
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0" colspan="2">
-    <layout class="QGridLayout" name="Images_QGL">
+    <layout class="QGridLayout" name="Images_qGL">
      <item row="2" column="0">
-      <layout class="QGridLayout" name="Gallery_QGL">
+      <layout class="QGridLayout" name="Gallery_qGL">
        <property name="spacing">
         <number>10</number>
        </property>
       </layout>
      </item>
      <item row="0" column="0">
-      <widget class="QLabel" name="logo_QL">
+      <widget class="QLabel" name="logo_qL">
        <property name="maximumSize">
         <size>
          <width>16777215</width>
@@ -64,14 +64,14 @@
     </layout>
    </item>
    <item row="3" column="0" colspan="2">
-    <widget class="QPushButton" name="close_QPB">
+    <widget class="QPushButton" name="close_qPB">
      <property name="text">
       <string>Fechar</string>
      </property>
     </widget>
    </item>
    <item row="2" column="1">
-    <widget class="QPushButton" name="train_QPB">
+    <widget class="QPushButton" name="train_qPB">
      <property name="minimumSize">
       <size>
        <width>0</width>
@@ -84,7 +84,7 @@
     </widget>
    </item>
    <item row="2" column="0">
-    <widget class="QPushButton" name="delete_image_QPB">
+    <widget class="QPushButton" name="delete_image_qPB">
      <property name="minimumSize">
       <size>
        <width>0</width>
@@ -99,9 +99,9 @@
   </layout>
  </widget>
  <tabstops>
-  <tabstop>delete_image_QPB</tabstop>
-  <tabstop>train_QPB</tabstop>
-  <tabstop>close_QPB</tabstop>
+  <tabstop>delete_image_qPB</tabstop>
+  <tabstop>train_qPB</tabstop>
+  <tabstop>close_qPB</tabstop>
  </tabstops>
  <resources/>
  <connections/>

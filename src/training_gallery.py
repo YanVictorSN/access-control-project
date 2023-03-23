@@ -33,8 +33,8 @@ class GalleryWindow(QWidget):
         self.MAX_COLUMNS = 3
 
     def setup_button_events(self):
-        self.ui.delete_image_QPB.clicked.connect(self.delete_image)
-        self.ui.close_QPB.clicked.connect(self.close)
+        self.ui.delete_image_qPB.clicked.connect(self.delete_image)
+        self.ui.close_qPB.clicked.connect(self.close)
 
     def get_images(self):
         self.image_files = os.listdir(self.image_directory)
@@ -52,19 +52,19 @@ class GalleryWindow(QWidget):
             image_label = QLabel(self)
             image_label.setAlignment(Qt.AlignCenter)
             image_label.setPixmap(pixmap.scaledToWidth(200))
-            self.ui.Gallery_QGL.addWidget(image_label, row, col)
+            self.ui.Gallery_qGL.addWidget(image_label, row, col)
 
     def delete_image(self):
         selected_label = self.get_selected_label()
         if selected_label is not None:
             filename = selected_label.property('filename') or self.images[selected_label.index][0]
             os.remove(os.path.join(self.image_directory, filename))
-            self.ui.Gallery_QGL.removeWidget(selected_label)
+            self.ui.Gallery_qGL.removeWidget(selected_label)
             selected_label.deleteLater()
 
     def get_selected_label(self):
-        for i in range(self.ui.Gallery_QGL.count()):
-            widget = self.ui.Gallery_QGL.itemAt(i).widget()
+        for i in range(self.ui.Gallery_qGL.count()):
+            widget = self.ui.Gallery_qGL.itemAt(i).widget()
             if widget.property('selected'):
                 widget.index = i
                 return widget
@@ -82,13 +82,13 @@ class GalleryWindow(QWidget):
             self.set_widget_filename(clicked_widget)
 
     def deselect_all_widgets(self):
-        for i in range(self.Gallery_QGL.count()):
-            widget = self.Gallery_QGL.itemAt(i).widget()
+        for i in range(self.Gallery_qGL.count()):
+            widget = self.Gallery_qGL.itemAt(i).widget()
             self.set_widget_properties(widget, selected=False, stylesheet='')
 
     def get_clicked_widget(self):
-        for i in range(self.Gallery_QGL.count()):
-            widget = self.Gallery_QGL.itemAt(i).widget()
+        for i in range(self.Gallery_qGL.count()):
+            widget = self.Gallery_qGL.itemAt(i).widget()
             if widget.underMouse():
                 return widget
         return None
@@ -102,7 +102,7 @@ class GalleryWindow(QWidget):
     def set_widget_filename(self, widget):
         filename = widget.property('filename')
         if not filename:
-            i = self.Gallery_QGL.indexOf(widget)
+            i = self.Gallery_qGL.indexOf(widget)
             filename = self.images[i][0]
             widget.setProperty('filename', filename)
 

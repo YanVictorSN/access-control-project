@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Training_QW</class>
- <widget class="QWidget" name="Training_QW">
+ <class>Training_qW</class>
+ <widget class="QWidget" name="Training_qW">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -15,7 +15,7 @@
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="4" column="0">
-    <widget class="QPushButton" name="save_image_QPB">
+    <widget class="QPushButton" name="save_image_qPB">
      <property name="minimumSize">
       <size>
        <width>0</width>
@@ -28,7 +28,7 @@
     </widget>
    </item>
    <item row="4" column="1">
-    <widget class="QPushButton" name="gallery_QPB">
+    <widget class="QPushButton" name="gallery_qPB">
      <property name="minimumSize">
       <size>
        <width>0</width>
@@ -41,7 +41,7 @@
     </widget>
    </item>
    <item row="0" column="0" colspan="2">
-    <layout class="QGridLayout" name="Training_QGL">
+    <layout class="QGridLayout" name="Training_qGL">
      <item row="1" column="0">
       <spacer name="verticalSpacer">
        <property name="orientation">
@@ -59,7 +59,7 @@
       </spacer>
      </item>
      <item row="2" column="0">
-      <widget class="QLabel" name="camera_QL">
+      <widget class="QLabel" name="camera_qL">
        <property name="text">
         <string>Loading camera...</string>
        </property>
@@ -69,7 +69,7 @@
       </widget>
      </item>
      <item row="0" column="0">
-      <widget class="QLabel" name="logo_QL">
+      <widget class="QLabel" name="logo_qL">
        <property name="maximumSize">
         <size>
          <width>16777215</width>
@@ -93,7 +93,7 @@
     </layout>
    </item>
    <item row="5" column="0" colspan="2">
-    <widget class="QPushButton" name="cancel_QPB">
+    <widget class="QPushButton" name="cancel_qPB">
      <property name="text">
       <string>Fechar</string>
      </property>
@@ -107,7 +107,7 @@
     </widget>
    </item>
    <item row="2" column="0" colspan="2">
-    <widget class="QLabel" name="message_QL">
+    <widget class="QLabel" name="message_qL">
      <property name="maximumSize">
       <size>
        <width>16777215</width>
@@ -126,9 +126,9 @@
  </widget>
  <tabstops>
   <tabstop>student_name_LE</tabstop>
-  <tabstop>save_image_QPB</tabstop>
-  <tabstop>gallery_QPB</tabstop>
-  <tabstop>cancel_QPB</tabstop>
+  <tabstop>save_image_qPB</tabstop>
+  <tabstop>gallery_qPB</tabstop>
+  <tabstop>cancel_qPB</tabstop>
  </tabstops>
  <resources/>
  <connections/>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Main_QW</class>
- <widget class="QWidget" name="Main_QW">
+ <class>Main_qW</class>
+ <widget class="QWidget" name="Main_qW">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -21,14 +21,14 @@
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
    <item row="3" column="0">
-    <widget class="QPushButton" name="close_QPB">
+    <widget class="QPushButton" name="close_qPB">
      <property name="text">
       <string>Fechar</string>
      </property>
     </widget>
    </item>
    <item row="0" column="0">
-    <layout class="QGridLayout" name="Main_QGL" rowstretch="0,0,0,0,0">
+    <layout class="QGridLayout" name="Main_qGL" rowstretch="0,0,0,0,0">
      <property name="sizeConstraint">
       <enum>QLayout::SetDefaultConstraint</enum>
      </property>
@@ -36,7 +36,7 @@
       <number>0</number>
      </property>
      <item row="2" column="0">
-      <widget class="QPushButton" name="training_QPB">
+      <widget class="QPushButton" name="training_qPB">
        <property name="minimumSize">
         <size>
          <width>0</width>
@@ -62,7 +62,7 @@
       </spacer>
      </item>
      <item row="3" column="0">
-      <widget class="QPushButton" name="attendence_QPB">
+      <widget class="QPushButton" name="attendence_qPB">
        <property name="minimumSize">
         <size>
          <width>50</width>
@@ -94,7 +94,7 @@
       </spacer>
      </item>
      <item row="0" column="0">
-      <widget class="QLabel" name="logo_QL">
+      <widget class="QLabel" name="logo_qL">
        <property name="maximumSize">
         <size>
          <width>16777215</width>
@@ -120,9 +120,9 @@
   </layout>
  </widget>
  <tabstops>
-  <tabstop>training_QPB</tabstop>
-  <tabstop>attendence_QPB</tabstop>
-  <tabstop>close_QPB</tabstop>
+  <tabstop>training_qPB</tabstop>
+  <tabstop>attendence_qPB</tabstop>
+  <tabstop>close_qPB</tabstop>
  </tabstops>
  <resources/>
  <connections/>
