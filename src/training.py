@@ -3,7 +3,6 @@ from __future__ import annotations
 import os
 import subprocess
 import sys
-import time
 
 import cv2
 from PyQt5 import uic
