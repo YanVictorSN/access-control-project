@@ -3,6 +3,7 @@ from __future__ import annotations
 import sys
 
 from PyQt5 import uic
+from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QTableWidgetItem
 from PyQt5.QtWidgets import QWidget
@@ -98,6 +99,11 @@ class CourseStudentListWindow(QWidget):
         self.student_code_qLE.setText(self.ui.student_qTW.item(row, 0).text())
         self.student_name_qLE.setText(self.ui.student_qTW.item(row, 1).text())
         self.student_code_qLE.setDisabled(True)
+
+    def mousePressEvent(self, event):
+        if event.button() == Qt.LeftButton and not self.ui.student_qTW.rect().contains(event.pos()):
+            self.ui.student_qTW.clearSelection()
+            self.student_code_qLE.setDisabled(False)
 
 
 if __name__ == '__main__':
