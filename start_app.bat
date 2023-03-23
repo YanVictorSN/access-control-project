@@ -40,7 +40,7 @@ cls
 echo Efetuando o setup do ambiente
 %pip-tools%
 %virtualenv%
-virtualenv .venv
+python -m venv .venv
 cmd /k "%get_parent_dir% & %venv% & %pip-tools% & %click% & %pip-compile% & pip-sync"
 
 :: [3] - Ativar ambiente virtual
