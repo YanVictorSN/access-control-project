@@ -19,8 +19,8 @@ class TemplateWindow(QWidget):
         self.show()
 
     def button_clicked_event(self):
-        self.example_QPB.clicked.connect(self.go_to_example)
-        self.close_QPB.clicked.connect(self.close)
+        self.example_qPB.clicked.connect(self.go_to_example)
+        self.close_qPB.clicked.connect(self.close)
 
     def go_to_example(self):
         # # function to go to example.py

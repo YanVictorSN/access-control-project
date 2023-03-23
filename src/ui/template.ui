@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Template_QW</class>
- <widget class="QWidget" name="Template_QW">
+ <class>Template_qW</class>
+ <widget class="QWidget" name="Template_qW">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -21,14 +21,14 @@
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
    <item row="3" column="0">
-    <widget class="QPushButton" name="close_QPB">
+    <widget class="QPushButton" name="close_qPB">
      <property name="text">
       <string>Fechar</string>
      </property>
     </widget>
    </item>
    <item row="0" column="0">
-    <layout class="QGridLayout" name="Template_QGL" rowstretch="0,0,0">
+    <layout class="QGridLayout" name="Template_qGL" rowstretch="0,0,0">
      <property name="sizeConstraint">
       <enum>QLayout::SetDefaultConstraint</enum>
      </property>
@@ -36,7 +36,7 @@
       <number>0</number>
      </property>
      <item row="2" column="0">
-      <widget class="QPushButton" name="example2_QPB">
+      <widget class="QPushButton" name="example2_qPB">
        <property name="minimumSize">
         <size>
          <width>0</width>
@@ -49,7 +49,7 @@
       </widget>
      </item>
      <item row="0" column="0">
-      <widget class="QLabel" name="logo_QL">
+      <widget class="QLabel" name="logo_qL">
        <property name="maximumSize">
         <size>
          <width>16777215</width>
@@ -71,7 +71,7 @@
       </widget>
      </item>
      <item row="1" column="0">
-      <widget class="QPushButton" name="example_QPB">
+      <widget class="QPushButton" name="example_qPB">
        <property name="minimumSize">
         <size>
          <width>0</width>

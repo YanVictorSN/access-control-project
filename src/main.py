@@ -20,8 +20,8 @@ class MainWindow(QWidget):
         self.show()
 
     def button_clicked_event(self):
-        self.training_QPB.clicked.connect(self.go_to_training)
-        self.close_QPB.clicked.connect(self.close)
+        self.training_qPB.clicked.connect(self.go_to_training)
+        self.close_qPB.clicked.connect(self.close)
 
     def go_to_training(self):
         subprocess.Popen(['python', TRAINING])
