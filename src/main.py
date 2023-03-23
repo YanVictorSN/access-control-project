@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import subprocess
 import sys
 
@@ -8,8 +9,9 @@ from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QWidget
 
 
-UI_PATH = 'ui/main.ui'
-TRAINING = 'training.py'
+CURRENT_FILE_PATH = os.path.abspath(__file__)
+UI_PATH = os.path.join(os.path.dirname(CURRENT_FILE_PATH), 'ui', 'main.ui')
+TRAINING = os.path.join(os.path.dirname(CURRENT_FILE_PATH), 'training.py')
 
 
 class MainWindow(QWidget):

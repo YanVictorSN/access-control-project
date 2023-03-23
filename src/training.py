@@ -16,9 +16,11 @@ from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QDesktopWidget
 from PyQt5.QtWidgets import QWidget
 
-UI_PATH = 'ui/training.ui'
-TRAINING_GALLERY = 'training_gallery.py'
-DATASET_FOLDER = 'training_dataset'
+
+CURRENT_FILE_PATH = os.path.abspath(__file__)
+UI_PATH = os.path.join(os.path.dirname(CURRENT_FILE_PATH), 'ui', 'training.ui')
+TRAINING_GALLERY = os.path.join(os.path.dirname(CURRENT_FILE_PATH), 'training_gallery.py')
+DATASET_FOLDER = os.path.join(os.path.dirname(CURRENT_FILE_PATH), 'training_dataset')
 MAX_IMAGES = 10
 MS_IMAGE_DELAY = 300
 

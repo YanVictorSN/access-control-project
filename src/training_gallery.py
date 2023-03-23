@@ -10,8 +10,9 @@ from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QLabel
 from PyQt5.QtWidgets import QWidget
 
-UI_PATH = 'ui/training_gallery.ui'
-DATASET_FOLDER = 'training_dataset'
+CURRENT_FILE_PATH = os.path.abspath(__file__)
+UI_PATH = os.path.join(os.path.dirname(CURRENT_FILE_PATH), 'ui', 'training_gallery.ui')
+DATASET_FOLDER = os.path.join(os.path.dirname(CURRENT_FILE_PATH), 'training_dataset')
 MAX_COLUMNS = 3
 
 
