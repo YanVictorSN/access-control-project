@@ -40,6 +40,7 @@ class CourseStudentListWindow(QWidget):
 
         self.clear_input_fields()
         self.ui.message_qLB.setText('Estudante adicionado')
+        self.student_code_qLE.setDisabled(False)
 
     def remove_student(self):
         selected_items = self.ui.student_qTW.selectedItems()
@@ -96,6 +97,7 @@ class CourseStudentListWindow(QWidget):
         row = selected_items[0].row()
         self.student_code_qLE.setText(self.ui.student_qTW.item(row, 0).text())
         self.student_name_qLE.setText(self.ui.student_qTW.item(row, 1).text())
+        self.student_code_qLE.setDisabled(True)
 
 
 if __name__ == '__main__':
