@@ -14,8 +14,8 @@
    <string>4Safety</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="4" column="0">
-    <widget class="QPushButton" name="save_image_qPB">
+   <item row="5" column="0">
+    <widget class="QPushButton" name="save_images_qPB">
      <property name="minimumSize">
       <size>
        <width>0</width>
@@ -23,20 +23,37 @@
       </size>
      </property>
      <property name="text">
-      <string>Salvar imagem</string>
+      <string>Salvar imagens</string>
      </property>
     </widget>
    </item>
-   <item row="4" column="1">
-    <widget class="QPushButton" name="gallery_qPB">
-     <property name="minimumSize">
+   <item row="6" column="0" colspan="2">
+    <widget class="QPushButton" name="cancel_qPB">
+     <property name="text">
+      <string>Fechar</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0" colspan="2">
+    <widget class="QLineEdit" name="student_name_LE">
+     <property name="placeholderText">
+      <string>Nome do Auno</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0" colspan="2">
+    <widget class="QLabel" name="message_qL">
+     <property name="maximumSize">
       <size>
-       <width>0</width>
-       <height>50</height>
+       <width>16777215</width>
+       <height>20</height>
       </size>
      </property>
      <property name="text">
-      <string>Ver imagens</string>
+      <string>Digite o nome do aluno (apenas letras)</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
    </item>
@@ -92,33 +109,35 @@
      </item>
     </layout>
    </item>
-   <item row="5" column="0" colspan="2">
-    <widget class="QPushButton" name="cancel_qPB">
-     <property name="text">
-      <string>Fechar</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="0" colspan="2">
-    <widget class="QLineEdit" name="student_name_LE">
-     <property name="placeholderText">
-      <string>Nome do Auno</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0" colspan="2">
-    <widget class="QLabel" name="message_qL">
-     <property name="maximumSize">
+   <item row="5" column="1">
+    <widget class="QPushButton" name="gallery_qPB">
+     <property name="minimumSize">
       <size>
-       <width>16777215</width>
-       <height>20</height>
+       <width>0</width>
+       <height>50</height>
       </size>
      </property>
      <property name="text">
-      <string>Digite o nome do aluno (apenas letras)</string>
+      <string>Ver imagens</string>
      </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
+    </widget>
+   </item>
+   <item row="4" column="0" colspan="2">
+    <widget class="QProgressBar" name="saving_qPrB">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="maximum">
+      <number>100</number>
+     </property>
+     <property name="value">
+      <number>0</number>
+     </property>
+     <property name="textVisible">
+      <bool>false</bool>
+     </property>
+     <property name="invertedAppearance">
+      <bool>false</bool>
      </property>
     </widget>
    </item>
@@ -126,7 +145,7 @@
  </widget>
  <tabstops>
   <tabstop>student_name_LE</tabstop>
-  <tabstop>save_image_qPB</tabstop>
+  <tabstop>save_images_qPB</tabstop>
   <tabstop>gallery_qPB</tabstop>
   <tabstop>cancel_qPB</tabstop>
  </tabstops>

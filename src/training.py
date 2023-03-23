@@ -3,12 +3,14 @@ from __future__ import annotations
 import os
 import subprocess
 import sys
+import time
 
 import cv2
 from PyQt5 import uic
 from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtCore import Qt
 from PyQt5.QtCore import QThread
+from PyQt5.QtCore import QTimer
 from PyQt5.QtGui import QImage
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QApplication
@@ -18,6 +20,8 @@ from PyQt5.QtWidgets import QWidget
 UI_PATH = 'ui/training.ui'
 TRAINING_GALLERY = 'training_gallery.py'
 DATASET_FOLDER = 'training_dataset'
+MAX_IMAGES = 10
+MS_IMAGE_DELAY = 300
 
 
 class TrainingWindow(QWidget):
@@ -37,7 +41,7 @@ class TrainingWindow(QWidget):
 
     def button_clicked_event(self):
         self.gallery_qPB.clicked.connect(self.go_to_gallery)
-        self.save_image_qPB.clicked.connect(self.validate_name)
+        self.save_images_qPB.clicked.connect(self.validate_name)
         self.cancel_qPB.clicked.connect(self.cancel)
 
     def set_worker(self):
@@ -86,15 +90,30 @@ class TrainingWindow(QWidget):
         self.counter = len(student_filenames)
 
     def take_picture(self):
+        self.saving_qPrB.setValue(0)
+        self.saving_qPrB.setMaximum(MAX_IMAGES)
+        self.take_picture_with_delay(0, MAX_IMAGES)
+
+    def take_picture_with_delay(self, count, max_count):
         picture = self.camera_qL.pixmap()
         if picture is not None:
-            filename = f'{self.student_name}_{self.counter + 1}.jpg'
-            path_data = os.path.join(DATASET_FOLDER, filename)
-            picture.save(path_data)
-            self.counter += 1
-            self.message_qL.setText(f'Imagem {self.counter} salva com sucesso para {self.student_name}.')
+            self.save_image(picture, count)
         else:
             self.message_qL.setText('Nenhuma imagem para salvar.')
+
+        if count + 1 < max_count:
+            QTimer.singleShot(MS_IMAGE_DELAY, lambda: self.take_picture_with_delay(count + 1, max_count))
+        else:
+            self.message_qL.setText(f'{max_count} imagens salvas com sucesso.')
+            self.saving_qPrB.reset()
+
+    def save_image(self, picture, count):
+        filename = f'{self.student_name}_{self.counter + 1}.jpg'
+        path_data = os.path.join(DATASET_FOLDER, filename)
+        picture.save(path_data)
+        self.counter += 1
+        self.message_qL.setText(f'Imagem {self.counter}/{MAX_IMAGES}.')
+        self.saving_qPrB.setValue(count + 1)
 
 
 class Worker(QThread):
