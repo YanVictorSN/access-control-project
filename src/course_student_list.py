@@ -18,9 +18,13 @@ class CourseStudentListWindow(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.ui = uic.loadUi(UI_PATH, self)
-        self.student_qTW.setHorizontalHeaderLabels(['Matrícula', 'Nome'])
+        self.init_ui()
         self.button_clicked_event()
         self.show()
+
+    def init_ui(self):
+        self.student_qTW.setHorizontalHeaderLabels(['Matrícula', 'Nome'])
+        self.student_qTW.resizeColumnsToContents()
 
     def button_clicked_event(self):
         self.add_student_qPB.clicked.connect(self.add_student)
