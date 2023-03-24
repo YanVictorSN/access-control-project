@@ -7,7 +7,7 @@ from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QWidget
 
 
-UI_PATH = 'ui/classes.ui'
+UI_PATH = 'ui/course.ui'
 
 
 class CourseWindow(QWidget):
