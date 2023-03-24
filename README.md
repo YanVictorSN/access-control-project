@@ -1,5 +1,8 @@
 ## **Setup**
 
+Recomendado instalar o https://github.com/pyenv-win/pyenv-win, para gerenciar as versões do python.
+Para instalar a versão 3.8.10 necessária para o projeto, basta rodar o comando `pyenv install 3.8.10` no terminal.
+
 Temos duas opções para configurar o ambiente:
 
 - Rodando os comandos um por vez
@@ -13,7 +16,7 @@ access-control-project> .venv\Scripts\activate                                 #
 (.venv) access-control-project> pip-sync                                       # Instala as dependências
 ```
 
-- Rodando o script `start.bat` com a opção 3 (Setup do ambiente)
+- Rodando o script `start.bat` com a opção Setup do ambiente
 
 ---
 
@@ -30,7 +33,7 @@ access-control-project> .venv\Scripts\activate                                 #
 (.venv) access-control-project> pip-sync                                       # Instala as dependências
 ```
 
-- Rodando o script `start.bat` com a opção 2 (Atualizar dependencias)
+- Rodando o script `start.bat` com a opção Atualizar dependencias
 
 ---
 
