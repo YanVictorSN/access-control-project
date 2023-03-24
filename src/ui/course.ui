@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>CourseList_qW</class>
- <widget class="QWidget" name="CourseList_qW">
+ <class>Course_qW</class>
+ <widget class="QWidget" name="Course_qW">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -21,7 +21,7 @@
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
-    <layout class="QGridLayout" name="CourseList_qGL">
+    <layout class="QGridLayout" name="Course_qGL">
      <item row="0" column="0">
       <widget class="QLabel" name="title_qL">
        <property name="maximumSize">
