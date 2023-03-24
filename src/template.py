@@ -1,14 +1,17 @@
 from __future__ import annotations
 
+import os
 import sys
 
 from PyQt5 import uic
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QWidget
+from run_subprocess import run_subprocess
 
 
-UI_PATH = 'ui/template.ui'
-EXAMPLE = 'example.py'
+CURRENT_FILE_PATH = os.path.abspath(__file__)
+UI_PATH = os.path.join(os.path.dirname(CURRENT_FILE_PATH), 'ui', 'template.ui')
+EXAMPLE = os.path.join(os.path.dirname(CURRENT_FILE_PATH), 'main.py')
 
 
 class TemplateWindow(QWidget):
@@ -23,9 +26,7 @@ class TemplateWindow(QWidget):
         self.close_qPB.clicked.connect(self.close)
 
     def go_to_example(self):
-        # # function to go to example.py
-        # subprocess.Popen(['python', EXAMPLE])
-        print(f'fui para o {EXAMPLE}')
+        run_subprocess(EXAMPLE)
 
 
 if __name__ == '__main__':

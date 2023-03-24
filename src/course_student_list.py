@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import sys
 
 from PyQt5 import uic
@@ -9,7 +10,8 @@ from PyQt5.QtWidgets import QTableWidgetItem
 from PyQt5.QtWidgets import QWidget
 
 
-UI_PATH = 'ui/course_student_list.ui'
+CURRENT_FILE_PATH = os.path.abspath(__file__)
+UI_PATH = os.path.join(os.path.dirname(CURRENT_FILE_PATH), 'ui', 'course_student_list.ui')
 
 
 class CourseStudentListWindow(QWidget):
@@ -36,11 +38,12 @@ class CourseStudentListWindow(QWidget):
         row_position, existing_row = self.find_student_row(code)
         if existing_row is not None:
             self.ui.student_qTW.setItem(existing_row, 1, QTableWidgetItem(name))
+            self.ui.message_qLB.setText('Editado com sucesso')
         else:
             self.insert_student(row_position, code, name)
+            self.ui.message_qLB.setText('Adicionado com sucesso')
 
         self.clear_input_fields()
-        self.ui.message_qLB.setText('Estudante adicionado')
         self.student_code_qLE.setDisabled(False)
 
     def remove_student(self):
@@ -52,7 +55,7 @@ class CourseStudentListWindow(QWidget):
 
         row = selected_items[0].row()
         self.ui.student_qTW.removeRow(row)
-        self.ui.message_qLB.setText('Estudante removido')
+        self.ui.message_qLB.setText('Removido com sucesso')
 
     def is_valid_input(self, code, name):
         self.student_code_qLE.setStyleSheet('')

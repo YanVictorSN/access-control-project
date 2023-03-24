@@ -1,15 +1,18 @@
 from __future__ import annotations
 
-import subprocess
+import os
 import sys
 
 from PyQt5 import uic
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QWidget
 
+from src.run_subprocess import run_subprocess
 
-UI_PATH = 'ui/main.ui'
-TRAINING = 'training.py'
+
+CURRENT_FILE_PATH = os.path.abspath(__file__)
+UI_PATH = os.path.join(os.path.dirname(CURRENT_FILE_PATH), 'ui', 'main.ui')
+TRAINING = os.path.join(os.path.dirname(CURRENT_FILE_PATH), 'training.py')
 
 
 class MainWindow(QWidget):
@@ -24,7 +27,7 @@ class MainWindow(QWidget):
         self.close_qPB.clicked.connect(self.close)
 
     def go_to_training(self):
-        subprocess.Popen(['python', TRAINING])
+        run_subprocess(TRAINING)
 
 
 if __name__ == '__main__':
