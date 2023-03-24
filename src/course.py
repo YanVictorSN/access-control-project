@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import sys
 
 from PyQt5 import uic
@@ -7,7 +8,8 @@ from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QWidget
 
 
-UI_PATH = 'ui/course.ui'
+CURRENT_FILE_PATH = os.path.abspath(__file__)
+UI_PATH = os.path.join(os.path.dirname(CURRENT_FILE_PATH), 'ui', 'course.ui')
 
 
 class CourseWindow(QWidget):
