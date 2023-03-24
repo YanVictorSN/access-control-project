@@ -7,13 +7,13 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>600</height>
+    <height>750</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>800</width>
-    <height>600</height>
+    <height>750</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -34,7 +34,7 @@
     </widget>
    </item>
    <item row="6" column="0" colspan="2">
-    <widget class="QPushButton" name="cancel_qPB">
+    <widget class="QPushButton" name="close_qPB">
      <property name="text">
       <string>Fechar</string>
      </property>
@@ -83,6 +83,18 @@
      </item>
      <item row="2" column="0">
       <widget class="QLabel" name="camera_qL">
+       <property name="minimumSize">
+        <size>
+         <width>640</width>
+         <height>480</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>16777215</height>
+        </size>
+       </property>
        <property name="text">
         <string>Loading camera...</string>
        </property>
@@ -92,7 +104,7 @@
       </widget>
      </item>
      <item row="0" column="0">
-      <widget class="QLabel" name="logo_qL">
+      <widget class="QLabel" name="title_qL">
        <property name="maximumSize">
         <size>
          <width>16777215</width>
@@ -153,7 +165,7 @@
   <tabstop>student_name_LE</tabstop>
   <tabstop>save_images_qPB</tabstop>
   <tabstop>gallery_qPB</tabstop>
-  <tabstop>cancel_qPB</tabstop>
+  <tabstop>close_qPB</tabstop>
  </tabstops>
  <resources/>
  <connections/>
