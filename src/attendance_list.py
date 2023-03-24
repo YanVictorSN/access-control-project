@@ -1,65 +1,79 @@
 from __future__ import annotations
 
-# import os
+import os
 import sys
-import cv2
+from datetime import datetime
 
+import cv2
 from PyQt5 import uic
-from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QPixmap
 from PyQt5.QtCore import pyqtSignal
+from PyQt5.QtCore import Qt
 from PyQt5.QtCore import QThread
 from PyQt5.QtGui import QImage
+from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QTableWidgetItem
 from PyQt5.QtWidgets import QWidget
-from datetime import datetime
 
-UI_PATH = 'ui/attendance_list.ui'
+CURRENT_FILE_PATH = os.path.abspath(__file__)
+UI_PATH = os.path.join(os.path.dirname(CURRENT_FILE_PATH), 'ui', 'attendance_list.ui')
 
 students_test = [
-    {"name": "Bruno", "registration_number": "0001"},
-    {"name": "Sara", "registration_number": "0002"},
-    {"name": "Vitória", "registration_number": "0003"},
-    {"name": "Vinicius", "registration_number": "0004"},
-    {"name": "Yan", "registration_number": "0005"}
+    {'name': 'Bruno', 'code': '0001'},
+    {'name': 'Sara', 'code': '0002'},
+    {'name': 'Vitória', 'code': '0003'},
+    {'name': 'Vinicius', 'code': '0004'},
+    {'name': 'Yan', 'code': '0005'}
 ]
+class_test = 'Python 2023.1'
 
 
 class AttendanceList(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.ui = uic.loadUi(UI_PATH, self)
-        self.show()
-        self.set_attendance_cam()
+        self.init_ui()
+        self.button_clicked_event()
+        self.start_attendance_cam()
         self.set_attendance_time()
         self.set_class_info()
         self.set_student_info()
+        self.show()
 
-    def set_attendance_cam(self):
-        self.attendance = AttendanceCam()
-        self.attendance.start()
-        self.attendance.ImageUpdate.connect(self.get_image)
+    def init_ui(self):
+        self.attendence_qTW.setHorizontalHeaderLabels(['Matrícula', 'Nome'])
+        self.attendence_qTW.resizeColumnsToContents()
+
+    def button_clicked_event(self):
+        self.close_qPB.clicked.connect(self.cancel)
+
+    def start_attendance_cam(self):
+        self.attendance_cam = AttendanceCam()
+        self.attendance_cam.start()
+        self.attendance_cam.ImageUpdate.connect(self.get_image)
+
+    def cancel(self):
+        self.attendance_cam.stop()
 
     def get_image(self, image):
-        self.attendanceCamera_QL.setPixmap(QPixmap.fromImage(image))
-    
+        self.camera_qL.setPixmap(QPixmap.fromImage(image))
+
     def set_attendance_time(self):
-        current_time = datetime.now()
-        current_time_formated = current_time.strftime('%d/%m/%Y %H:%M:%S')
-        self.dataInfo_QL.setText(f'Data: {current_time_formated} ')
+        current_date = datetime.now()
+        current_date_formated = current_date.strftime('%d/%m/%Y')
+        self.attendance_date_qL.setText(current_date_formated)
 
     def set_class_info(self):
-        self.classInfo_QL.setText('Turma: Python 2023.1 ')
-  
+        self.course_name_qL.setText(class_test)
+
     def set_student_info(self):
-        self.attendanceListTable.setRowCount(len(students_test)) 
+        self.attendence_qTW.setRowCount(len(students_test))
 
         for i, student in enumerate(students_test):
             student_name = QTableWidgetItem(student['name'])
-            registration_number = QTableWidgetItem(str(student['registration_number']))
-            self.attendanceListTable.setItem(i, 0, registration_number)
-            self.attendanceListTable.setItem(i, 1, student_name)
+            student_code = QTableWidgetItem(str(student['code']))
+            self.attendence_qTW.setItem(i, 0, student_code)
+            self.attendence_qTW.setItem(i, 1, student_name)
 
 
 class AttendanceCam(QThread):
@@ -79,7 +93,7 @@ class AttendanceCam(QThread):
                     FlippedImage.shape[0],
                     QImage.Format_RGB888
                 )
-                Pic = ConvertToQtFormat.scaled(400, 300, Qt.KeepAspectRatio)
+                Pic = ConvertToQtFormat.scaled(640, 480, Qt.KeepAspectRatio)
                 self.ImageUpdate.emit(Pic)
         Capture.release()
 

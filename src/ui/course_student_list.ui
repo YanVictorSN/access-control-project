@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Images_qW</class>
- <widget class="QWidget" name="Images_qW">
+ <class>StudentList_qW</class>
+ <widget class="QWidget" name="StudentList_qW">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -21,9 +21,9 @@
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
-    <layout class="QGridLayout" name="Images_qGL">
+    <layout class="QGridLayout" name="StudentList_qGL">
      <item row="6" column="0">
-      <layout class="QGridLayout" name="Gallery_qGL">
+      <layout class="QGridLayout" name="grid_qGL">
        <property name="spacing">
         <number>10</number>
        </property>
@@ -209,7 +209,7 @@ ou Editar</string>
       </layout>
      </item>
      <item row="0" column="0">
-      <widget class="QLabel" name="logo_qL">
+      <widget class="QLabel" name="title_qL">
        <property name="maximumSize">
         <size>
          <width>16777215</width>

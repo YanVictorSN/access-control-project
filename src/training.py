@@ -31,7 +31,7 @@ class TrainingWindow(QWidget):
         self.ui = uic.loadUi(UI_PATH, self)
         self.init_ui()
         self.button_clicked_event()
-        self.set_worker()
+        self.start_training_cam()
         self.show()
 
     def init_ui(self):
@@ -43,12 +43,12 @@ class TrainingWindow(QWidget):
     def button_clicked_event(self):
         self.gallery_qPB.clicked.connect(self.go_to_gallery)
         self.save_images_qPB.clicked.connect(self.validate_name)
-        self.cancel_qPB.clicked.connect(self.cancel)
+        self.close_qPB.clicked.connect(self.cancel)
 
-    def set_worker(self):
-        self.worker = Worker()
-        self.worker.start()
-        self.worker.ImageUpdate.connect(self.get_image)
+    def start_training_cam(self):
+        self.training_cam = TrainingCam()
+        self.training_cam.start()
+        self.training_cam.ImageUpdate.connect(self.get_image)
 
     def go_to_gallery(self):
         run_subprocess(TRAINING_GALLERY, self.student_name)
@@ -57,7 +57,7 @@ class TrainingWindow(QWidget):
         self.camera_qL.setPixmap(QPixmap.fromImage(image))
 
     def cancel(self):
-        self.worker.stop()
+        self.training_cam.stop()
 
     def set_starting_position(self):
         desktop = QDesktopWidget().availableGeometry()
@@ -117,7 +117,7 @@ class TrainingWindow(QWidget):
         self.saving_qPrB.setValue(count + 1)
 
 
-class Worker(QThread):
+class TrainingCam(QThread):
     ImageUpdate = pyqtSignal(QImage)
 
     def run(self):
