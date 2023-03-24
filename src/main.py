@@ -7,9 +7,6 @@ from PyQt5 import uic
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QWidget
 
-from src.run_subprocess import run_subprocess
-
-
 CURRENT_FILE_PATH = os.path.abspath(__file__)
 UI_PATH = os.path.join(os.path.dirname(CURRENT_FILE_PATH), 'ui', 'main.ui')
 TRAINING = os.path.join(os.path.dirname(CURRENT_FILE_PATH), 'training.py')
@@ -31,6 +28,9 @@ class MainWindow(QWidget):
 
 
 if __name__ == '__main__':
+    from run_subprocess import run_subprocess
     App = QApplication([])
     Home = MainWindow()
     sys.exit(App.exec())
+else:
+    from src.run_subprocess import run_subprocess
