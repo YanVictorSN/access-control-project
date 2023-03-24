@@ -25,6 +25,7 @@ students_test = [
     {"name": "Yan", "registration_number": "0005"}
 ]
 
+
 class AttendanceList(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
