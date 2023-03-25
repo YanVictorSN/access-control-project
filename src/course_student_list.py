@@ -11,7 +11,8 @@ from PyQt5.QtWidgets import QWidget
 
 
 CURRENT_FILE_PATH = os.path.abspath(__file__)
-UI_PATH = os.path.join(os.path.dirname(CURRENT_FILE_PATH), 'ui', 'course_student_list.ui')
+UI_PATH = os.path.join(os.path.dirname(CURRENT_FILE_PATH),
+                       'ui', 'course_student_list.ui')
 
 
 class CourseStudentListWindow(QWidget):
@@ -41,7 +42,8 @@ class CourseStudentListWindow(QWidget):
 
         row_position, existing_row = self.find_student_row(code)
         if existing_row is not None:
-            self.ui.student_qTW.setItem(existing_row, 1, QTableWidgetItem(name))
+            self.ui.student_qTW.setItem(
+                existing_row, 1, QTableWidgetItem(name))
             self.ui.message_qLB.setText('Editado com sucesso')
         else:
             self.insert_student(row_position, code, name)
