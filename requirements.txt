@@ -15,17 +15,15 @@ click==7.1.2
     #   pyqt5-plugins
     #   pyqt5-tools
     #   qt5-tools
-colorama==0.4.6
-    # via pytest
 distlib==0.3.6
     # via virtualenv
 exceptiongroup==1.1.1
     # via pytest
-filelock==3.10.2
+filelock==3.10.6
     # via virtualenv
 flake8==6.0.0
     # via -r requirements.in
-identify==2.5.21
+identify==2.5.22
     # via pre-commit
 iniconfig==2.0.0
     # via pytest
@@ -44,11 +42,11 @@ opencv-python==4.7.0.72
     # via -r requirements.in
 packaging==23.0
     # via pytest
-platformdirs==3.1.1
+platformdirs==3.2.0
     # via virtualenv
 pluggy==1.0.0
     # via pytest
-pre-commit==3.2.0
+pre-commit==3.2.1
     # via -r requirements.in
 pycodestyle==2.10.0
     # via
