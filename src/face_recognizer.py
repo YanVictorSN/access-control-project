@@ -20,8 +20,8 @@ class FaceRecognizer:
         self.create_folders()
 
     def create_folders(self):
-        os.makedirs(self.EXTRACTED_DATASET, exist_ok=True)
         os.makedirs(self.TRAINING_DATASET, exist_ok=True)
+        os.makedirs(self.EXTRACTED_DATASET, exist_ok=True)
         os.makedirs(self.ATTENDANCE, exist_ok=True)
 
     def store_faces_with_names(self):
