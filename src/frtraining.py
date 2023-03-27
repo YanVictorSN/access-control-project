@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import csv
 import datetime
 import os
 import pathlib
@@ -8,6 +7,7 @@ import pickle
 
 import cv2
 import face_recognition
+import pandas as pd
 
 
 class FaceRecognizer:
@@ -86,15 +86,16 @@ class FaceRecognizer:
             today = datetime.date.today().strftime('%Y-%m-%d')
             capitalized_name = name.capitalize()
             if capitalized_name not in added_names:
-                filename = f'attendance_{today}.xls'
+                filename = f'attendance_{today}.xlsx'
                 full_path = pathlib.Path(self.ATTENDANCE, filename)
-                header_exists = full_path.exists()
-                with open(full_path, mode='a', newline='') as csvfile:
-                    fieldnames = ['Name', 'Date']
-                    writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-                    if not header_exists:
-                        writer.writeheader()
-                    writer.writerow({'Name': capitalized_name, 'Date': today})
+                df = pd.DataFrame({'Name': [capitalized_name], 'Date': [today]})
+                if not full_path.exists():
+                    df.to_excel(full_path, index=False)
+                else:
+                    df_existing = pd.read_excel(full_path)
+                    if capitalized_name not in df_existing['Name'].values:
+                        df_existing = df_existing.append(df, ignore_index=True)
+                        df_existing.to_excel(full_path, index=False)
                 added_names.add(capitalized_name)
 
         known_names, known_faces = load_known_faces()
@@ -136,6 +137,6 @@ class FaceRecognizer:
 
 if __name__ == '__main__':
     fr = FaceRecognizer()
-    fr.store_faces_with_names()
-    fr.train_faces()
+    # fr.store_faces_with_names()
+    # fr.train_faces()
     fr.recognize_faces()
