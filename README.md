@@ -2,6 +2,7 @@
 
 Recomendado instalar o https://github.com/pyenv-win/pyenv-win, para gerenciar as versões do python.
 Para instalar a versão 3.8.10 necessária para o projeto, basta rodar o comando `pyenv install 3.8.10` no terminal.
+Instalar o [Face Recognition](https://www.geeksforgeeks.org/how-to-install-face-recognition-in-python-on-windows/) (instalar depois de ativar o ambiente virtual)
 
 Temos duas opções para configurar o ambiente:
 
@@ -14,6 +15,11 @@ access-control-project> .venv\Scripts\activate                                 #
 (.venv) access-control-project> python -m pip install pip-tools                # Instala o pip-tools
 (.venv) access-control-project> pip-compile --upgrade --resolver=backtracking  # Gera o requirements.txt
 (.venv) access-control-project> pip-sync                                       # Instala as dependências
+(.venv) access-control-project> git clone https://github.com/RvTechiNNovate/face_recog_dlib_file.git # Clona o repositório do Face Recognition
+(.venv) access-control-project> cd face_recog_dlib_file                        # Entra na pasta do Face Recognition
+(.venv) access-control-project\face_recog_dlib_file> python -m pip install dlib-19.19.0-cp38-cp38-win_amd64.whl cmake face-recognition # Instala as dependências do Face Recognition
+(.venv) access-control-project\face_recog_dlib_file> cd ..                     # Volta para a pasta raiz
+(.venv) access-control-project> rmdir /s /q face_recog_dlib_file               # Remove a pasta do Face Recognition
 ```
 
 - Rodando o script `start.bat` com a opção Setup do ambiente
