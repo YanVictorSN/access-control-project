@@ -2,15 +2,16 @@ from __future__ import annotations
 
 import os
 import sys
-
+import json
 from PyQt5 import uic
 from PyQt5.QtWidgets import QApplication
+from PyQt5.QtWidgets import QTableWidgetItem
 from PyQt5.QtWidgets import QWidget
 
 
 CURRENT_FILE_PATH = os.path.abspath(__file__)
 UI_PATH = os.path.join(os.path.dirname(CURRENT_FILE_PATH), 'ui', 'course.ui')
-
+DATABASE_PATH = "database/student_data.json"
 
 class CourseWindow(QWidget):
     def __init__(self, parent=None):
@@ -18,6 +19,8 @@ class CourseWindow(QWidget):
         self.ui = uic.loadUi(UI_PATH, self)
         self.init_ui()
         self.button_clicked_event()
+        self.get_dataset(DATABASE_PATH)
+        self.set_classes_info()
         self.show()
 
     def init_ui(self):
@@ -27,6 +30,24 @@ class CourseWindow(QWidget):
     def button_clicked_event(self):
         self.close_qPB.clicked.connect(self.close)
 
+    def get_dataset(self, path):
+        with open(path, encoding='UTF-8') as f:
+            self.database = json.load(f)
+            return self.database
+
+    def set_classes_info(self):
+        data_classes = self.database["classes"]
+        self.course_qTW.setRowCount(len(data_classes))
+
+        for i, classes in enumerate(data_classes):
+            class_code = QTableWidgetItem(classes["class_code"])
+            class_year = QTableWidgetItem(str(classes["class_year"]))
+            total_students = QTableWidgetItem(str(classes["number_of_students"]))
+            class_name = QTableWidgetItem(classes["class_name"])
+            self.course_qTW.setItem(i, 0,  class_code)
+            self.course_qTW.setItem(i, 1,  class_year)
+            self.course_qTW.setItem(i, 2,  total_students)
+            self.course_qTW.setItem(i, 3,  class_name)
 
 if __name__ == '__main__':
     App = QApplication(sys.argv)
