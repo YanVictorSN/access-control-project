@@ -129,13 +129,20 @@ class FaceRecognizer:
             # Check if this person's attendance has already been marked today
             today = datetime.date.today().strftime('%Y-%m-%d')
             capitalized_name = name.capitalize()
+
             if capitalized_name not in added_names:
                 # Write to attendance file
                 filename = f'attendance_{today}.xls'
                 full_path = pathlib.Path(self.ATTENDANCE, filename)
+                header_exists = full_path.exists()
+
                 with open(full_path, mode='a', newline='') as csvfile:
                     fieldnames = ['Name', 'Date']
                     writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+
+                    # If file does not exist, write header row
+                    if not header_exists:
+                        writer.writeheader()
 
                     # Capitalize the name and write to file
                     writer.writerow({'Name': capitalized_name, 'Date': today})
