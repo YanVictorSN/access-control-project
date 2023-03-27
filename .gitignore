@@ -175,3 +175,6 @@ ui_*.py
 *.png
 *.jpg
 *.jpeg
+
+# Face recognition data
+*.dat
