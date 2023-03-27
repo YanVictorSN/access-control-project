@@ -45,15 +45,16 @@ class AttendanceList(QWidget):
         self.attendence_qTW.resizeColumnsToContents()
 
     def button_clicked_event(self):
-        self.close_qPB.clicked.connect(self.cancel)
+        self.close_qPB.clicked.connect(self.stop_thread)
 
     def start_attendance_cam(self):
         self.attendance_cam = AttendanceCam()
         self.attendance_cam.start()
         self.attendance_cam.ImageUpdate.connect(self.get_image)
 
-    def cancel(self):
+    def stop_thread(self):
         self.attendance_cam.stop()
+        self.close()
 
     def get_image(self, image):
         self.camera_qL.setPixmap(QPixmap.fromImage(image))
