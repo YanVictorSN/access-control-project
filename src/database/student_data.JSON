@@ -1,0 +1,56 @@
+{
+    "students": [
+        {
+            "registration_number": "0000",
+            "name": "Nome",
+            "attendance" : false,
+            "student_pictures":[
+                {
+                    "img_name": "Nome_1",
+                    "img_path": "/training_data_set/Nome_1.jpg"
+                }
+            ]
+        }
+    ],
+    "classes" : [
+        {
+            "class_id": 1,
+            "class_code":"SO_23_1",
+            "class_name": "Sistemas Operacionais",
+            "class_year":2023.1,
+            "number_of_students":20
+        },
+        {
+            "class_id": 2,
+            "class_code":"VC_23_1",
+            "class_name": "Visão Computacional",
+            "class_year":2023.1,
+            "number_of_students":20
+        },
+        {
+            "class_id": 3,
+            "class_code":"AA_23_1",
+            "class_name": "Analise de Algoritmos",
+            "class_year":2023.1,
+            "number_of_students":35
+        },
+        {
+            "class_id": 4,
+            "class_code":"PP_23_1",
+            "class_name": "Programação em Python",
+            "class_year":2023.1,
+            "number_of_students":50
+        }
+    ],
+    "attendance_list" : [
+        {     
+            "class_id": 1,
+            "data": "26/03/2023",
+            "students_present": [
+                {
+                    "name": "Nome"
+                }
+            ]
+        }
+    ]
+}
