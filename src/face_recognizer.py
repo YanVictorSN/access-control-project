@@ -137,6 +137,6 @@ class FaceRecognizer:
 
 if __name__ == '__main__':
     fr = FaceRecognizer()
-    # fr.store_faces_with_names()
-    # fr.train_faces()
+    fr.store_faces_with_names()
+    fr.train_faces()
     fr.recognize_faces()
