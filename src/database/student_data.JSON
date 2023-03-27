@@ -1,8 +1,8 @@
 {
     "students": [
         {
-            "registration_number": "0000",
-            "name": "Nome",
+            "student_code": "0000",
+            "student_name": "Nome",
             "attendance" : false,
             "student_pictures":[
                 {
