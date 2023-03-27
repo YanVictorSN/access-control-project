@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import csv
+import datetime
 import os
 import pathlib
 import pickle
@@ -14,11 +16,15 @@ class FaceRecognizer:
         self.TRAINING_DATASET = pathlib.Path(self.CURRENT_FILE_PATH, 'resources', 'training_dataset')
         self.EXTRACTED_DATASET = pathlib.Path(self.CURRENT_FILE_PATH, 'resources', 'extracted_dataset')
         self.FACES_DAT = pathlib.Path(self.CURRENT_FILE_PATH, 'resources', 'faces.dat')
+        self.ATTENDANCE = pathlib.Path(self.CURRENT_FILE_PATH, 'attendance')
+        self.create_folders()
+
+    def create_folders(self):
+        os.makedirs(self.EXTRACTED_DATASET, exist_ok=True)
+        os.makedirs(self.TRAINING_DATASET, exist_ok=True)
+        os.makedirs(self.ATTENDANCE, exist_ok=True)
 
     def store_faces_with_names(self):
-        if not self.EXTRACTED_DATASET.exists():
-            self.EXTRACTED_DATASET.mkdir()
-            print(f'nova pasta: {self.EXTRACTED_DATASET}')
 
         faceClassifer = cv2.CascadeClassifier(f'{cv2.data.haarcascades}haarcascade_frontalface_default.xml')
 
@@ -68,6 +74,7 @@ class FaceRecognizer:
         face_encodings = []
         face_names = []
         process_this_frame = True
+        added_names = set()
 
         # Start capturing the video stream
         video_capture = cv2.VideoCapture(0)
@@ -119,6 +126,23 @@ class FaceRecognizer:
                 font = cv2.FONT_HERSHEY_DUPLEX
                 cv2.putText(frame, name, (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
 
+            # Check if this person's attendance has already been marked today
+            today = datetime.date.today().strftime('%Y-%m-%d')
+            capitalized_name = name.capitalize()
+            if capitalized_name not in added_names:
+                # Write to attendance file
+                filename = f'attendance_{today}.xls'
+                full_path = pathlib.Path(self.ATTENDANCE, filename)
+                with open(full_path, mode='a', newline='') as csvfile:
+                    fieldnames = ['Name', 'Date']
+                    writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+
+                    # Capitalize the name and write to file
+                    writer.writerow({'Name': capitalized_name, 'Date': today})
+
+                # Add name to set of added names
+                added_names.add(capitalized_name)
+
             # Display the resulting image
             cv2.imshow('Video', frame)
 
@@ -133,6 +157,6 @@ class FaceRecognizer:
 
 if __name__ == '__main__':
     fr = FaceRecognizer()
-    fr.store_faces_with_names()
-    fr.train_faces()
+    # fr.store_faces_with_names()
+    # fr.train_faces()
     fr.recognize_faces()
