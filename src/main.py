@@ -1,11 +1,11 @@
 from __future__ import annotations
-from run_subprocess import run_subprocess
+
 import os
 import sys
 
 from PyQt5 import uic
 from PyQt5.QtWidgets import QApplication
-from PyQt5.QtWidgets import QWidget, QMainWindow, QPushButton
+from PyQt5.QtWidgets import QWidget
 
 
 CURRENT_FILE_PATH = os.path.abspath(__file__)
@@ -34,6 +34,9 @@ class MainWindow(QWidget):
 
 
 if __name__ == '__main__':
+    from run_subprocess import run_subprocess
     App = QApplication([])
     Home = MainWindow()
     sys.exit(App.exec())
+else:
+    from src.run_subprocess import run_subprocess

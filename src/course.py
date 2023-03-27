@@ -1,5 +1,4 @@
 from __future__ import annotations
-from run_subprocess import run_subprocess
 
 import os
 import sys
@@ -7,12 +6,12 @@ import sys
 from PyQt5 import uic
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QWidget
+from run_subprocess import run_subprocess
 
 
 CURRENT_FILE_PATH = os.path.abspath(__file__)
 UI_PATH = os.path.join(os.path.dirname(CURRENT_FILE_PATH), 'ui', 'course.ui')
-STUDENT = os.path.join(os.path.dirname(
-    CURRENT_FILE_PATH), 'course_student_list.py')
+STUDENT_LIST = os.path.join(os.path.dirname(CURRENT_FILE_PATH), 'course_student_list.py')
 
 
 class CourseWindow(QWidget):
@@ -24,9 +23,7 @@ class CourseWindow(QWidget):
         self.show()
 
     def init_ui(self):
-        print(self)
-        self.course_qTW.setHorizontalHeaderLabels(
-            ['Código', 'Ano', 'Alunos', 'Turma'])
+        self.course_qTW.setHorizontalHeaderLabels(['Código', 'Ano', 'Alunos', 'Turma'])
         self.course_qTW.resizeColumnsToContents()
 
     def button_clicked_event(self):
@@ -34,8 +31,7 @@ class CourseWindow(QWidget):
         self.manage_students_qPB.clicked.connect(self.go_to_student_list)
 
     def go_to_student_list(self):
-        print('ok')
-        run_subprocess(STUDENT)
+        run_subprocess(STUDENT_LIST)
 
 
 if __name__ == '__main__':
