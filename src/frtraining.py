@@ -25,15 +25,14 @@ class FaceRecognizer:
         os.makedirs(self.ATTENDANCE, exist_ok=True)
 
     def store_faces_with_names(self):
-
         faceClassifer = cv2.CascadeClassifier(f'{cv2.data.haarcascades}haarcascade_frontalface_default.xml')
 
         for imgName in pathlib.Path(self.TRAINING_DATASET).glob('*.jpg'):
             imagem = cv2.imread(str(imgName))
             faces = faceClassifer.detectMultiScale(imagem, 1.1, 5)
-
             name = imgName.stem
             personPath = self.EXTRACTED_DATASET / name.split('_')[0]
+
             if not personPath.exists():
                 personPath.mkdir(parents=True)
 
@@ -65,105 +64,77 @@ class FaceRecognizer:
         print('Treinamento feito com sucesso')
 
     def recognize_faces(self):
-        # Load the known faces and embeddings
-        with open(self.FACES_DAT, 'rb') as f:
-            known_names, known_faces = pickle.load(f)
+        def load_known_faces():
+            with open(self.FACES_DAT, 'rb') as f:
+                return pickle.load(f)
 
-        # Initialize some variables
+        def recognize_face_names(known_names, known_faces, rgb_small_frame):
+            face_names = []
+            face_encodings = face_recognition.face_encodings(rgb_small_frame)
+            for face_encoding in face_encodings:
+                matches = face_recognition.compare_faces(known_faces, face_encoding)
+                name = 'Unknown'
+                if True in matches:
+                    first_match_index = matches.index(True)
+                    name = known_names[first_match_index]
+                face_names.append(name)
+            return face_names
+
+        def mark_attendance(name, added_names):
+            today = datetime.date.today().strftime('%Y-%m-%d')
+            capitalized_name = name.capitalize()
+            if capitalized_name not in added_names:
+                filename = f'attendance_{today}.xls'
+                full_path = pathlib.Path(self.ATTENDANCE, filename)
+                header_exists = full_path.exists()
+                with open(full_path, mode='a', newline='') as csvfile:
+                    fieldnames = ['Name', 'Date']
+                    writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+                    if not header_exists:
+                        writer.writeheader()
+                    writer.writerow({'Name': capitalized_name, 'Date': today})
+                added_names.add(capitalized_name)
+
+        known_names, known_faces = load_known_faces()
         face_locations = []
-        face_encodings = []
         face_names = []
         process_this_frame = True
         added_names = set()
-
-        # Start capturing the video stream
         video_capture = cv2.VideoCapture(0)
+
         while True:
-            # Grab a single frame of video
             ret, frame = video_capture.read()
-            frame = cv2.flip(frame, flipCode=1)  # Flip the image horizontally
-
-            # Resize frame of video to 1/4 size for faster face recognition processing
+            frame = cv2.flip(frame, flipCode=1)
             small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
-
-            # Convert the image from BGR color (which OpenCV uses) to RGB color (which face_recognition uses)
             rgb_small_frame = small_frame[:, :, ::-1]
 
-            # Only process every other frame of video to save time
             if process_this_frame:
-                # Find all the faces and face encodings in the current frame of video
                 face_locations = face_recognition.face_locations(rgb_small_frame)
-                face_encodings = face_recognition.face_encodings(rgb_small_frame, face_locations)
-
-                face_names = []
-                for face_encoding in face_encodings:
-                    # See if the face is a match for the known faces
-                    matches = face_recognition.compare_faces(known_faces, face_encoding)
-                    name = 'Unknown'
-
-                    # If a match was found in known_faces, just use the first one
-                    if True in matches:
-                        first_match_index = matches.index(True)
-                        name = known_names[first_match_index]
-
-                    face_names.append(name)
-
+                face_names = recognize_face_names(known_names, known_faces, rgb_small_frame)
             process_this_frame = not process_this_frame
 
-            # Draw a box around the faces
             for (top, right, bottom, left), name in zip(face_locations, face_names):
-                # Scale back up face locations since the frame we detected in was scaled to 1/4 size
                 top *= 4
                 right *= 4
                 bottom *= 4
                 left *= 4
-
-                # Draw a box around the face
                 cv2.rectangle(frame, (left, top), (right, bottom), (0, 0, 255), 2)
-
-                # Draw a label with a name below the face
                 cv2.rectangle(frame, (left, bottom - 35), (right, bottom), (0, 0, 255), cv2.FILLED)
                 font = cv2.FONT_HERSHEY_DUPLEX
                 cv2.putText(frame, name, (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
+                mark_attendance(name, added_names)
 
-            # Check if this person's attendance has already been marked today
-            today = datetime.date.today().strftime('%Y-%m-%d')
-            capitalized_name = name.capitalize()
-
-            if capitalized_name not in added_names:
-                # Write to attendance file
-                filename = f'attendance_{today}.xls'
-                full_path = pathlib.Path(self.ATTENDANCE, filename)
-                header_exists = full_path.exists()
-
-                with open(full_path, mode='a', newline='') as csvfile:
-                    fieldnames = ['Name', 'Date']
-                    writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-
-                    # If file does not exist, write header row
-                    if not header_exists:
-                        writer.writeheader()
-
-                    # Capitalize the name and write to file
-                    writer.writerow({'Name': capitalized_name, 'Date': today})
-
-                # Add name to set of added names
-                added_names.add(capitalized_name)
-
-            # Display the resulting image
             cv2.imshow('Video', frame)
 
-            # Hit 'q' on the keyboard to quit
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
 
-        # Release handle to the webcam
         video_capture.release()
         cv2.destroyAllWindows()
 
 
 if __name__ == '__main__':
     fr = FaceRecognizer()
-    # fr.store_faces_with_names()
-    # fr.train_faces()
+    fr.store_faces_with_names()
+    fr.train_faces()
     fr.recognize_faces()
