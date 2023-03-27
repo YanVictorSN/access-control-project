@@ -28,18 +28,20 @@ class FaceRecognizer:
         faceClassifer = cv2.CascadeClassifier(f'{cv2.data.haarcascades}haarcascade_frontalface_default.xml')
 
         for imgName in pathlib.Path(self.TRAINING_DATASET).glob('*.jpg'):
-            imagem = cv2.imread(str(imgName))
-            faces = faceClassifer.detectMultiScale(imagem, 1.1, 5)
+            image = cv2.imread(str(imgName))
+            faces = faceClassifer.detectMultiScale(image, 1.1, 5)
             name = imgName.stem
             personPath = self.EXTRACTED_DATASET / name.split('_')[0]
 
             if not personPath.exists():
                 personPath.mkdir(parents=True)
 
-            for x, y, a, l in faces:
-                face = imagem[y:y + l, x:x + a]
-                face = cv2.resize(face, (150, 150))
-                cv2.imwrite(str(personPath / f'{name}.jpg'), face)
+            for x, y, width, height in faces:
+                extracted_face = image[y:y + height, x:x + width]
+                resized_face = cv2.resize(extracted_face, (150, 150))
+                filename = f'{name}.jpg'
+                filepath = str(personPath / filename)
+                cv2.imwrite(filepath, resized_face)
 
         print('Faces extraidas e armazenadas com sucesso')
 
