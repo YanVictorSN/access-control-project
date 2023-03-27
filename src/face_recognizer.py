@@ -65,40 +65,40 @@ class FaceRecognizer:
 
         print('Treinamento feito com sucesso')
 
+    def load_known_faces(self):
+        with open(self.FACES_DAT, 'rb') as f:
+            return pickle.load(f)
+
+    def recognize_face_names(self, known_names, known_faces, rgb_small_frame):
+        face_names = []
+        face_encodings = face_recognition.face_encodings(rgb_small_frame)
+        for face_encoding in face_encodings:
+            matches = face_recognition.compare_faces(known_faces, face_encoding)
+            name = 'Unknown'
+            if True in matches:
+                first_match_index = matches.index(True)
+                name = known_names[first_match_index]
+            face_names.append(name)
+        return face_names
+
+    def mark_attendance(self, name, added_names):
+        today = datetime.date.today().strftime('%Y-%m-%d')
+        capitalized_name = name.capitalize()
+        if capitalized_name not in added_names:
+            filename = f'attendance_{today}.xlsx'
+            full_path = pathlib.Path(self.ATTENDANCE, filename)
+            df = pd.DataFrame({'Name': [capitalized_name], 'Date': [today]})
+            if not full_path.exists():
+                df.to_excel(full_path, index=False)
+            else:
+                df_existing = pd.read_excel(full_path)
+                if capitalized_name not in df_existing['Name'].values:
+                    df_existing = df_existing.append(df, ignore_index=True)
+                    df_existing.to_excel(full_path, index=False)
+            added_names.add(capitalized_name)
+
     def recognize_faces(self):
-        def load_known_faces():
-            with open(self.FACES_DAT, 'rb') as f:
-                return pickle.load(f)
-
-        def recognize_face_names(known_names, known_faces, rgb_small_frame):
-            face_names = []
-            face_encodings = face_recognition.face_encodings(rgb_small_frame)
-            for face_encoding in face_encodings:
-                matches = face_recognition.compare_faces(known_faces, face_encoding)
-                name = 'Unknown'
-                if True in matches:
-                    first_match_index = matches.index(True)
-                    name = known_names[first_match_index]
-                face_names.append(name)
-            return face_names
-
-        def mark_attendance(name, added_names):
-            today = datetime.date.today().strftime('%Y-%m-%d')
-            capitalized_name = name.capitalize()
-            if capitalized_name not in added_names:
-                filename = f'attendance_{today}.xlsx'
-                full_path = pathlib.Path(self.ATTENDANCE, filename)
-                df = pd.DataFrame({'Name': [capitalized_name], 'Date': [today]})
-                if not full_path.exists():
-                    df.to_excel(full_path, index=False)
-                else:
-                    df_existing = pd.read_excel(full_path)
-                    if capitalized_name not in df_existing['Name'].values:
-                        df_existing = df_existing.append(df, ignore_index=True)
-                        df_existing.to_excel(full_path, index=False)
-                added_names.add(capitalized_name)
-
-        known_names, known_faces = load_known_faces()
+        known_names, known_faces = self.load_known_faces()
         face_locations = []
         face_names = []
         process_this_frame = True
@@ -113,7 +113,7 @@ class FaceRecognizer:
 
             if process_this_frame:
                 face_locations = face_recognition.face_locations(rgb_small_frame)
-                face_names = recognize_face_names(known_names, known_faces, rgb_small_frame)
+                face_names = self.recognize_face_names(known_names, known_faces, rgb_small_frame)
             process_this_frame = not process_this_frame
 
             for (top, right, bottom, left), name in zip(face_locations, face_names):
@@ -124,7 +124,7 @@ class FaceRecognizer:
 
                 font = cv2.FONT_HERSHEY_DUPLEX
                 cv2.putText(frame, name, (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1, cv2.LINE_AA)
-                mark_attendance(name, added_names)
+                self.mark_attendance(name, added_names)
 
             cv2.imshow('Video', frame)
 
