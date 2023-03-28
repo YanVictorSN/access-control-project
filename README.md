@@ -9,18 +9,26 @@ Temos duas opções para configurar o ambiente:
 - Rodando os comandos um por vez
 
 ```bash
-access-control-project> python -m pip install virtualenv                       # Instala a biblioteca de ambiente virtual
-access-control-project> virtualenv .venv                                       # Cria o ambiente virtual
-access-control-project> .venv\Scripts\activate                                 # Ativa o ambiente virtual
-(.venv) access-control-project> python -m pip install pip-tools                # Instala o pip-tools
+# Instala a biblioteca de ambiente virtual
+access-control-project> python -m pip install virtualenv
+# Cria o ambiente virtual
+access-control-project> virtualenv .venv
+# Ativa o ambiente virtual
+access-control-project> .venv\Scripts\activate
+# Instala o pip-tools
+(.venv) access-control-project> python -m pip install pip-tools
 
-Windows:
-(.venv) access-control-project> pip-compile --upgrade --resolver=backtracking  # Gera o requirements.txt (Se for Windows)
-(.venv) access-control-project> pip-sync                                       # Instala as dependências (Se for Windows)
+# Windows
+# Gera o requirements.txt (Se for Windows)
+(.venv) access-control-project> pip-compile --upgrade --resolver=backtracking
+# Instala as dependências (Se for Windows)
+(.venv) access-control-project> pip-sync
 
-Linux:
-(.venv) access-control-project> pip-compile requirements_linux.in --upgrade --resolver=backtracking # Gera o requirements.txt (Se for Linux)
-(.venv) access-control-project> pip-sync requirements_linux.txt                # Instala as dependências (Se for Linux)
+# Linux
+# Gera o requirements.txt (Se for Linux)
+(.venv) access-control-project> pip-compile requirements_linux.in --upgrade --resolver=backtracking
+# Instala as dependências (Se for Linux)
+(.venv) access-control-project> pip-sync requirements_linux.txt
 ```
 
 Tudo junto, para facilitar:
@@ -30,7 +38,7 @@ Tudo junto, para facilitar:
 > python -m pip install virtualenv & virtualenv .venv & .venv\Scripts\activate & python -m pip install pip-tools & pip-compile --upgrade --resolver=backtracking & pip-sync
 > python -m pip install virtualenv ; virtualenv .venv ; .venv\Scripts\activate ; python -m pip install pip-tools ; pip-compile --upgrade --resolver=backtracking ; pip-sync
 
-# Windows Powershell e Linux
+# Linux
 > python -m pip install virtualenv ; virtualenv .venv ; .venv\Scripts\activate ; python -m pip install pip-tools ; pip-compile requirements_linux.in --upgrade --resolver=backtracking ; pip-sync requirements_linux.txt
 ```
 
@@ -45,15 +53,20 @@ Temos duas opções para instalar as dependências:
 - Rodando os comandos um por vez
 
 ```bash
-access-control-project> .venv\Scripts\activate                                 # Ativa o ambiente virtual
+# Ativa o ambiente virtual
+access-control-project> .venv\Scripts\activate
 
-Windows:
-(.venv) access-control-project> pip-compile --upgrade --resolver=backtracking  # Gera o requirements.txt (Se for Windows)
-(.venv) access-control-project> pip-sync                                       # Instala as dependências (Se for Windows)
+# Windows
+# Gera o requirements.txt (Se for Windows)
+(.venv) access-control-project> pip-compile --upgrade --resolver=backtracking
+# Instala as dependências (Se for Windows)
+(.venv) access-control-project> pip-sync
 
-Linux:
-(.venv) access-control-project> pip-compile requirements_linux.in --upgrade --resolver=backtracking # Gera o requirements.txt (Se for Linux)
-(.venv) access-control-project> pip-sync requirements_linux.txt                # Instala as dependências (Se for Linux)
+# Linux
+# Gera o requirements.txt (Se for Linux)
+(.venv) access-control-project> pip-compile requirements_linux.in --upgrade --resolver=backtracking
+# Instala as dependências (Se for Linux)
+(.venv) access-control-project> pip-sync requirements_linux.txt
 ```
 
 Tudo junto, para facilitar:
@@ -67,15 +80,13 @@ Tudo junto, para facilitar:
 > .venv\Scripts\activate ; pip-compile requirements_linux.in --upgrade --resolver=backtracking ; pip-sync requirements_linux.txt
 ```
 
-- Rodando o script `start.bat` com a opção Atualizar dependencias
+- Rodando o script `helper.bat` com a opção Atualizar dependencias
 
 ---
 
 ## **Observações**
 
-Caso saia do ETL e queiram codar outra coisa, tem que rodar o comando `deactivate` no terminal para fechar o ambiente virtual.<br>
-Fica bem visivel no terminal se você está com o ambiente aberto ou não, indicado pelo nome dela antes do caminho da pasta:
-Ex:
+Para desativar o ambiente virtual, rodar o comando `deactivate`.<br>
 
 ```bash
 (.venv) access-control-project>            # Ativo
