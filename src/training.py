@@ -58,6 +58,7 @@ class TrainingWindow(QWidget):
 
     def cancel(self):
         self.training_cam.stop()
+        self.close()
 
     def set_starting_position(self):
         desktop = QDesktopWidget().availableGeometry()

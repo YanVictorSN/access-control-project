@@ -33,7 +33,7 @@ students_test = [
 class_test = 'Python 2023.1'
 
 
-class AttendanceList(QWidget):
+class AttendanceListWindow(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.ui = uic.loadUi(UI_PATH, self)
@@ -180,5 +180,5 @@ class FaceRecognizer:
 
 if __name__ == '__main__':
     App = QApplication([])
-    Home = AttendanceList()
+    Home = AttendanceListWindow()
     sys.exit(App.exec())
