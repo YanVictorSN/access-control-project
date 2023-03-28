@@ -1,8 +1,8 @@
 PyQt5
 autopep8
 cmake
+dlib
 face-recognition
-face_recog_dlib_file/dlib-19.19.0-cp38-cp38-win_amd64.whl
 flake8
 numpy
 opencv-contrib-python
