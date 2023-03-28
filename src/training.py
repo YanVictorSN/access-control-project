@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+import pathlib
 import sys
 
 import cv2
@@ -17,12 +18,13 @@ from PyQt5.QtWidgets import QWidget
 from run_subprocess import run_subprocess
 
 
-CURRENT_FILE_PATH = os.path.abspath(__file__)
-UI_PATH = os.path.join(os.path.dirname(CURRENT_FILE_PATH), 'ui', 'training.ui')
-TRAINING_GALLERY = os.path.join(os.path.dirname(CURRENT_FILE_PATH), 'training_gallery.py')
-DATASET_FOLDER = os.path.join(os.path.dirname(CURRENT_FILE_PATH), 'resources', 'training_dataset')
-MAX_IMAGES = 10
-MS_IMAGE_DELAY = 300
+CURRENT_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
+UI_PATH = pathlib.Path(CURRENT_FILE_PATH, 'ui', 'training.ui')
+TRAINING_GALLERY = pathlib.Path(CURRENT_FILE_PATH, 'training_gallery.py')
+TRAINING_DATASET = pathlib.Path(CURRENT_FILE_PATH, 'resources', 'training_dataset')
+
+MAX_IMAGES = 5
+MS_IMAGE_DELAY = 400
 
 
 class TrainingWindow(QWidget):
@@ -37,7 +39,7 @@ class TrainingWindow(QWidget):
     def init_ui(self):
         self.set_starting_position()
         self.create_dataset_folder()
-        self.student_name = ''
+        self.student_name = self.student_name_LE.text().lower().strip().replace(' ', '.')
         self.student_name_LE.editingFinished.connect(self.reset_counter)
 
     def button_clicked_event(self):
@@ -69,17 +71,17 @@ class TrainingWindow(QWidget):
 
     def reset_counter(self):
         self.counter = 0
-        self.student_name = self.student_name_LE.text().lower().strip()
+        self.student_name = self.student_name_LE.text().lower().strip().replace(' ', '.')
 
     def create_dataset_folder(self):
-        os.makedirs(DATASET_FOLDER, exist_ok=True)
+        os.makedirs(TRAINING_DATASET, exist_ok=True)
 
     def validate_name(self):
         if not self.student_name:
             self.message_qL.setText('O campo está vazio. Digite um nome válido.')
         elif any(char.isdigit() for char in self.student_name):
             self.message_qL.setText('O nome não pode conter números. Digite um nome válido.')
-        elif not all(char.isalpha() or char.isspace() for char in self.student_name):
+        elif not all(char.isalpha() or char.isspace() for char in self.student_name.replace('.', ' ')):
             self.message_qL.setText('O nome não pode conter caracteres especiais. Digite um nome válido.')
         else:
             self.message_qL.setText('Aluno(a) cadastrado com sucesso!')
@@ -87,7 +89,7 @@ class TrainingWindow(QWidget):
             self.take_picture()
 
     def get_student_image_count(self):
-        filenames = os.listdir(DATASET_FOLDER)
+        filenames = os.listdir(TRAINING_DATASET)
         student_filenames = [f for f in filenames if f.startswith(self.student_name)]
         self.counter = len(student_filenames)
 
@@ -110,8 +112,9 @@ class TrainingWindow(QWidget):
             self.saving_qPrB.reset()
 
     def save_image(self, picture, count):
-        filename = f'{self.student_name}_{self.counter + 1}.jpg'
-        path_data = os.path.join(DATASET_FOLDER, filename)
+        student_name = self.student_name.replace(' ', '.')
+        filename = f'{student_name}_{self.counter + 1}.jpg'
+        path_data = os.path.join(TRAINING_DATASET, filename)
         picture.save(path_data)
         self.counter += 1
         self.message_qL.setText(f'Imagem {self.counter}/{MAX_IMAGES}.')

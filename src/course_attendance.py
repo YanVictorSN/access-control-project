@@ -20,8 +20,9 @@ from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QTableWidgetItem
 from PyQt5.QtWidgets import QWidget
 
-CURRENT_FILE_PATH = os.path.abspath(__file__)
-UI_PATH = os.path.join(os.path.dirname(CURRENT_FILE_PATH), 'ui', 'course_attendance.ui')
+
+CURRENT_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
+UI_PATH = pathlib.Path(CURRENT_FILE_PATH, 'ui', 'course_attendance.ui')
 
 students_test = [
     {'name': 'Bruno', 'code': '0001'},

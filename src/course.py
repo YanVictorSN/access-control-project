@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+import pathlib
 import sys
 
 from PyQt5 import uic
@@ -9,10 +10,10 @@ from PyQt5.QtWidgets import QWidget
 from run_subprocess import run_subprocess
 
 
-CURRENT_FILE_PATH = os.path.abspath(__file__)
-UI_PATH = os.path.join(os.path.dirname(CURRENT_FILE_PATH), 'ui', 'course.ui')
-COURSE_STUDENT_LIST = os.path.join(os.path.dirname(CURRENT_FILE_PATH), 'course_student_list.py')
-COURSE_ATTENDANCE_LIST = os.path.join(os.path.dirname(CURRENT_FILE_PATH), 'course_attendance_list.py')
+CURRENT_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
+UI_PATH = pathlib.Path(CURRENT_FILE_PATH, 'ui', 'course.ui')
+COURSE_STUDENT_LIST = pathlib.Path(CURRENT_FILE_PATH, 'course_student_list.py')
+COURSE_ATTENDANCE_LIST = pathlib.Path(CURRENT_FILE_PATH, 'course_attendance_list.py')
 
 
 class CourseWindow(QWidget):
@@ -40,10 +41,7 @@ class CourseWindow(QWidget):
 
 
 if __name__ == '__main__':
-    from run_subprocess import run_subprocess
     App = QApplication(sys.argv)
     Home = CourseWindow()
     Home.show()
     App.exec_()
-else:
-    from src.run_subprocess import run_subprocess

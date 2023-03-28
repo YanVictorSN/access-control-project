@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+import pathlib
 import sys
 
 from course_attendance import AttendanceListWindow
@@ -11,8 +12,8 @@ from PyQt5.QtWidgets import QLabel
 from PyQt5.QtWidgets import QWidget
 
 
-CURRENT_FILE_PATH = os.path.abspath(__file__)
-UI_PATH = os.path.join(os.path.dirname(CURRENT_FILE_PATH), 'ui', 'course_attendance_list.ui')
+CURRENT_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
+UI_PATH = pathlib.Path(CURRENT_FILE_PATH, 'ui', 'course_attendance_list.ui')
 
 
 class CourseAttendanceListWindow(QWidget):
