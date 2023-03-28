@@ -1,49 +1,57 @@
 {
     "students": [
         {
-            "student_code": "0000",
-            "student_name": "Nome",
-            "attendance" : false,
-            "student_pictures":[
-                {
-                    "img_name": "Nome_1",
-                    "img_path": "/training_data_set/Nome_1.jpg"
-                }
-            ]
+            "student_id": 1,
+            "student_code": "0001",
+            "student_name": "Aluno1",
+            "attendance": false
+        },
+        {
+            "student_id": 2,
+            "student_code": "0002",
+            "student_name": "Aluno2",
+            "attendance": false
         }
     ],
-    "classes" : [
+    "classes": [
         {
             "class_id": 1,
-            "class_code":"SO_23_1",
+            "class_code": "SO_23_1",
             "class_name": "Sistemas Operacionais",
-            "class_year":2023.1,
-            "number_of_students":20
+            "class_year": 2023.1,
+            "number_of_students": 20
         },
         {
             "class_id": 2,
-            "class_code":"VC_23_1",
+            "class_code": "VC_23_1",
             "class_name": "Visão Computacional",
-            "class_year":2023.1,
-            "number_of_students":20
+            "class_year": 2023.1,
+            "number_of_students": 20
         },
         {
             "class_id": 3,
-            "class_code":"AA_23_1",
+            "class_code": "AA_23_1",
             "class_name": "Analise de Algoritmos",
-            "class_year":2023.1,
-            "number_of_students":35
+            "class_year": 2023.1,
+            "number_of_students": 35
+        },
+        {
+            "class_id": 3,
+            "class_code": "AA_23_1",
+            "class_name": "Analise de Algoritmos",
+            "class_year": 2023.1,
+            "number_of_students": 35
         },
         {
             "class_id": 4,
-            "class_code":"PP_23_1",
+            "class_code": "PP_23_1",
             "class_name": "Programação em Python",
-            "class_year":2023.1,
-            "number_of_students":50
+            "class_year": 2023.1,
+            "number_of_students": 50
         }
     ],
-    "attendance_list" : [
-        {     
+    "attendance_list": [
+        {
             "class_id": 1,
             "data": "26/03/2023",
             "students_present": [
