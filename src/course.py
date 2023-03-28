@@ -12,7 +12,7 @@ from run_subprocess import run_subprocess
 
 CURRENT_FILE_PATH = os.path.abspath(__file__)
 UI_PATH = os.path.join(os.path.dirname(CURRENT_FILE_PATH), 'ui', 'course.ui')
-DATABASE_PATH = os.path.join(os.path.dirname(CURRENT_FILE_PATH), 'database', 'student_data.JSON'
+DATABASE_PATH = os.path.join(os.path.dirname(CURRENT_FILE_PATH), 'database', 'student_data.JSON')
 COURSE_STUDENT_LIST = os.path.join(os.path.dirname(CURRENT_FILE_PATH), 'course_student_list.py')
 COURSE_ATTENDANCE_LIST = os.path.join(os.path.dirname(CURRENT_FILE_PATH), 'course_attendance_list.py')
 
