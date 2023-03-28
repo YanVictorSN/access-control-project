@@ -20,11 +20,10 @@ from run_subprocess import run_subprocess
 CURRENT_FILE_PATH = os.path.abspath(__file__)
 UI_PATH = os.path.join(os.path.dirname(CURRENT_FILE_PATH), 'ui', 'training.ui')
 TRAINING_GALLERY = os.path.join(os.path.dirname(CURRENT_FILE_PATH), 'training_gallery.py')
-DATASET_FOLDER = os.path.join(os.path.dirname(CURRENT_FILE_PATH), 'training_dataset')
+DATASET_FOLDER = os.path.join(os.path.dirname(CURRENT_FILE_PATH), 'resources', 'training_dataset')
 MAX_IMAGES = 10
 MS_IMAGE_DELAY = 300
-DATABASE_PATH = "database/student_data.JSON"
-
+DATABASE_PATH = os.path.join(os.path.dirname(CURRENT_FILE_PATH), 'database', 'student_data.JSON')
 
 class TrainingWindow(QWidget):
     def __init__(self, parent=None):
@@ -33,7 +32,6 @@ class TrainingWindow(QWidget):
         self.init_ui()
         self.button_clicked_event()
         self.start_training_cam()
-        self.get_dataset(DATABASE_PATH)
         self.show()
 
     def init_ui(self):
@@ -60,6 +58,7 @@ class TrainingWindow(QWidget):
 
     def cancel(self):
         self.training_cam.stop()
+        self.close()
 
     def set_starting_position(self):
         desktop = QDesktopWidget().availableGeometry()
@@ -93,7 +92,7 @@ class TrainingWindow(QWidget):
 
     def check_name_in_database(self):
         data_students = self.database["students"]
-        for i, student in enumerate(data_students):
+        for student in data_students:
             if student['student_name'].lower() == self.student_name:
                 print(student['student_code'])
                 self.get_student_image_count()

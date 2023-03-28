@@ -19,7 +19,7 @@ from PyQt5.QtWidgets import QWidget
 CURRENT_FILE_PATH = os.path.abspath(__file__)
 UI_PATH = os.path.join(os.path.dirname(CURRENT_FILE_PATH), 'ui', 'course_attendance_list.ui')
 
-DATABASE_PATH = "database/student_data.json"
+DATABASE_PATH = os.path.join(os.path.dirname(CURRENT_FILE_PATH), 'database', 'student_data.JSON')
 
 class AttendanceList(QWidget):
     def __init__(self, parent=None):

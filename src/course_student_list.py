@@ -12,7 +12,7 @@ from PyQt5.QtWidgets import QWidget
 
 CURRENT_FILE_PATH = os.path.abspath(__file__)
 UI_PATH = os.path.join(os.path.dirname(CURRENT_FILE_PATH), 'ui', 'course_student_list.ui')
-DATABASE_PATH = "database/student_data.json"
+DATABASE_PATH = os.path.join(os.path.dirname(CURRENT_FILE_PATH), 'database', 'student_data.JSON')
 
 class CourseStudentListWindow(QWidget):
     def __init__(self, parent=None):
@@ -40,7 +40,7 @@ class CourseStudentListWindow(QWidget):
             return self.database
     
     def set_database(self, data):
-        with open('database/student_data.JSON', 'w', encoding="utf-8") as f:
+        with open(DATABASE_PATH, 'w', encoding="utf-8") as f:
             json.dump(data, f, ensure_ascii=False)
     
     def show_students_database(self):
@@ -59,7 +59,7 @@ class CourseStudentListWindow(QWidget):
         self.set_database(self.database)
 
     def edit_student_database(self, code, name):
-        for i, student in enumerate(self.database["students"]):
+        for student in self.database["students"]:
             if student["student_code"] == code:
                 student["student_name"] = name
                 self.set_database(self.database)
