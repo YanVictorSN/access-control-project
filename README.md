@@ -2,6 +2,7 @@
 
 Recomendado instalar o https://github.com/pyenv-win/pyenv-win, para gerenciar as versões do python.
 Para instalar a versão 3.8.10 necessária para o projeto, basta rodar o comando `pyenv install 3.8.10` no terminal.
+Instalar o [Face Recognition](https://www.geeksforgeeks.org/how-to-install-face-recognition-in-python-on-windows/) (instalar depois de ativar o ambiente virtual)
 
 Temos duas opções para configurar o ambiente:
 

@@ -15,7 +15,7 @@ CURRENT_FILE_PATH = os.path.abspath(__file__)
 UI_PATH = os.path.join(os.path.dirname(CURRENT_FILE_PATH), 'ui', 'course_attendance_list.ui')
 
 
-class ConsultListsWindow(QWidget):
+class CourseAttendanceListWindow(QWidget):
     def __init__(self):
         super().__init__()
         self.ui = uic.loadUi(UI_PATH, self)
@@ -41,6 +41,6 @@ class ConsultListsWindow(QWidget):
 
 if __name__ == '__main__':
     App = QApplication([])
-    consult_lists = ConsultListsWindow()
+    consult_lists = CourseAttendanceListWindow()
     consult_lists.show()
     sys.exit(App.exec_())

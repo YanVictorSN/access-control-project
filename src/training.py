@@ -20,7 +20,7 @@ from run_subprocess import run_subprocess
 CURRENT_FILE_PATH = os.path.abspath(__file__)
 UI_PATH = os.path.join(os.path.dirname(CURRENT_FILE_PATH), 'ui', 'training.ui')
 TRAINING_GALLERY = os.path.join(os.path.dirname(CURRENT_FILE_PATH), 'training_gallery.py')
-DATASET_FOLDER = os.path.join(os.path.dirname(CURRENT_FILE_PATH), 'training_dataset')
+DATASET_FOLDER = os.path.join(os.path.dirname(CURRENT_FILE_PATH), 'resources', 'training_dataset')
 MAX_IMAGES = 10
 MS_IMAGE_DELAY = 300
 
