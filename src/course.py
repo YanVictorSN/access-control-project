@@ -6,6 +6,7 @@ import sys
 from PyQt5 import uic
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QWidget
+from run_subprocess import run_subprocess
 
 
 CURRENT_FILE_PATH = os.path.abspath(__file__)

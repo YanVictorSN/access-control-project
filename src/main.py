@@ -7,6 +7,7 @@ from PyQt5 import uic
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QWidget
 
+
 CURRENT_FILE_PATH = os.path.abspath(__file__)
 UI_PATH = os.path.join(os.path.dirname(CURRENT_FILE_PATH), 'ui', 'main.ui')
 TRAINING = os.path.join(os.path.dirname(CURRENT_FILE_PATH), 'training.py')
