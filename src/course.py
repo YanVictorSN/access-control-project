@@ -7,11 +7,15 @@ from PyQt5 import uic
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QTableWidgetItem
 from PyQt5.QtWidgets import QWidget
+from run_subprocess import run_subprocess
 
 
 CURRENT_FILE_PATH = os.path.abspath(__file__)
 UI_PATH = os.path.join(os.path.dirname(CURRENT_FILE_PATH), 'ui', 'course.ui')
-DATABASE_PATH = "database/student_data.json"
+DATABASE_PATH = os.path.join(os.path.dirname(CURRENT_FILE_PATH), 'database', 'student_data.JSON')
+COURSE_STUDENT_LIST = os.path.join(os.path.dirname(CURRENT_FILE_PATH), 'course_student_list.py')
+COURSE_ATTENDANCE_LIST = os.path.join(os.path.dirname(CURRENT_FILE_PATH), 'course_attendance_list.py')
+
 
 class CourseWindow(QWidget):
     def __init__(self, parent=None):
@@ -28,6 +32,8 @@ class CourseWindow(QWidget):
         self.course_qTW.resizeColumnsToContents()
 
     def button_clicked_event(self):
+        self.manage_attendance_qPB.clicked.connect(self.go_to_course_attendance_list)
+        self.manage_students_qPB.clicked.connect(self.go_to_course_student_list)
         self.close_qPB.clicked.connect(self.close)
 
     def get_dataset(self, path):
@@ -49,8 +55,18 @@ class CourseWindow(QWidget):
             self.course_qTW.setItem(i, 2,  total_students)
             self.course_qTW.setItem(i, 3,  class_name)
 
+    def go_to_course_attendance_list(self):
+        run_subprocess(COURSE_ATTENDANCE_LIST)
+
+    def go_to_course_student_list(self):
+        run_subprocess(COURSE_STUDENT_LIST)
+
+
 if __name__ == '__main__':
+    from run_subprocess import run_subprocess
     App = QApplication(sys.argv)
     Home = CourseWindow()
     Home.show()
     App.exec_()
+else:
+    from src.run_subprocess import run_subprocess
