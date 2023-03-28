@@ -1,6 +1,6 @@
 ## **Setup**
 
-Recomendado instalar o https://github.com/pyenv-win/pyenv-win, para gerenciar as versões do python.
+Recomendado instalar o [Pyenv](https://github.com/pyenv-win/pyenv-win), para gerenciar as versões do python.
 Para instalar a versão 3.8.10 necessária para o projeto, basta rodar o comando `pyenv install 3.8.10` no terminal.
 Instalar o [Face Recognition](https://www.geeksforgeeks.org/how-to-install-face-recognition-in-python-on-windows/) (instalar depois de ativar o ambiente virtual)
 
@@ -13,8 +13,25 @@ access-control-project> python -m pip install virtualenv                       #
 access-control-project> virtualenv .venv                                       # Cria o ambiente virtual
 access-control-project> .venv\Scripts\activate                                 # Ativa o ambiente virtual
 (.venv) access-control-project> python -m pip install pip-tools                # Instala o pip-tools
-(.venv) access-control-project> pip-compile --upgrade --resolver=backtracking  # Gera o requirements.txt
-(.venv) access-control-project> pip-sync                                       # Instala as dependências
+
+Windows:
+(.venv) access-control-project> pip-compile --upgrade --resolver=backtracking  # Gera o requirements.txt (Se for Windows)
+(.venv) access-control-project> pip-sync                                       # Instala as dependências (Se for Windows)
+
+Linux:
+(.venv) access-control-project> pip-compile requirements_linux.in --upgrade --resolver=backtracking # Gera o requirements.txt (Se for Linux)
+(.venv) access-control-project> pip-sync requirements_linux.txt                # Instala as dependências (Se for Linux)
+```
+
+Tudo junto, para facilitar:
+
+```bash
+# Windows CMD e Powershell
+> python -m pip install virtualenv & virtualenv .venv & .venv\Scripts\activate & python -m pip install pip-tools & pip-compile --upgrade --resolver=backtracking & pip-sync
+> python -m pip install virtualenv ; virtualenv .venv ; .venv\Scripts\activate ; python -m pip install pip-tools ; pip-compile --upgrade --resolver=backtracking ; pip-sync
+
+# Windows Powershell e Linux
+> python -m pip install virtualenv ; virtualenv .venv ; .venv\Scripts\activate ; python -m pip install pip-tools ; pip-compile requirements_linux.in --upgrade --resolver=backtracking ; pip-sync requirements_linux.txt
 ```
 
 - Rodando o script `start.bat` com a opção Setup do ambiente
@@ -28,10 +45,26 @@ Temos duas opções para instalar as dependências:
 - Rodando os comandos um por vez
 
 ```bash
-access-control-project> virtualenv .venv                                       # Cria o ambiente virtual
 access-control-project> .venv\Scripts\activate                                 # Ativa o ambiente virtual
-(.venv) access-control-project> pip-compile --upgrade --resolver=backtracking  # Gera o requirements.txt
-(.venv) access-control-project> pip-sync                                       # Instala as dependências
+
+Windows:
+(.venv) access-control-project> pip-compile --upgrade --resolver=backtracking  # Gera o requirements.txt (Se for Windows)
+(.venv) access-control-project> pip-sync                                       # Instala as dependências (Se for Windows)
+
+Linux:
+(.venv) access-control-project> pip-compile requirements_linux.in --upgrade --resolver=backtracking # Gera o requirements.txt (Se for Linux)
+(.venv) access-control-project> pip-sync requirements_linux.txt                # Instala as dependências (Se for Linux)
+```
+
+Tudo junto, para facilitar:
+
+```bash
+# Windows CMD e Powershell
+> .venv\Scripts\activate & pip-compile --upgrade --resolver=backtracking & pip-sync
+> .venv\Scripts\activate ; pip-compile --upgrade --resolver=backtracking ; pip-sync
+
+# Linux
+> .venv\Scripts\activate ; pip-compile requirements_linux.in --upgrade --resolver=backtracking ; pip-sync requirements_linux.txt
 ```
 
 - Rodando o script `start.bat` com a opção Atualizar dependencias
