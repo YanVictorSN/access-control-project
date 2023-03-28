@@ -35,13 +35,13 @@ class CourseStudentListWindow(QWidget):
         self.close_qPB.clicked.connect(self.close)
     
     def get_dataset(self, path):
-        with open(path) as f:
+        with open(path, encoding="utf-8") as f:
             self.database = json.load(f)
             return self.database
     
     def set_database(self, data):
         with open('database/student_data.JSON', 'w', encoding="utf-8") as f:
-            f.write(data)
+            json.dump(data, f, ensure_ascii=False)
     
     def show_students_database(self):
         for i, student in enumerate(self.database["students"]):
@@ -56,15 +56,13 @@ class CourseStudentListWindow(QWidget):
             "attendance": False
         }
         self.database["students"].append(student_data)
-        update_data_json = json.dumps(self.database)
-        self.set_database(update_data_json)
+        self.set_database(self.database)
 
     def edit_student_database(self, code, name):
         for i, student in enumerate(self.database["students"]):
             if student["student_code"] == code:
                 student["student_name"] = name
-                update_data_json = json.dumps(self.database)
-                self.set_database(update_data_json)
+                self.set_database(self.database)
                 break
 
     def remove_student_database(self, name):
@@ -72,8 +70,7 @@ class CourseStudentListWindow(QWidget):
         index_to_delete = next((index for (index, student) in enumerate(students) if student["student_name"] == name), None)
         if index_to_delete is not None:
             students.remove(students[index_to_delete])
-            update_data_json = json.dumps(self.database)
-            self.set_database(update_data_json)
+            self.set_database(self.database)
       
     def add_student(self):
         code = self.student_code_qLE.text()

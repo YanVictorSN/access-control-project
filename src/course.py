@@ -31,7 +31,7 @@ class CourseWindow(QWidget):
         self.close_qPB.clicked.connect(self.close)
 
     def get_dataset(self, path):
-        with open(path, encoding='UTF-8') as f:
+        with open(path, encoding='utf-8') as f:
             self.database = json.load(f)
             return self.database
 
