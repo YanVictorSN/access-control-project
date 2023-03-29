@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import os
 import sys
-
+import json
 import cv2
 from PyQt5 import uic
 from PyQt5.QtCore import pyqtSignal
@@ -23,7 +23,7 @@ TRAINING_GALLERY = os.path.join(os.path.dirname(CURRENT_FILE_PATH), 'training_ga
 DATASET_FOLDER = os.path.join(os.path.dirname(CURRENT_FILE_PATH), 'resources', 'training_dataset')
 MAX_IMAGES = 10
 MS_IMAGE_DELAY = 300
-
+DATABASE_PATH = os.path.join(os.path.dirname(CURRENT_FILE_PATH), 'database', 'student_data.JSON')
 
 class TrainingWindow(QWidget):
     def __init__(self, parent=None):
@@ -83,8 +83,23 @@ class TrainingWindow(QWidget):
             self.message_qL.setText('O nome não pode conter caracteres especiais. Digite um nome válido.')
         else:
             self.message_qL.setText('Aluno(a) cadastrado com sucesso!')
-            self.get_student_image_count()
-            self.take_picture()
+            self.check_name_in_database()
+
+    def get_dataset(self, path):
+        with open(path, encoding='UTF-8') as f:
+            self.database = json.load(f)
+            return self.database
+
+    def check_name_in_database(self):
+        data_students = self.database["students"]
+        for student in data_students:
+            if student['student_name'].lower() == self.student_name:
+                print(student['student_code'])
+                self.get_student_image_count()
+                self.take_picture()
+                break
+            else:
+                self.message_qL.setText('O nome não está cadastrado no banco de dados. Digite um nome válido.')
 
     def get_student_image_count(self):
         filenames = os.listdir(DATASET_FOLDER)
