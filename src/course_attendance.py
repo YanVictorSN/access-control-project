@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import os
 import pathlib
 import pickle
@@ -7,7 +8,6 @@ import sys
 from datetime import date
 from datetime import datetime
 
-import json
 import cv2
 import face_recognition
 import pandas as pd
@@ -24,6 +24,7 @@ from PyQt5.QtWidgets import QWidget
 CURRENT_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
 UI_PATH = pathlib.Path(CURRENT_FILE_PATH, 'ui', 'course_attendance.ui')
 DATABASE_PATH = pathlib.Path(CURRENT_FILE_PATH, 'database', 'student_data.JSON')
+
 
 class AttendanceListWindow(QWidget):
     def __init__(self, parent=None):
@@ -72,11 +73,11 @@ class AttendanceListWindow(QWidget):
         self.course_name_qL.setText(f"{ class_info ['class_name']} {class_info['class_year']}")
 
     def set_student_info(self):
-        data_students = self.database["students"]
+        data_students = self.database['students']
         self.attendence_qTW.setRowCount(len(data_students))
-      
+
         for i, student in enumerate(data_students):
-            student_name = QTableWidgetItem(student["student_name"])
+            student_name = QTableWidgetItem(student['student_name'])
             student_code = QTableWidgetItem(str(student['student_code']))
             self.attendence_qTW.setItem(i, 0, student_code)
             self.attendence_qTW.setItem(i, 1, student_name)
@@ -100,20 +101,24 @@ class AttendanceCam(QThread):
                     face_locations, face_names = face_recognizer.recognize_faces(flipped_frame)
                 counter += 1
 
-                if face_names != ['Unknown']:
-                    for (top, right, bottom, left), name in zip(face_locations, face_names):
+                for (top, right, bottom, left), name in zip(face_locations, face_names):
+                    if face_names != ['Unknown']:
                         cv2.rectangle(flipped_frame, (left, top), (right, bottom), (0, 0, 255), 2)
                         cv2.rectangle(flipped_frame, (left, bottom - 35), (right, bottom), (0, 0, 255), cv2.FILLED)
                         font = cv2.FONT_HERSHEY_DUPLEX
                         cv2.putText(flipped_frame, name, (left + 6, bottom - 6),
                                     font, 1.0, (255, 255, 255), 1, cv2.LINE_AA)
+                    else:
+                        cv2.putText(flipped_frame, 'Nenhum rosto cadastrado encontrado',
+                                    (15, 25), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 1)
 
-                    # Convert the modified frame to Qt format and emit the image
-                    flipped_image = cv2.cvtColor(flipped_frame, cv2.COLOR_BGR2RGB)
-                    qimage = QImage(flipped_image.data, flipped_image.shape[1],
-                                    flipped_image.shape[0], QImage.Format_RGB888)
-                    scaled_qimage = qimage.scaled(640, 480, Qt.KeepAspectRatio)
-                    self.ImageUpdate.emit(scaled_qimage)
+                # Convert the modified frame to Qt format and emit the image
+                flipped_image = cv2.cvtColor(flipped_frame, cv2.COLOR_BGR2RGB)
+                qimage = QImage(flipped_image.data, flipped_image.shape[1],
+                                flipped_image.shape[0], QImage.Format_RGB888)
+                scaled_qimage = qimage.scaled(640, 480, Qt.KeepAspectRatio)
+
+                self.ImageUpdate.emit(scaled_qimage)
         Capture.release()
 
     def stop(self):
