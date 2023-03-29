@@ -1,9 +1,10 @@
 from __future__ import annotations
 
+import json
 import os
 import pathlib
 import sys
-import json
+
 import cv2
 from PyQt5 import uic
 from PyQt5.QtCore import pyqtSignal
@@ -22,7 +23,6 @@ CURRENT_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
 UI_PATH = pathlib.Path(CURRENT_FILE_PATH, 'ui', 'training.ui')
 TRAINING_GALLERY = pathlib.Path(CURRENT_FILE_PATH, 'training_gallery.py')
 TRAINING_DATASET = pathlib.Path(CURRENT_FILE_PATH, 'resources', 'training_dataset')
-DATABASE_PATH = pathlib.Path(CURRENT_FILE_PATH, 'database', 'student_data.JSON')
 
 MAX_IMAGES = 5
 MS_IMAGE_DELAY = 400
@@ -94,7 +94,7 @@ class TrainingWindow(QWidget):
             return self.database
 
     def check_name_in_database(self):
-        data_students = self.database["students"]
+        data_students = self.database['students']
         for student in data_students:
             if student['student_name'].lower() == self.student_name:
                 print(student['student_code'])

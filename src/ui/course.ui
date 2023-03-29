@@ -117,7 +117,7 @@
           <bool>false</bool>
          </property>
          <property name="rowCount">
-          <number>4</number>
+          <number>0</number>
          </property>
          <property name="columnCount">
           <number>4</number>
@@ -149,126 +149,26 @@
          <attribute name="verticalHeaderStretchLastSection">
           <bool>false</bool>
          </attribute>
-         <row>
-          <property name="text">
-           <string>1</string>
-          </property>
-         </row>
-         <row>
-          <property name="text">
-           <string>2</string>
-          </property>
-         </row>
-         <row>
-          <property name="text">
-           <string>3</string>
-          </property>
-         </row>
-         <row>
-          <property name="text">
-           <string>4</string>
-          </property>
-         </row>
          <column>
           <property name="text">
-           <string>class_code</string>
+           <string>course_code</string>
           </property>
          </column>
          <column>
           <property name="text">
-           <string>class_year</string>
+           <string>course_year</string>
           </property>
          </column>
          <column>
           <property name="text">
-           <string>total_students</string>
+           <string>course_students</string>
           </property>
          </column>
          <column>
           <property name="text">
-           <string>class_name</string>
+           <string>course_name</string>
           </property>
          </column>
-         <item row="0" column="0">
-          <property name="text">
-           <string>SO_23_1</string>
-          </property>
-         </item>
-         <item row="0" column="1">
-          <property name="text">
-           <string>2023.1</string>
-          </property>
-         </item>
-         <item row="0" column="2">
-          <property name="text">
-           <string>20</string>
-          </property>
-         </item>
-         <item row="0" column="3">
-          <property name="text">
-           <string>Sistemas Operacionais</string>
-          </property>
-         </item>
-         <item row="1" column="0">
-          <property name="text">
-           <string>VC_23_1</string>
-          </property>
-         </item>
-         <item row="1" column="1">
-          <property name="text">
-           <string>2023.1</string>
-          </property>
-         </item>
-         <item row="1" column="2">
-          <property name="text">
-           <string>20</string>
-          </property>
-         </item>
-         <item row="1" column="3">
-          <property name="text">
-           <string>Visão Computacional</string>
-          </property>
-         </item>
-         <item row="2" column="0">
-          <property name="text">
-           <string>AA_23_1</string>
-          </property>
-         </item>
-         <item row="2" column="1">
-          <property name="text">
-           <string>2023.1</string>
-          </property>
-         </item>
-         <item row="2" column="2">
-          <property name="text">
-           <string>35</string>
-          </property>
-         </item>
-         <item row="2" column="3">
-          <property name="text">
-           <string>Analise de Algoritmos</string>
-          </property>
-         </item>
-         <item row="3" column="0">
-          <property name="text">
-           <string>PP_23_1</string>
-          </property>
-         </item>
-         <item row="3" column="1">
-          <property name="text">
-           <string>2023.1</string>
-          </property>
-         </item>
-         <item row="3" column="2">
-          <property name="text">
-           <string>50</string>
-          </property>
-         </item>
-         <item row="3" column="3">
-          <property name="text">
-           <string>Programação em Python</string>
-          </property>
-         </item>
         </widget>
        </item>
       </layout>

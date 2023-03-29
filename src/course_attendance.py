@@ -35,7 +35,7 @@ class AttendanceListWindow(QWidget):
         self.start_attendance_cam()
         self.set_attendance_time()
         self.get_dataset(DATABASE_PATH)
-        self.set_class_info()
+        self.set_course_info()
         self.set_student_info()
         self.show()
 
@@ -68,9 +68,9 @@ class AttendanceListWindow(QWidget):
             self.database = json.load(f)
             return self.database
 
-    def set_class_info(self):
-        class_info = self.database['classes'][0]
-        self.course_name_qL.setText(f"{ class_info ['class_name']} {class_info['class_year']}")
+    def set_course_info(self):
+        course_info = self.database['classes'][0]
+        self.course_name_qL.setText(f"{ course_info ['course_name']} {course_info['course_year']}")
 
     def set_student_info(self):
         data_students = self.database['students']

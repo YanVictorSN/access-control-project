@@ -1,19 +1,20 @@
 from __future__ import annotations
 
+import json
 import os
 import pathlib
 import sys
-import json
+
 from PyQt5 import uic
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QTableWidgetItem
 from PyQt5.QtWidgets import QWidget
 
-
 CURRENT_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
 UI_PATH = pathlib.Path(CURRENT_FILE_PATH, 'ui', 'course_student_list.ui')
-DATABASE_PATH = pathlib.Path(CURRENT_FILE_PATH, 'database', 'student_data.JSON')
+DATABASE_PATH = pathlib.Path(CURRENT_FILE_PATH, 'database', 'Student.json')
+
 
 class CourseStudentListWindow(QWidget):
     def __init__(self, parent=None):
@@ -21,7 +22,7 @@ class CourseStudentListWindow(QWidget):
         self.ui = uic.loadUi(UI_PATH, self)
         self.init_ui()
         self.button_clicked_event()
-        self.get_dataset(DATABASE_PATH)
+        self.database = self.get_dataset(DATABASE_PATH)
         self.show_students_database()
         self.show()
 
@@ -30,50 +31,50 @@ class CourseStudentListWindow(QWidget):
         self.student_qTW.resizeColumnsToContents()
 
     def button_clicked_event(self):
-        self.add_student_qPB.clicked.connect(self.add_student)
-        self.remove_student_qPB.clicked.connect(self.remove_student)
+        self.add_student_qPB.clicked.connect(self.add_student_to_ui)
+        self.remove_student_qPB.clicked.connect(self.remove_student_from_ui)
         self.student_qTW.itemSelectionChanged.connect(self.load_student_data)
         self.close_qPB.clicked.connect(self.close)
-    
+
     def get_dataset(self, path):
-        with open(path, encoding="utf-8") as f:
+        with open(path, encoding='utf-8') as f:
             self.database = json.load(f)
             return self.database
-    
-    def set_database(self, data):
-        with open(DATABASE_PATH, 'w', encoding="utf-8") as f:
-            json.dump(data, f, ensure_ascii=False)
-    
-    def show_students_database(self):
-        for i, student in enumerate(self.database["students"]):
-            self.insert_student(i, student["student_code"], student["student_name"])
 
-    def add_student_database(self, code, name):
-        student_id = len(self.database["students"]) + 1
+    def set_database(self, data):
+        with open(DATABASE_PATH, 'w', encoding='utf-8') as f:
+            json.dump(data, f, ensure_ascii=False)
+
+    def show_students_database(self):
+        for i, student in enumerate(self.database['students']):
+            self.insert_student(i, student['student_code'], student['student_name'])
+
+    def add_student_to_database(self, code, name):
+        student_id = len(self.database['students']) + 1
         student_data = {
-            "student_id": int(student_id),
-            "student_code": f"{code}",
-            "student_name": f"{name}",
-            "attendance": False
+            'student_id': int(student_id),
+            'student_code': str(code),
+            'student_name': str(name)
         }
-        self.database["students"].append(student_data)
+        self.database['students'].append(student_data)
         self.set_database(self.database)
 
-    def edit_student_database(self, code, name):
-        for student in self.database["students"]:
-            if student["student_code"] == code:
-                student["student_name"] = name
+    def edit_student_to_database(self, code, name):
+        for student in self.database['students']:
+            if student['student_code'] == code:
+                student['student_name'] = str(name)
                 self.set_database(self.database)
                 break
 
-    def remove_student_database(self, name):
-        students = self.database["students"]
-        index_to_delete = next((index for (index, student) in enumerate(students) if student["student_name"] == name), None)
+    def remove_student_from_database(self, name):
+        students = self.database['students']
+        index_to_delete = next((index for (index, student) in enumerate(
+            students) if student['student_name'] == name), None)
         if index_to_delete is not None:
             students.remove(students[index_to_delete])
             self.set_database(self.database)
-      
-    def add_student(self):
+
+    def add_student_to_ui(self):
         code = self.student_code_qLE.text()
         name = self.student_name_qLE.text()
 
@@ -83,25 +84,25 @@ class CourseStudentListWindow(QWidget):
         row_position, existing_row = self.find_student_row(code)
         if existing_row is not None:
             self.ui.student_qTW.setItem(existing_row, 1, QTableWidgetItem(name))
-            self.edit_student_database(code, name)
+            self.edit_student_to_database(code, name)
             self.ui.message_qLB.setText('Editado com sucesso')
         else:
             self.insert_student(row_position, code, name)
-            self.add_student_database(code, name)
+            self.add_student_to_database(code, name)
             self.ui.message_qLB.setText('Adicionado com sucesso')
 
         self.clear_input_fields()
         self.student_code_qLE.setDisabled(False)
 
-    def remove_student(self):
+    def remove_student_from_ui(self):
         selected_items = self.ui.student_qTW.selectedItems()
 
         if not selected_items:
             self.ui.message_qLB.setText('Selecione um estudante')
             return
-        
+
         name = self.student_name_qLE.text()
-        self.remove_student_database(name)
+        self.remove_student_from_database(name)
         row = selected_items[0].row()
         self.ui.student_qTW.removeRow(row)
         self.ui.message_qLB.setText('Removido com sucesso')

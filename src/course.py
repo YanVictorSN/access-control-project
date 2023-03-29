@@ -1,9 +1,10 @@
 from __future__ import annotations
 
+import json
 import os
 import pathlib
 import sys
-import json
+
 from PyQt5 import uic
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QTableWidgetItem
@@ -15,7 +16,7 @@ CURRENT_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
 UI_PATH = pathlib.Path(CURRENT_FILE_PATH, 'ui', 'course.ui')
 COURSE_STUDENT_LIST = pathlib.Path(CURRENT_FILE_PATH, 'course_student_list.py')
 COURSE_ATTENDANCE_LIST = pathlib.Path(CURRENT_FILE_PATH, 'course_attendance_list.py')
-DATABASE_PATH = pathlib.Path(CURRENT_FILE_PATH, 'database', 'student_data.JSON')
+DATABASE_PATH = pathlib.Path(CURRENT_FILE_PATH, 'database', 'Course.json')
 
 
 class CourseWindow(QWidget):
@@ -43,18 +44,18 @@ class CourseWindow(QWidget):
             return self.database
 
     def set_classes_info(self):
-        data_classes = self.database["classes"]
+        data_classes = self.database['courses']
         self.course_qTW.setRowCount(len(data_classes))
 
-        for i, classes in enumerate(data_classes):
-            class_code = QTableWidgetItem(classes["class_code"])
-            class_year = QTableWidgetItem(str(classes["class_year"]))
-            total_students = QTableWidgetItem(str(classes["number_of_students"]))
-            class_name = QTableWidgetItem(classes["class_name"])
-            self.course_qTW.setItem(i, 0,  class_code)
-            self.course_qTW.setItem(i, 1,  class_year)
-            self.course_qTW.setItem(i, 2,  total_students)
-            self.course_qTW.setItem(i, 3,  class_name)
+        for i, courses in enumerate(data_classes):
+            course_code = QTableWidgetItem(courses['course_code'])
+            course_year = QTableWidgetItem(str(courses['course_year']))
+            course_students = QTableWidgetItem(str(i + 10))
+            course_name = QTableWidgetItem(courses['course_name'])
+            self.course_qTW.setItem(i, 0, course_code)
+            self.course_qTW.setItem(i, 1, course_year)
+            self.course_qTW.setItem(i, 2, course_students)
+            self.course_qTW.setItem(i, 3, course_name)
 
     def go_to_course_attendance_list(self):
         run_subprocess(COURSE_ATTENDANCE_LIST)
