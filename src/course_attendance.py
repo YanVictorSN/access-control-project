@@ -101,16 +101,13 @@ class AttendanceCam(QThread):
                     face_locations, face_names = face_recognizer.recognize_faces(flipped_frame)
                 counter += 1
 
-                for (top, right, bottom, left), name in zip(face_locations, face_names):
-                    if face_names != ['Unknown']:
-                        cv2.rectangle(flipped_frame, (left, top), (right, bottom), (0, 0, 255), 2)
-                        cv2.rectangle(flipped_frame, (left, bottom - 35), (right, bottom), (0, 0, 255), cv2.FILLED)
-                        font = cv2.FONT_HERSHEY_DUPLEX
-                        cv2.putText(flipped_frame, name, (left + 6, bottom - 6),
-                                    font, 1.0, (255, 255, 255), 1, cv2.LINE_AA)
-                    else:
-                        cv2.putText(flipped_frame, 'Nenhum rosto cadastrado encontrado',
-                                    (15, 27), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 1)
+                if face_names not in [[], ['Unknown']]:
+                    for (top, right, bottom, left), name in zip(face_locations, face_names):
+                        cv2.putText(flipped_frame, f'{name.capitalize()} presente',
+                                    (15, 27), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 50), 1)
+                else:
+                    cv2.putText(flipped_frame, 'Nenhum rosto cadastrado encontrado',
+                                (15, 27), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 1)
 
                 # Convert the modified frame to Qt format and emit the image
                 flipped_image = cv2.cvtColor(flipped_frame, cv2.COLOR_BGR2RGB)
@@ -143,7 +140,7 @@ class FaceRecognizer:
         for face_encoding in face_encodings:
             matches = face_recognition.compare_faces(known_faces, face_encoding)
             name = 'Unknown'
-            if True in matches and name != 'Unknown':
+            if True in matches:
                 first_match_index = matches.index(True)
                 name = known_names[first_match_index]
             face_names.append(name)
@@ -182,7 +179,7 @@ class FaceRecognizer:
 
         # Mark attendance for the recognized faces
         added_names = set()
-        for name in face_names:
+        for name in face_names if face_names != ['Unknown'] else []:
             self.mark_attendance(name, added_names)
 
         return face_locations, face_names
