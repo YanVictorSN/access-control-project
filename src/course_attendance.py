@@ -89,27 +89,32 @@ class AttendanceCam(QThread):
     def run(self):
         self.ThreadActive = True
         Capture = cv2.VideoCapture(0)
+        counter = 0
         face_recognizer = FaceRecognizer()
         while self.ThreadActive:
             ret, frame = Capture.read()
             if ret:
                 # Flip the image
                 flipped_frame = cv2.flip(frame, 1)
+                if counter % 20 == 0:
+                    # Recognize faces and draw bounding boxes and names
+                    face_locations, face_names = face_recognizer.recognize_faces(flipped_frame)
+                counter += 1
 
-                # Recognize faces and draw bounding boxes and names
-                face_locations, face_names = face_recognizer.recognize_faces(flipped_frame)
-                for (top, right, bottom, left), name in zip(face_locations, face_names):
-                    cv2.rectangle(flipped_frame, (left, top), (right, bottom), (0, 0, 255), 2)
-                    cv2.rectangle(flipped_frame, (left, bottom - 35), (right, bottom), (0, 0, 255), cv2.FILLED)
-                    font = cv2.FONT_HERSHEY_DUPLEX
-                    cv2.putText(flipped_frame, name, (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1, cv2.LINE_AA)
+                if face_names != ['Unknown']:
+                    for (top, right, bottom, left), name in zip(face_locations, face_names):
+                        cv2.rectangle(flipped_frame, (left, top), (right, bottom), (0, 0, 255), 2)
+                        cv2.rectangle(flipped_frame, (left, bottom - 35), (right, bottom), (0, 0, 255), cv2.FILLED)
+                        font = cv2.FONT_HERSHEY_DUPLEX
+                        cv2.putText(flipped_frame, name, (left + 6, bottom - 6),
+                                    font, 1.0, (255, 255, 255), 1, cv2.LINE_AA)
 
-                # Convert the modified frame to Qt format and emit the image
-                flipped_image = cv2.cvtColor(flipped_frame, cv2.COLOR_BGR2RGB)
-                qimage = QImage(flipped_image.data, flipped_image.shape[1],
-                                flipped_image.shape[0], QImage.Format_RGB888)
-                scaled_qimage = qimage.scaled(640, 480, Qt.KeepAspectRatio)
-                self.ImageUpdate.emit(scaled_qimage)
+                    # Convert the modified frame to Qt format and emit the image
+                    flipped_image = cv2.cvtColor(flipped_frame, cv2.COLOR_BGR2RGB)
+                    qimage = QImage(flipped_image.data, flipped_image.shape[1],
+                                    flipped_image.shape[0], QImage.Format_RGB888)
+                    scaled_qimage = qimage.scaled(640, 480, Qt.KeepAspectRatio)
+                    self.ImageUpdate.emit(scaled_qimage)
         Capture.release()
 
     def stop(self):
@@ -134,7 +139,7 @@ class FaceRecognizer:
         for face_encoding in face_encodings:
             matches = face_recognition.compare_faces(known_faces, face_encoding)
             name = 'Unknown'
-            if True in matches:
+            if True in matches and name != 'Unknown':
                 first_match_index = matches.index(True)
                 name = known_names[first_match_index]
             face_names.append(name)
