@@ -17,3 +17,15 @@ def run_subprocess(*args):
     path_and_arguments = f'{path} {arguments}'
     command = f'{VENV_ACTIVATE} && {VENV_PYTHON} {path_and_arguments}'
     subprocess.Popen(command, shell=True)
+
+
+def convert_ui_files():
+    ui_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'ui')
+    for file in os.listdir(ui_folder):
+        if file.endswith('.ui'):
+            input_file = os.path.join(ui_folder, file)
+            output_file = os.path.join(ui_folder, f'ui_{file[:-3]}.py')
+            subprocess.run(['pyuic5', '-o', output_file, input_file])
+
+
+convert_ui_files()
