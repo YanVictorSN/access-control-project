@@ -32,7 +32,6 @@ if %choice%==1 (
   goto menu
 ) else if %choice%==4 (
   .venv\Scripts\activate
-  python -V
   python app.py
   goto menu
 ) else if %choice%==5 (
