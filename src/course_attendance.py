@@ -90,6 +90,7 @@ class AttendanceCam(QThread):
         self.ThreadActive = True
         Capture = cv2.VideoCapture(0)
         counter = 0
+        faces_found = ['Unknown']
         face_recognizer = FaceRecognizer()
         while self.ThreadActive:
             ret, frame = Capture.read()
@@ -99,15 +100,19 @@ class AttendanceCam(QThread):
                 if counter % 10 == 0:
                     # Recognize faces and draw bounding boxes and names
                     face_locations, face_names = face_recognizer.recognize_faces(flipped_frame)
+
+                    # Remove faces that have already been found
+                    face_names = [name for name in face_names if name not in faces_found]
+
+                    # Add new faces to the list of found faces
+                    faces_found.extend(face_names)
+
                 counter += 1
 
-                if face_names not in [[], ['Unknown']]:
+                if face_names:
                     for (top, right, bottom, left), name in zip(face_locations, face_names):
                         cv2.putText(flipped_frame, f'{name.capitalize()} presente',
                                     (15, 27), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 50), 1)
-                else:
-                    cv2.putText(flipped_frame, 'Nenhum rosto cadastrado encontrado',
-                                (15, 27), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 1)
 
                 # Convert the modified frame to Qt format and emit the image
                 flipped_image = cv2.cvtColor(flipped_frame, cv2.COLOR_BGR2RGB)
