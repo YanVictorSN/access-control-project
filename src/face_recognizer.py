@@ -9,14 +9,20 @@ import cv2
 import face_recognition
 import pandas as pd
 
+CURRENT_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
+TRAINING_DATASET = pathlib.Path(CURRENT_FILE_PATH, 'resources', 'training_dataset')
+EXTRACTED_DATASET = pathlib.Path(CURRENT_FILE_PATH, 'resources', 'extracted_dataset')
+FACES_DAT = pathlib.Path(CURRENT_FILE_PATH, 'resources', 'faces.dat')
+ATTENDANCE = pathlib.Path(CURRENT_FILE_PATH, 'attendance')
+
 
 class FaceRecognizer:
     def __init__(self):
-        self.CURRENT_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
-        self.TRAINING_DATASET = pathlib.Path(self.CURRENT_FILE_PATH, 'resources', 'training_dataset')
-        self.EXTRACTED_DATASET = pathlib.Path(self.CURRENT_FILE_PATH, 'resources', 'extracted_dataset')
-        self.FACES_DAT = pathlib.Path(self.CURRENT_FILE_PATH, 'resources', 'faces.dat')
-        self.ATTENDANCE = pathlib.Path(self.CURRENT_FILE_PATH, 'attendance')
+        self.CURRENT_FILE_PATH = CURRENT_FILE_PATH
+        self.TRAINING_DATASET = TRAINING_DATASET
+        self.EXTRACTED_DATASET = EXTRACTED_DATASET
+        self.FACES_DAT = FACES_DAT
+        self.ATTENDANCE = ATTENDANCE
         self.create_folders()
 
     def create_folders(self):
