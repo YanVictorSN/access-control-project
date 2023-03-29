@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import json
 import os
-import pathlib
 import pickle
 import sys
 from datetime import date
@@ -22,8 +21,8 @@ from PyQt5.QtWidgets import QTableWidgetItem
 from PyQt5.QtWidgets import QWidget
 
 CURRENT_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
-UI = pathlib.Path(CURRENT_FILE_PATH, 'ui', 'course_attendance.ui')
-OLD_DB = pathlib.Path(CURRENT_FILE_PATH, 'database', 'OLD_DB.JSON')
+UI = os.path.join(CURRENT_FILE_PATH, 'ui', 'course_attendance.ui')
+OLD_DB = os.path.join(CURRENT_FILE_PATH, 'database', 'OLD_DB.JSON')
 
 
 class AttendanceListWindow(QWidget):
@@ -131,8 +130,8 @@ class AttendanceCam(QThread):
 class FaceRecognizer:
     def __init__(self):
         self.CURRENT_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
-        self.FACES_DAT = pathlib.Path(self.CURRENT_FILE_PATH, 'resources', 'faces.dat')
-        self.ATTENDANCE = pathlib.Path(self.CURRENT_FILE_PATH, 'attendance')
+        self.FACES_DAT = os.path.join(self.CURRENT_FILE_PATH, 'resources', 'faces.dat')
+        self.ATTENDANCE = os.path.join(self.CURRENT_FILE_PATH, 'attendance')
 
     def load_known_faces(self):
         with open(self.FACES_DAT, 'rb') as f:
@@ -155,9 +154,9 @@ class FaceRecognizer:
         capitalized_name = name.capitalize()
         if capitalized_name not in added_names:
             filename = f'attendance_{today}.xlsx'
-            full_path = pathlib.Path(self.ATTENDANCE, filename)
+            full_path = os.path.join(self.ATTENDANCE, filename)
             df = pd.DataFrame({'Name': [capitalized_name], 'Date': [today]})
-            if not full_path.exists():
+            if not os.path.exists(full_path):
                 df.to_excel(full_path, index=False)
             else:
                 df_existing = pd.read_excel(full_path)

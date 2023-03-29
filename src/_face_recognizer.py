@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import datetime
 import os
-import pathlib
 import pickle
 
 import cv2
@@ -10,10 +9,10 @@ import face_recognition
 import pandas as pd
 
 CURRENT_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
-TRAINING_DATASET = pathlib.Path(CURRENT_FILE_PATH, 'resources', 'training_dataset')
-EXTRACTED_DATASET = pathlib.Path(CURRENT_FILE_PATH, 'resources', 'extracted_dataset')
-FACES_DAT = pathlib.Path(CURRENT_FILE_PATH, 'resources', 'faces.dat')
-ATTENDANCE = pathlib.Path(CURRENT_FILE_PATH, 'attendance')
+TRAINING_DATASET = os.path.join(CURRENT_FILE_PATH, 'resources', 'training_dataset')
+EXTRACTED_DATASET = os.path.join(CURRENT_FILE_PATH, 'resources', 'extracted_dataset')
+FACES_DAT = os.path.join(CURRENT_FILE_PATH, 'resources', 'faces.dat')
+ATTENDANCE = os.path.join(CURRENT_FILE_PATH, 'attendance')
 
 
 class FaceRecognizer:
@@ -33,7 +32,7 @@ class FaceRecognizer:
     def store_faces_with_names(self):
         faceClassifer = cv2.CascadeClassifier(f'{cv2.data.haarcascades}haarcascade_frontalface_default.xml')
 
-        for imgName in pathlib.Path(self.TRAINING_DATASET).glob('*.jpg'):
+        for imgName in os.path.join(self.TRAINING_DATASET).glob('*.jpg'):
             image = cv2.imread(str(imgName))
             faces = faceClassifer.detectMultiScale(image, 1.1, 5)
             name = imgName.stem
@@ -92,7 +91,7 @@ class FaceRecognizer:
         capitalized_name = name.capitalize()
         if capitalized_name not in added_names:
             filename = f'attendance_{today}.xlsx'
-            full_path = pathlib.Path(self.ATTENDANCE, filename)
+            full_path = os.path.join(self.ATTENDANCE, filename)
             df = pd.DataFrame({'Name': [capitalized_name], 'Date': [today]})
             if not full_path.exists():
                 df.to_excel(full_path, index=False)

@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import os
-import pathlib
 import sys
 
 from PyQt5 import uic
@@ -11,8 +10,8 @@ from run_subprocess import run_subprocess
 
 
 CURRENT_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
-UI = pathlib.Path(CURRENT_FILE_PATH, 'ui', 'training.ui')
-MAIN = pathlib.Path(CURRENT_FILE_PATH, 'main.py')
+UI = os.path.join(CURRENT_FILE_PATH, 'ui', 'training.ui')
+MAIN = os.path.join(CURRENT_FILE_PATH, 'main.py')
 
 
 class TemplateWindow(QWidget):

@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import json
 import os
-import pathlib
 import sys
 
 from PyQt5 import uic
@@ -12,8 +11,8 @@ from PyQt5.QtWidgets import QTableWidgetItem
 from PyQt5.QtWidgets import QWidget
 
 CURRENT_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
-UI = pathlib.Path(CURRENT_FILE_PATH, 'ui', 'course_student_list.ui')
-STUDENT_DB = pathlib.Path(CURRENT_FILE_PATH, 'database', 'Student.json')
+UI = os.path.join(CURRENT_FILE_PATH, 'ui', 'course_student_list.ui')
+STUDENT_DB = os.path.join(CURRENT_FILE_PATH, 'database', 'Student.json')
 
 
 class CourseStudentListWindow(QWidget):

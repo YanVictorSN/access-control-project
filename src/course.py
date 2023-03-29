@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import json
 import os
-import pathlib
 import sys
 
 from PyQt5 import uic
@@ -13,10 +12,10 @@ from run_subprocess import run_subprocess
 
 
 CURRENT_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
-UI = pathlib.Path(CURRENT_FILE_PATH, 'ui', 'course.ui')
-COURSE_STUDENT_LIST = pathlib.Path(CURRENT_FILE_PATH, 'course_student_list.py')
-COURSE_ATTENDANCE_LIST = pathlib.Path(CURRENT_FILE_PATH, 'course_attendance_list.py')
-COURSE_DB = pathlib.Path(CURRENT_FILE_PATH, 'database', 'Course.json')
+UI = os.path.join(CURRENT_FILE_PATH, 'ui', 'course.ui')
+COURSE_STUDENT_LIST = os.path.join(CURRENT_FILE_PATH, 'course_student_list.py')
+COURSE_ATTENDANCE_LIST = os.path.join(CURRENT_FILE_PATH, 'course_attendance_list.py')
+COURSE_DB = os.path.join(CURRENT_FILE_PATH, 'database', 'Course.json')
 
 
 class CourseWindow(QWidget):

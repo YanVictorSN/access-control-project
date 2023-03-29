@@ -1,8 +1,8 @@
 {
   "students": [
-    { "student_id": 1, "student_code": "0001", "student_name": "Aluno1", "attendance": false },
-    { "student_id": 2, "student_code": "0002", "student_name": "Aluno2", "attendance": false },
-    { "student_id": 3, "student_code": "a", "student_name": "a" }
+    { "student_id": 1, "student_code": "1", "student_name": "Amorim" },
+    { "student_id": 2, "student_code": "2", "student_name": "Tania" },
+    { "student_id": 3, "student_code": "3", "student_name": "Nathaly" }
   ],
   "classes": [
     {

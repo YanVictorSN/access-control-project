@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import json
 import os
-import pathlib
 import sys
 
 import cv2
@@ -20,9 +19,10 @@ from run_subprocess import run_subprocess
 
 
 CURRENT_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
-UI = pathlib.Path(CURRENT_FILE_PATH, 'ui', 'training.ui')
-TRAINING_GALLERY = pathlib.Path(CURRENT_FILE_PATH, 'training_gallery.py')
-TRAINING_DATASET = pathlib.Path(CURRENT_FILE_PATH, 'resources', 'training_dataset')
+UI = os.path.join(CURRENT_FILE_PATH, 'ui', 'training.ui')
+TRAINING_GALLERY = os.path.join(CURRENT_FILE_PATH, 'training_gallery.py')
+TRAINING_DATASET = os.path.join(CURRENT_FILE_PATH, 'resources', 'training_dataset')
+OLD_DB = os.path.join(CURRENT_FILE_PATH, 'database', 'OLD_DB.JSON')
 
 MAX_IMAGES = 5
 MS_IMAGE_DELAY = 400
@@ -35,6 +35,7 @@ class TrainingWindow(QWidget):
         self.init_ui()
         self.button_clicked_event()
         self.start_training_cam()
+        self.database = self.get_database(OLD_DB)
         self.show()
 
     def init_ui(self):
@@ -88,10 +89,9 @@ class TrainingWindow(QWidget):
             self.message_qL.setText('Aluno(a) cadastrado com sucesso!')
             self.check_name_in_database()
 
-    def get_dataset(self, path):
+    def get_database(self, path):
         with open(path, encoding='UTF-8') as f:
-            self.database = json.load(f)
-            return self.database
+            return json.load(f)
 
     def check_name_in_database(self):
         data_students = self.database['students']
@@ -102,6 +102,7 @@ class TrainingWindow(QWidget):
                 self.take_picture()
                 break
             else:
+                print(self.student_name)
                 self.message_qL.setText('O nome não está cadastrado no banco de dados. Digite um nome válido.')
 
     def get_student_image_count(self):

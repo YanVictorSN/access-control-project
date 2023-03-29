@@ -1,6 +1,1 @@
-{
-  "students": [
-    { "student_id": 1, "student_code": "0001", "student_name": "Aluno1" },
-    { "student_id": 2, "student_code": "a", "student_name": "a" }
-  ]
-}
+{"students": [{"student_id": 1, "student_code": "1", "student_name": "amorim"}, {"student_id": 3, "student_code": "d", "student_name": "a"}]}

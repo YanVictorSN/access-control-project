@@ -1,15 +1,14 @@
 from __future__ import annotations
 
 import os
-import pathlib
 import subprocess
 
 
 VENV_PATH = '.venv' if os.name == 'nt' else 'source .venv'
 VENV_FOLDER = 'Scripts' if os.name == 'nt' else 'bin'
 
-VENV_ACTIVATE = pathlib.Path(VENV_PATH, VENV_FOLDER, 'activate')
-VENV_PYTHON = pathlib.Path(VENV_PATH, VENV_FOLDER, 'python')
+VENV_ACTIVATE = os.path.join(VENV_PATH, VENV_FOLDER, 'activate')
+VENV_PYTHON = os.path.join(VENV_PATH, VENV_FOLDER, 'python')
 
 
 def run_subprocess(*args):
