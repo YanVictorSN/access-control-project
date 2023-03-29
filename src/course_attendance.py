@@ -23,7 +23,7 @@ from PyQt5.QtWidgets import QWidget
 
 CURRENT_FILE_PATH = os.path.abspath(__file__)
 UI_PATH = os.path.join(os.path.dirname(CURRENT_FILE_PATH), 'ui', 'course_attendance.ui')
-
+DATABASE_PATH = os.path.join(os.path.dirname(CURRENT_FILE_PATH), 'database', 'student_data.JSON')
 
 class AttendanceListWindow(QWidget):
     def __init__(self, parent=None):
@@ -33,6 +33,7 @@ class AttendanceListWindow(QWidget):
         self.button_clicked_event()
         self.start_attendance_cam()
         self.set_attendance_time()
+        self.get_dataset(DATABASE_PATH)
         self.set_class_info()
         self.set_student_info()
         self.show()
@@ -67,16 +68,16 @@ class AttendanceListWindow(QWidget):
             return self.database
 
     def set_class_info(self):
-        data_classes = self.database["classes"]
-        self.course_qTW.setRowCount(len(data_classes))
+        class_info = self.database['classes'][0]
+        self.course_name_qL.setText(f"{ class_info ['class_name']} {class_info['class_year']}")
 
     def set_student_info(self):
         data_students = self.database["students"]
         self.attendence_qTW.setRowCount(len(data_students))
-
+      
         for i, student in enumerate(data_students):
-            student_name = QTableWidgetItem(student['name'])
-            student_code = QTableWidgetItem(str(student['code']))
+            student_name = QTableWidgetItem(student["student_name"])
+            student_code = QTableWidgetItem(str(student['student_code']))
             self.attendence_qTW.setItem(i, 0, student_code)
             self.attendence_qTW.setItem(i, 1, student_name)
 
