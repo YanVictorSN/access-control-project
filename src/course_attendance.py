@@ -96,7 +96,7 @@ class AttendanceCam(QThread):
             if ret:
                 # Flip the image
                 flipped_frame = cv2.flip(frame, 1)
-                if counter % 20 == 0:
+                if counter % 10 == 0:
                     # Recognize faces and draw bounding boxes and names
                     face_locations, face_names = face_recognizer.recognize_faces(flipped_frame)
                 counter += 1
