@@ -10,7 +10,6 @@ from datetime import datetime
 import cv2
 import face_recognition
 import pandas as pd
-from PyQt5 import uic
 from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtCore import Qt
 from PyQt5.QtCore import QThread
@@ -20,15 +19,16 @@ from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QTableWidgetItem
 from PyQt5.QtWidgets import QWidget
 
+from ui.ui_course_attendance import Ui_Attendance_qW
+
 CURRENT_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
-UI = os.path.join(CURRENT_FILE_PATH, 'ui', 'course_attendance.ui')
 OLD_DB = os.path.join(CURRENT_FILE_PATH, 'database', 'OLD_DB.JSON')
 
 
-class AttendanceListWindow(QWidget):
+class AttendanceListWindow(QWidget, Ui_Attendance_qW):
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.ui = uic.loadUi(UI, self)
+        self.setupUi(self)
         self.init_ui()
         self.button_clicked_event()
         self.start_attendance_cam()

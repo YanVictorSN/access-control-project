@@ -6,15 +6,15 @@ import sys
 
 import cv2
 import face_recognition
-from PyQt5 import uic
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QLabel
 from PyQt5.QtWidgets import QWidget
 
+from ui.ui_training_gallery import Ui_Images_qW
+
 CURRENT_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
-UI = os.path.join(CURRENT_FILE_PATH, 'ui', 'training_gallery.ui')
 TRAINING_DATASET = os.path.join(CURRENT_FILE_PATH, 'resources', 'training_dataset')
 EXTRACTED_DATASET = os.path.join(CURRENT_FILE_PATH, 'resources', 'extracted_dataset')
 FACES_DAT = os.path.join(CURRENT_FILE_PATH, 'resources', 'faces.dat')
@@ -23,15 +23,15 @@ ATTENDANCE = os.path.join(CURRENT_FILE_PATH, 'attendance')
 MAX_COLUMNS = 3
 
 
-class GalleryWindow(QWidget):
-    def __init__(self):
-        super().__init__()
+class GalleryWindow(QWidget, Ui_Images_qW):
+    def __init__(self, parent=None):
+        super().__init__(parent)
         self.CURRENT_FILE_PATH = CURRENT_FILE_PATH
         self.TRAINING_DATASET = TRAINING_DATASET
         self.EXTRACTED_DATASET = EXTRACTED_DATASET
         self.FACES_DAT = FACES_DAT
         self.ATTENDANCE = ATTENDANCE
-        self.ui = uic.loadUi(UI, self)
+        self.setupUi(self)
         self.init_ui()
         self.setup_button_events()
         self.get_images()
@@ -66,19 +66,19 @@ class GalleryWindow(QWidget):
             image_label = QLabel(self)
             image_label.setAlignment(Qt.AlignCenter)
             image_label.setPixmap(pixmap.scaledToWidth(200))
-            self.ui.Gallery_qGL.addWidget(image_label, row, col)
+            self.Gallery_qGL.addWidget(image_label, row, col)
 
     def delete_image(self):
         selected_label = self.get_selected_label()
         if selected_label is not None:
             filename = selected_label.property('filename') or self.images[selected_label.index][0]
             os.remove(os.path.join(self.image_directory, filename))
-            self.ui.Gallery_qGL.removeWidget(selected_label)
+            self.Gallery_qGL.removeWidget(selected_label)
             selected_label.deleteLater()
 
     def get_selected_label(self):
-        for i in range(self.ui.Gallery_qGL.count()):
-            widget = self.ui.Gallery_qGL.itemAt(i).widget()
+        for i in range(self.Gallery_qGL.count()):
+            widget = self.Gallery_qGL.itemAt(i).widget()
             if widget.property('selected'):
                 widget.index = i
                 return widget
@@ -141,7 +141,7 @@ class GalleryWindow(QWidget):
                     filepath = os.path.join(personPath, filename)
                     cv2.imwrite(filepath, resized_face)
 
-        self.ui.message_qLB.setText('Treinamento feito com sucesso')
+        self.message_qLB.setText('Treinamento feito com sucesso')
 
     def train_faces(self):
         directory = EXTRACTED_DATASET
@@ -168,7 +168,7 @@ class GalleryWindow(QWidget):
         with open(self.FACES_DAT, 'wb') as f:
             pickle.dump((known_names, known_faces), f)
 
-        self.ui.message_qLB.setText('Faces extraidas e armazenadas com sucesso')
+        self.message_qLB.setText('Faces extraidas e armazenadas com sucesso')
 
     def train_model(self):
         self.store_faces_with_names()

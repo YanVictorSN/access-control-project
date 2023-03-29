@@ -5,7 +5,6 @@ import os
 import sys
 
 import cv2
-from PyQt5 import uic
 from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtCore import Qt
 from PyQt5.QtCore import QThread
@@ -17,10 +16,10 @@ from PyQt5.QtWidgets import QDesktopWidget
 from PyQt5.QtWidgets import QWidget
 
 from run_subprocess import run_subprocess
+from ui.ui_training import Ui_Training_qW
 
 
 CURRENT_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
-UI = os.path.join(CURRENT_FILE_PATH, 'ui', 'training.ui')
 TRAINING_GALLERY = os.path.join(CURRENT_FILE_PATH, 'training_gallery.py')
 TRAINING_DATASET = os.path.join(CURRENT_FILE_PATH, 'resources', 'training_dataset')
 OLD_DB = os.path.join(CURRENT_FILE_PATH, 'database', 'OLD_DB.JSON')
@@ -29,10 +28,10 @@ MAX_IMAGES = 5
 MS_IMAGE_DELAY = 400
 
 
-class TrainingWindow(QWidget):
+class TrainingWindow(QWidget, Ui_Training_qW):
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.ui = uic.loadUi(UI, self)
+        self.setupUi(self)
         self.init_ui()
         self.button_clicked_event()
         self.start_training_cam()

@@ -4,21 +4,21 @@ import json
 import os
 import sys
 
-from PyQt5 import uic
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QTableWidgetItem
 from PyQt5.QtWidgets import QWidget
 
+from ui.ui_course_student_list import Ui_StudentList_qW
+
 CURRENT_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
-UI = os.path.join(CURRENT_FILE_PATH, 'ui', 'course_student_list.ui')
 STUDENT_DB = os.path.join(CURRENT_FILE_PATH, 'database', 'Student.json')
 
 
-class CourseStudentListWindow(QWidget):
+class CourseStudentListWindow(QWidget, Ui_StudentList_qW):
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.ui = uic.loadUi(UI, self)
+        self.setupUi(self)
         self.init_ui()
         self.button_clicked_event()
         self.student_DB = self.get_database(STUDENT_DB)
@@ -81,36 +81,36 @@ class CourseStudentListWindow(QWidget):
 
         row_position, existing_row = self.find_student_row(code)
         if existing_row is not None:
-            self.ui.student_qTW.setItem(existing_row, 1, QTableWidgetItem(name))
+            self.student_qTW.setItem(existing_row, 1, QTableWidgetItem(name))
             self.edit_student_to_database(code, name)
-            self.ui.message_qLB.setText('Editado com sucesso')
+            self.message_qLB.setText('Editado com sucesso')
         else:
             self.insert_student_to_ui(row_position, code, name)
             self.add_student_to_database(code, name)
-            self.ui.message_qLB.setText('Adicionado com sucesso')
+            self.message_qLB.setText('Adicionado com sucesso')
 
         self.clear_input_fields()
         self.student_code_qLE.setDisabled(False)
 
     def remove_student_from_ui(self):
-        selected_items = self.ui.student_qTW.selectedItems()
+        selected_items = self.student_qTW.selectedItems()
 
         if not selected_items:
-            self.ui.message_qLB.setText('Selecione um estudante')
+            self.message_qLB.setText('Selecione um estudante')
             return
 
         name = self.student_name_qLE.text()
         self.remove_student_from_database(name)
         row = selected_items[0].row()
-        self.ui.student_qTW.removeRow(row)
-        self.ui.message_qLB.setText('Removido com sucesso')
+        self.student_qTW.removeRow(row)
+        self.message_qLB.setText('Removido com sucesso')
 
     def is_valid_input(self, code, name):
         self.student_code_qLE.setStyleSheet('')
         self.student_name_qLE.setStyleSheet('')
 
         if not code or not name:
-            self.ui.message_qLB.setText('Preencha os campos')
+            self.message_qLB.setText('Preencha os campos')
             if not code:
                 self.student_code_qLE.setStyleSheet('border: 1px solid red;')
             if not name:
@@ -120,9 +120,9 @@ class CourseStudentListWindow(QWidget):
         return True
 
     def insert_student_to_ui(self, row_position, code, name):
-        self.ui.student_qTW.insertRow(row_position)
-        self.ui.student_qTW.setItem(row_position, 0, QTableWidgetItem(code))
-        self.ui.student_qTW.setItem(row_position, 1, QTableWidgetItem(name))
+        self.student_qTW.insertRow(row_position)
+        self.student_qTW.setItem(row_position, 0, QTableWidgetItem(code))
+        self.student_qTW.setItem(row_position, 1, QTableWidgetItem(name))
 
     def clear_input_fields(self):
         self.student_code_qLE.clear()
@@ -131,29 +131,29 @@ class CourseStudentListWindow(QWidget):
         self.student_name_qLE.setStyleSheet('')
 
     def find_student_row(self, code):
-        row_position = self.ui.student_qTW.rowCount()
+        row_position = self.student_qTW.rowCount()
         existing_row = next(
             (
                 row
                 for row in range(row_position)
-                if self.ui.student_qTW.item(row, 0).text() == code
+                if self.student_qTW.item(row, 0).text() == code
             ),
             None,
         )
         return row_position, existing_row
 
     def load_student_data(self):
-        selected_items = self.ui.student_qTW.selectedItems()
+        selected_items = self.student_qTW.selectedItems()
         if not selected_items:
             return
         row = selected_items[0].row()
-        self.student_code_qLE.setText(self.ui.student_qTW.item(row, 0).text())
-        self.student_name_qLE.setText(self.ui.student_qTW.item(row, 1).text())
+        self.student_code_qLE.setText(self.student_qTW.item(row, 0).text())
+        self.student_name_qLE.setText(self.student_qTW.item(row, 1).text())
         self.student_code_qLE.setDisabled(True)
 
     def mousePressEvent(self, event):
-        if event.button() == Qt.LeftButton and not self.ui.student_qTW.rect().contains(event.pos()):
-            self.ui.student_qTW.clearSelection()
+        if event.button() == Qt.LeftButton and not self.student_qTW.rect().contains(event.pos()):
+            self.student_qTW.clearSelection()
             self.student_code_qLE.setDisabled(False)
 
 
