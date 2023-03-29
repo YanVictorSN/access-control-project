@@ -3,12 +3,13 @@ from __future__ import annotations
 import os
 import sys
 
-from course_attendance import AttendanceListWindow
 from PyQt5 import uic
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QCalendarWidget
 from PyQt5.QtWidgets import QLabel
 from PyQt5.QtWidgets import QWidget
+
+from course_attendance import AttendanceListWindow
 
 
 CURRENT_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
