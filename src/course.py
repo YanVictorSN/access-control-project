@@ -13,19 +13,19 @@ from run_subprocess import run_subprocess
 
 
 CURRENT_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
-UI_PATH = pathlib.Path(CURRENT_FILE_PATH, 'ui', 'course.ui')
+UI = pathlib.Path(CURRENT_FILE_PATH, 'ui', 'course.ui')
 COURSE_STUDENT_LIST = pathlib.Path(CURRENT_FILE_PATH, 'course_student_list.py')
 COURSE_ATTENDANCE_LIST = pathlib.Path(CURRENT_FILE_PATH, 'course_attendance_list.py')
-DATABASE_PATH = pathlib.Path(CURRENT_FILE_PATH, 'database', 'Course.json')
+COURSE_DB = pathlib.Path(CURRENT_FILE_PATH, 'database', 'Course.json')
 
 
 class CourseWindow(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.ui = uic.loadUi(UI_PATH, self)
+        self.ui = uic.loadUi(UI, self)
         self.init_ui()
         self.button_clicked_event()
-        self.get_dataset(DATABASE_PATH)
+        self.course_DB = self.get_database(COURSE_DB)
         self.set_classes_info()
         self.show()
 
@@ -38,13 +38,12 @@ class CourseWindow(QWidget):
         self.manage_students_qPB.clicked.connect(self.go_to_course_student_list)
         self.close_qPB.clicked.connect(self.close)
 
-    def get_dataset(self, path):
+    def get_database(self, path):
         with open(path, encoding='utf-8') as f:
-            self.database = json.load(f)
-            return self.database
+            return json.load(f)
 
     def set_classes_info(self):
-        data_classes = self.database['courses']
+        data_classes = self.course_DB['courses']
         self.course_qTW.setRowCount(len(data_classes))
 
         for i, courses in enumerate(data_classes):

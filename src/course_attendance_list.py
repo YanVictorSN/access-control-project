@@ -13,13 +13,13 @@ from PyQt5.QtWidgets import QWidget
 
 
 CURRENT_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
-UI_PATH = pathlib.Path(CURRENT_FILE_PATH, 'ui', 'course_attendance_list.ui')
+UI = pathlib.Path(CURRENT_FILE_PATH, 'ui', 'course_attendance_list.ui')
 
 
 class CourseAttendanceListWindow(QWidget):
     def __init__(self):
         super().__init__()
-        self.ui = uic.loadUi(UI_PATH, self)
+        self.ui = uic.loadUi(UI, self)
         self.calendar = self.findChild(QCalendarWidget, 'calendarWidget')
         self.label = self.findChild(QLabel, 'selected_date_qL')
         self.calendar.selectionChanged.connect(self.grab_date)

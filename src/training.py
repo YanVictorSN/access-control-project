@@ -20,7 +20,7 @@ from run_subprocess import run_subprocess
 
 
 CURRENT_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
-UI_PATH = pathlib.Path(CURRENT_FILE_PATH, 'ui', 'training.ui')
+UI = pathlib.Path(CURRENT_FILE_PATH, 'ui', 'training.ui')
 TRAINING_GALLERY = pathlib.Path(CURRENT_FILE_PATH, 'training_gallery.py')
 TRAINING_DATASET = pathlib.Path(CURRENT_FILE_PATH, 'resources', 'training_dataset')
 
@@ -31,7 +31,7 @@ MS_IMAGE_DELAY = 400
 class TrainingWindow(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.ui = uic.loadUi(UI_PATH, self)
+        self.ui = uic.loadUi(UI, self)
         self.init_ui()
         self.button_clicked_event()
         self.start_training_cam()

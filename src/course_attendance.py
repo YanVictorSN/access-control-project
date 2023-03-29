@@ -22,19 +22,19 @@ from PyQt5.QtWidgets import QTableWidgetItem
 from PyQt5.QtWidgets import QWidget
 
 CURRENT_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
-UI_PATH = pathlib.Path(CURRENT_FILE_PATH, 'ui', 'course_attendance.ui')
-DATABASE_PATH = pathlib.Path(CURRENT_FILE_PATH, 'database', 'OLD_DB.JSON')
+UI = pathlib.Path(CURRENT_FILE_PATH, 'ui', 'course_attendance.ui')
+OLD_DB = pathlib.Path(CURRENT_FILE_PATH, 'database', 'OLD_DB.JSON')
 
 
 class AttendanceListWindow(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.ui = uic.loadUi(UI_PATH, self)
+        self.ui = uic.loadUi(UI, self)
         self.init_ui()
         self.button_clicked_event()
         self.start_attendance_cam()
         self.set_attendance_time()
-        self.get_dataset(DATABASE_PATH)
+        self.attendance_student_DB = self.get_database(OLD_DB)
         self.set_course_info()
         self.set_student_info()
         self.show()
@@ -63,17 +63,16 @@ class AttendanceListWindow(QWidget):
         current_date_formated = current_date.strftime('%d/%m/%Y')
         self.attendance_date_qL.setText(current_date_formated)
 
-    def get_dataset(self, path):
+    def get_database(self, path):
         with open(path, encoding='utf-8') as f:
-            self.database = json.load(f)
-            return self.database
+            return json.load(f)
 
     def set_course_info(self):
-        course_info = self.database['classes'][0]
+        course_info = self.attendance_student_DB['classes'][0]
         self.course_name_qL.setText(f"{ course_info ['course_name']} {course_info['course_year']}")
 
     def set_student_info(self):
-        data_students = self.database['students']
+        data_students = self.attendance_student_DB['students']
         self.attendence_qTW.setRowCount(len(data_students))
 
         for i, student in enumerate(data_students):

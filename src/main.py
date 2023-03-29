@@ -10,7 +10,7 @@ from PyQt5.QtWidgets import QWidget
 
 
 CURRENT_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
-UI_PATH = pathlib.Path(CURRENT_FILE_PATH, 'ui', 'main.ui')
+UI = pathlib.Path(CURRENT_FILE_PATH, 'ui', 'main.ui')
 TRAINING = pathlib.Path(CURRENT_FILE_PATH, 'training.py')
 COURSE = pathlib.Path(CURRENT_FILE_PATH, 'course.py')
 
@@ -18,7 +18,7 @@ COURSE = pathlib.Path(CURRENT_FILE_PATH, 'course.py')
 class MainWindow(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.ui = uic.loadUi(UI_PATH, self)
+        self.ui = uic.loadUi(UI, self)
         self.button_clicked_event()
         self.show()
 

@@ -12,18 +12,18 @@ from PyQt5.QtWidgets import QTableWidgetItem
 from PyQt5.QtWidgets import QWidget
 
 CURRENT_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
-UI_PATH = pathlib.Path(CURRENT_FILE_PATH, 'ui', 'course_student_list.ui')
-DATABASE_PATH = pathlib.Path(CURRENT_FILE_PATH, 'database', 'Student.json')
+UI = pathlib.Path(CURRENT_FILE_PATH, 'ui', 'course_student_list.ui')
+STUDENT_DB = pathlib.Path(CURRENT_FILE_PATH, 'database', 'Student.json')
 
 
 class CourseStudentListWindow(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.ui = uic.loadUi(UI_PATH, self)
+        self.ui = uic.loadUi(UI, self)
         self.init_ui()
         self.button_clicked_event()
-        self.database = self.get_dataset(DATABASE_PATH)
-        self.show_students_database()
+        self.student_DB = self.get_database(STUDENT_DB)
+        self.show_students_from_database()
         self.show()
 
     def init_ui(self):
@@ -36,43 +36,42 @@ class CourseStudentListWindow(QWidget):
         self.student_qTW.itemSelectionChanged.connect(self.load_student_data)
         self.close_qPB.clicked.connect(self.close)
 
-    def get_dataset(self, path):
+    def get_database(self, path):
         with open(path, encoding='utf-8') as f:
-            self.database = json.load(f)
-            return self.database
+            return json.load(f)
 
     def set_database(self, data):
-        with open(DATABASE_PATH, 'w', encoding='utf-8') as f:
+        with open(STUDENT_DB, 'w', encoding='utf-8') as f:
             json.dump(data, f, ensure_ascii=False)
 
-    def show_students_database(self):
-        for i, student in enumerate(self.database['students']):
-            self.insert_student(i, student['student_code'], student['student_name'])
+    def show_students_from_database(self):
+        for i, student in enumerate(self.student_DB['students']):
+            self.insert_student_to_ui(i, student['student_code'], student['student_name'])
 
     def add_student_to_database(self, code, name):
-        student_id = len(self.database['students']) + 1
+        student_id = len(self.student_DB['students']) + 1
         student_data = {
             'student_id': int(student_id),
             'student_code': str(code),
             'student_name': str(name)
         }
-        self.database['students'].append(student_data)
-        self.set_database(self.database)
+        self.student_DB['students'].append(student_data)
+        self.set_database(self.student_DB)
 
     def edit_student_to_database(self, code, name):
-        for student in self.database['students']:
+        for student in self.student_DB['students']:
             if student['student_code'] == code:
                 student['student_name'] = str(name)
-                self.set_database(self.database)
+                self.set_database(self.student_DB)
                 break
 
     def remove_student_from_database(self, name):
-        students = self.database['students']
+        students = self.student_DB['students']
         index_to_delete = next((index for (index, student) in enumerate(
             students) if student['student_name'] == name), None)
         if index_to_delete is not None:
             students.remove(students[index_to_delete])
-            self.set_database(self.database)
+            self.set_database(self.student_DB)
 
     def add_student_to_ui(self):
         code = self.student_code_qLE.text()
@@ -87,7 +86,7 @@ class CourseStudentListWindow(QWidget):
             self.edit_student_to_database(code, name)
             self.ui.message_qLB.setText('Editado com sucesso')
         else:
-            self.insert_student(row_position, code, name)
+            self.insert_student_to_ui(row_position, code, name)
             self.add_student_to_database(code, name)
             self.ui.message_qLB.setText('Adicionado com sucesso')
 
@@ -121,7 +120,7 @@ class CourseStudentListWindow(QWidget):
 
         return True
 
-    def insert_student(self, row_position, code, name):
+    def insert_student_to_ui(self, row_position, code, name):
         self.ui.student_qTW.insertRow(row_position)
         self.ui.student_qTW.setItem(row_position, 0, QTableWidgetItem(code))
         self.ui.student_qTW.setItem(row_position, 1, QTableWidgetItem(name))

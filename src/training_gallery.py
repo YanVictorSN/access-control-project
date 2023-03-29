@@ -15,7 +15,7 @@ from PyQt5.QtWidgets import QLabel
 from PyQt5.QtWidgets import QWidget
 
 CURRENT_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
-UI_PATH = pathlib.Path(CURRENT_FILE_PATH, 'ui', 'training_gallery.ui')
+UI = pathlib.Path(CURRENT_FILE_PATH, 'ui', 'training_gallery.ui')
 TRAINING_DATASET = pathlib.Path(CURRENT_FILE_PATH, 'resources', 'training_dataset')
 EXTRACTED_DATASET = pathlib.Path(CURRENT_FILE_PATH, 'resources', 'extracted_dataset')
 FACES_DAT = pathlib.Path(CURRENT_FILE_PATH, 'resources', 'faces.dat')
@@ -32,7 +32,7 @@ class GalleryWindow(QWidget):
         self.EXTRACTED_DATASET = EXTRACTED_DATASET
         self.FACES_DAT = FACES_DAT
         self.ATTENDANCE = ATTENDANCE
-        self.ui = uic.loadUi(UI_PATH, self)
+        self.ui = uic.loadUi(UI, self)
         self.init_ui()
         self.setup_button_events()
         self.get_images()

@@ -11,14 +11,14 @@ from run_subprocess import run_subprocess
 
 
 CURRENT_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
-UI_PATH = pathlib.Path(CURRENT_FILE_PATH, 'ui', 'training.ui')
-EXAMPLE = pathlib.Path(CURRENT_FILE_PATH, 'main.py')
+UI = pathlib.Path(CURRENT_FILE_PATH, 'ui', 'training.ui')
+MAIN = pathlib.Path(CURRENT_FILE_PATH, 'main.py')
 
 
 class TemplateWindow(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.ui = uic.loadUi(UI_PATH, self)
+        self.ui = uic.loadUi(UI, self)
         self.button_clicked_event()
         self.show()
 
@@ -27,7 +27,7 @@ class TemplateWindow(QWidget):
         self.close_qPB.clicked.connect(self.close)
 
     def go_to_example(self):
-        run_subprocess(EXAMPLE)
+        run_subprocess(MAIN)
 
 
 if __name__ == '__main__':
