@@ -1,25 +1,23 @@
 from __future__ import annotations
 
 import os
-import pathlib
 import sys
 
-from course_attendance import AttendanceListWindow
-from PyQt5 import uic
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QCalendarWidget
 from PyQt5.QtWidgets import QLabel
 from PyQt5.QtWidgets import QWidget
 
+from course_attendance import AttendanceListWindow
+from ui.ui_course_attendance_list import Ui_Images_qW
 
 CURRENT_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
-UI_PATH = pathlib.Path(CURRENT_FILE_PATH, 'ui', 'course_attendance_list.ui')
-DATABASE_PATH = pathlib.Path(CURRENT_FILE_PATH, 'database', 'student_data.JSON')
 
-class CourseAttendanceListWindow(QWidget):
-    def __init__(self):
-        super().__init__()
-        self.ui = uic.loadUi(UI_PATH, self)
+
+class CourseAttendanceListWindow(QWidget, Ui_Images_qW):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setupUi(self)
         self.calendar = self.findChild(QCalendarWidget, 'calendarWidget')
         self.label = self.findChild(QLabel, 'selected_date_qL')
         self.calendar.selectionChanged.connect(self.grab_date)

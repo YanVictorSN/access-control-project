@@ -1,24 +1,23 @@
 from __future__ import annotations
 
 import os
-import pathlib
 import sys
 
-from PyQt5 import uic
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QWidget
 
+from run_subprocess import run_subprocess
+from ui.ui_main import Ui_Main_qW
 
 CURRENT_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
-UI_PATH = pathlib.Path(CURRENT_FILE_PATH, 'ui', 'main.ui')
-TRAINING = pathlib.Path(CURRENT_FILE_PATH, 'training.py')
-COURSE = pathlib.Path(CURRENT_FILE_PATH, 'course.py')
+TRAINING = os.path.join(CURRENT_FILE_PATH, 'training.py')
+COURSE = os.path.join(CURRENT_FILE_PATH, 'course.py')
 
 
-class MainWindow(QWidget):
+class MainWindow(QWidget, Ui_Main_qW):
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.ui = uic.loadUi(UI_PATH, self)
+        self.setupUi(self)
         self.button_clicked_event()
         self.show()
 
@@ -35,9 +34,6 @@ class MainWindow(QWidget):
 
 
 if __name__ == '__main__':
-    from run_subprocess import run_subprocess
     App = QApplication([])
     Home = MainWindow()
     sys.exit(App.exec())
-else:
-    from src.run_subprocess import run_subprocess

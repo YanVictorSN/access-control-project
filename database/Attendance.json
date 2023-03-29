@@ -1,0 +1,24 @@
+{
+  "attendances": [
+    {
+      "attendance_id": 1,
+      "attendance_date": "26/03/2023",
+      "course_id": 1
+    },
+    {
+      "attendance_id": 2,
+      "attendance_date": "27/03/2023",
+      "course_id": 1
+    },
+    {
+      "attendance_id": 3,
+      "attendance_date": "28/03/2023",
+      "course_id": 1
+    },
+    {
+      "attendance_id": 4,
+      "attendance_date": "29/03/2023",
+      "course_id": 1
+    }
+  ]
+}

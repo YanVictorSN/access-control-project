@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import json
 import os
-import pathlib
 import pickle
 import sys
 from datetime import date
@@ -11,7 +10,6 @@ from datetime import datetime
 import cv2
 import face_recognition
 import pandas as pd
-from PyQt5 import uic
 from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtCore import Qt
 from PyQt5.QtCore import QThread
@@ -21,21 +19,22 @@ from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QTableWidgetItem
 from PyQt5.QtWidgets import QWidget
 
+from ui.ui_course_attendance import Ui_Attendance_qW
+
 CURRENT_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
-UI_PATH = pathlib.Path(CURRENT_FILE_PATH, 'ui', 'course_attendance.ui')
-DATABASE_PATH = pathlib.Path(CURRENT_FILE_PATH, 'database', 'student_data.JSON')
+OLD_DB = os.path.join(CURRENT_FILE_PATH, 'database', 'OLD_DB.JSON')
 
 
-class AttendanceListWindow(QWidget):
+class AttendanceListWindow(QWidget, Ui_Attendance_qW):
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.ui = uic.loadUi(UI_PATH, self)
+        self.setupUi(self)
         self.init_ui()
         self.button_clicked_event()
         self.start_attendance_cam()
         self.set_attendance_time()
-        self.get_dataset(DATABASE_PATH)
-        self.set_class_info()
+        self.attendance_student_DB = self.get_database(OLD_DB)
+        self.set_course_info()
         self.set_student_info()
         self.show()
 
@@ -63,17 +62,16 @@ class AttendanceListWindow(QWidget):
         current_date_formated = current_date.strftime('%d/%m/%Y')
         self.attendance_date_qL.setText(current_date_formated)
 
-    def get_dataset(self, path):
+    def get_database(self, path):
         with open(path, encoding='utf-8') as f:
-            self.database = json.load(f)
-            return self.database
+            return json.load(f)
 
-    def set_class_info(self):
-        class_info = self.database['classes'][0]
-        self.course_name_qL.setText(f"{ class_info ['class_name']} {class_info['class_year']}")
+    def set_course_info(self):
+        course_info = self.attendance_student_DB['classes'][0]
+        self.course_name_qL.setText(f"{ course_info ['course_name']} {course_info['course_year']}")
 
     def set_student_info(self):
-        data_students = self.database['students']
+        data_students = self.attendance_student_DB['students']
         self.attendence_qTW.setRowCount(len(data_students))
 
         for i, student in enumerate(data_students):
@@ -90,6 +88,7 @@ class AttendanceCam(QThread):
         self.ThreadActive = True
         Capture = cv2.VideoCapture(0)
         counter = 0
+        faces_found = ['Unknown']
         face_recognizer = FaceRecognizer()
         while self.ThreadActive:
             ret, frame = Capture.read()
@@ -99,15 +98,19 @@ class AttendanceCam(QThread):
                 if counter % 10 == 0:
                     # Recognize faces and draw bounding boxes and names
                     face_locations, face_names = face_recognizer.recognize_faces(flipped_frame)
+
+                    # Remove faces that have already been found
+                    face_names = [name for name in face_names if name not in faces_found]
+
+                    # Add new faces to the list of found faces
+                    faces_found.extend(face_names)
+
                 counter += 1
 
-                if face_names not in [[], ['Unknown']]:
+                if face_names:
                     for (top, right, bottom, left), name in zip(face_locations, face_names):
                         cv2.putText(flipped_frame, f'{name.capitalize()} presente',
                                     (15, 27), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 50), 1)
-                else:
-                    cv2.putText(flipped_frame, 'Nenhum rosto cadastrado encontrado',
-                                (15, 27), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 1)
 
                 # Convert the modified frame to Qt format and emit the image
                 flipped_image = cv2.cvtColor(flipped_frame, cv2.COLOR_BGR2RGB)
@@ -127,8 +130,8 @@ class AttendanceCam(QThread):
 class FaceRecognizer:
     def __init__(self):
         self.CURRENT_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
-        self.FACES_DAT = pathlib.Path(self.CURRENT_FILE_PATH, 'resources', 'faces.dat')
-        self.ATTENDANCE = pathlib.Path(self.CURRENT_FILE_PATH, 'attendance')
+        self.FACES_DAT = os.path.join(self.CURRENT_FILE_PATH, 'resources', 'faces.dat')
+        self.ATTENDANCE = os.path.join(self.CURRENT_FILE_PATH, 'attendance')
 
     def load_known_faces(self):
         with open(self.FACES_DAT, 'rb') as f:
@@ -151,9 +154,9 @@ class FaceRecognizer:
         capitalized_name = name.capitalize()
         if capitalized_name not in added_names:
             filename = f'attendance_{today}.xlsx'
-            full_path = pathlib.Path(self.ATTENDANCE, filename)
+            full_path = os.path.join(self.ATTENDANCE, filename)
             df = pd.DataFrame({'Name': [capitalized_name], 'Date': [today]})
-            if not full_path.exists():
+            if not os.path.exists(full_path):
                 df.to_excel(full_path, index=False)
             else:
                 df_existing = pd.read_excel(full_path)

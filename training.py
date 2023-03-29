@@ -1,11 +1,10 @@
 from __future__ import annotations
 
-import os
-import pathlib
-import sys
 import json
+import os
+import sys
+
 import cv2
-from PyQt5 import uic
 from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtCore import Qt
 from PyQt5.QtCore import QThread
@@ -15,26 +14,28 @@ from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QDesktopWidget
 from PyQt5.QtWidgets import QWidget
+
 from run_subprocess import run_subprocess
+from ui.ui_training import Ui_Training_qW
 
 
 CURRENT_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
-UI_PATH = pathlib.Path(CURRENT_FILE_PATH, 'ui', 'training.ui')
-TRAINING_GALLERY = pathlib.Path(CURRENT_FILE_PATH, 'training_gallery.py')
-TRAINING_DATASET = pathlib.Path(CURRENT_FILE_PATH, 'resources', 'training_dataset')
-DATABASE_PATH = pathlib.Path(CURRENT_FILE_PATH, 'database', 'student_data.JSON')
+TRAINING_GALLERY = os.path.join(CURRENT_FILE_PATH, 'training_gallery.py')
+TRAINING_DATASET = os.path.join(CURRENT_FILE_PATH, 'resources', 'training_dataset')
+OLD_DB = os.path.join(CURRENT_FILE_PATH, 'database', 'OLD_DB.JSON')
 
 MAX_IMAGES = 5
 MS_IMAGE_DELAY = 400
 
 
-class TrainingWindow(QWidget):
+class TrainingWindow(QWidget, Ui_Training_qW):
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.ui = uic.loadUi(UI_PATH, self)
+        self.setupUi(self)
         self.init_ui()
         self.button_clicked_event()
         self.start_training_cam()
+        self.database = self.get_database(OLD_DB)
         self.show()
 
     def init_ui(self):
@@ -88,13 +89,12 @@ class TrainingWindow(QWidget):
             self.message_qL.setText('Aluno(a) cadastrado com sucesso!')
             self.check_name_in_database()
 
-    def get_dataset(self, path):
+    def get_database(self, path):
         with open(path, encoding='UTF-8') as f:
-            self.database = json.load(f)
-            return self.database
+            return json.load(f)
 
     def check_name_in_database(self):
-        data_students = self.database["students"]
+        data_students = self.database['students']
         for student in data_students:
             if student['student_name'].lower() == self.student_name:
                 print(student['student_code'])
@@ -102,6 +102,7 @@ class TrainingWindow(QWidget):
                 self.take_picture()
                 break
             else:
+                print(self.student_name)
                 self.message_qL.setText('O nome não está cadastrado no banco de dados. Digite um nome válido.')
 
     def get_student_image_count(self):

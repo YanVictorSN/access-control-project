@@ -1,24 +1,22 @@
 from __future__ import annotations
 
 import os
-import pathlib
 import sys
 
-from PyQt5 import uic
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QWidget
-from run_subprocess import run_subprocess
 
+from run_subprocess import run_subprocess
+from ui.ui_template import Ui_Template_qW
 
 CURRENT_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
-UI_PATH = pathlib.Path(CURRENT_FILE_PATH, 'ui', 'training.ui')
-EXAMPLE = pathlib.Path(CURRENT_FILE_PATH, 'main.py')
+MAIN = os.path.join(CURRENT_FILE_PATH, 'main.py')
 
 
-class TemplateWindow(QWidget):
+class TemplateWindow(QWidget, Ui_Template_qW):
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.ui = uic.loadUi(UI_PATH, self)
+        self.setupUi(self)
         self.button_clicked_event()
         self.show()
 
@@ -27,7 +25,7 @@ class TemplateWindow(QWidget):
         self.close_qPB.clicked.connect(self.close)
 
     def go_to_example(self):
-        run_subprocess(EXAMPLE)
+        run_subprocess(MAIN)
 
 
 if __name__ == '__main__':

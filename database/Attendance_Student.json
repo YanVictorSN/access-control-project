@@ -1,0 +1,24 @@
+{
+  "attendance_student": [
+    {
+      "attendance_id": 1,
+      "student_id": 1,
+      "presence": 1
+    },
+    {
+      "attendance_id": 1,
+      "student_id": 2,
+      "presence": 0
+    },
+    {
+      "attendance_id": 1,
+      "student_id": 3,
+      "presence": 1
+    },
+    {
+      "attendance_id": 1,
+      "student_id": 4,
+      "presence": 0
+    }
+  ]
+}
