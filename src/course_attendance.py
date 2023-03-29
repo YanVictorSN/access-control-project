@@ -110,7 +110,7 @@ class AttendanceCam(QThread):
                                     font, 1.0, (255, 255, 255), 1, cv2.LINE_AA)
                     else:
                         cv2.putText(flipped_frame, 'Nenhum rosto cadastrado encontrado',
-                                    (15, 25), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 1)
+                                    (15, 27), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 1)
 
                 # Convert the modified frame to Qt format and emit the image
                 flipped_image = cv2.cvtColor(flipped_frame, cv2.COLOR_BGR2RGB)
