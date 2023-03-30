@@ -150,19 +150,30 @@ class FaceRecognizer:
         return face_names
 
     def mark_attendance(self, name, added_names):
-        today = date.today().strftime('%Y-%m-%d')
+        today = date.today().strftime('%d-%m-%y')
         capitalized_name = name.capitalize()
         if capitalized_name not in added_names:
-            filename = f'attendance_{today}.xlsx'
+            filename = 'attendance.xlsx'
             full_path = os.path.join(self.ATTENDANCE, filename)
-            df = pd.DataFrame({'Name': [capitalized_name], 'Date': [today]})
+            all_names = ['Amorim', 'Yan', 'Bruno', 'Sara', 'Vitoria']
             if not os.path.exists(full_path):
+                # Create a new DataFrame with all student names and today's date as the columns
+                columns = ['Name'] + [today]
+                df = pd.DataFrame(columns=columns)
+                df['Name'] = all_names
+                df[today] = ' '
+                df.loc[df['Name'] == capitalized_name, today] = 'PRESENTE'
                 df.to_excel(full_path, index=False)
             else:
                 df_existing = pd.read_excel(full_path)
                 if capitalized_name not in df_existing['Name'].values:
-                    df_existing = df_existing.append(df, ignore_index=True)
-                    df_existing.to_excel(full_path, index=False)
+                    # Add a new row to the existing DataFrame with the name and "present" on today's date
+                    new_row = pd.DataFrame({'Name': [capitalized_name], today: ['PRESENTE']})
+                    df_existing = df_existing.append(new_row, ignore_index=True)
+                else:
+                    # Update the value in the row corresponding to the name and today's date to "present"
+                    df_existing.loc[df_existing['Name'] == capitalized_name, today] = 'PRESENTE'
+                df_existing.to_excel(full_path, index=False)
             added_names.add(capitalized_name)
 
     def recognize_faces(self, frame):

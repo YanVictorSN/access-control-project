@@ -1,9 +1,5 @@
 {
-  "students": [
-    { "student_id": 1, "student_code": "1", "student_name": "Amorim" },
-    { "student_id": 2, "student_code": "2", "student_name": "Tania" },
-    { "student_id": 3, "student_code": "3", "student_name": "Nathaly" }
-  ],
+  "students": [{ "student_id": 1, "student_code": "1", "student_name": "Amorim" }],
   "classes": [
     {
       "course_id": 1,
