@@ -9,7 +9,9 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QTableWidgetItem
 from PyQt5.QtWidgets import QWidget
-
+from PyQt5.QtWidgets import QApplication, QLabel, QWidget, QVBoxLayout
+from PyQt5.QtCore import QTimer
+# from course import Sender
 
 CURRENT_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
 UI_PATH = pathlib.Path(CURRENT_FILE_PATH, 'ui', 'course_student_list.ui')
@@ -23,8 +25,11 @@ class CourseStudentListWindow(QWidget):
         self.button_clicked_event()
         self.get_dataset(DATABASE_PATH)
         self.show_students_database()
-        self.show()
 
+    def receive_data(self,data):
+        print(data)
+        print(self.class_name_qL.text())
+    
     def init_ui(self):
         self.student_qTW.setHorizontalHeaderLabels(['Matrícula', 'Nome'])
         self.student_qTW.resizeColumnsToContents()
@@ -161,4 +166,5 @@ class CourseStudentListWindow(QWidget):
 if __name__ == '__main__':
     App = QApplication([])
     Home = CourseStudentListWindow()
+    Home.show()
     sys.exit(App.exec())

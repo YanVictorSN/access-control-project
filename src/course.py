@@ -9,6 +9,8 @@ from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QTableWidgetItem
 from PyQt5.QtWidgets import QWidget
 from run_subprocess import run_subprocess
+from PyQt5.QtCore import QObject, pyqtSignal
+from course_student_list import CourseStudentListWindow
 
 
 CURRENT_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
@@ -17,8 +19,9 @@ COURSE_STUDENT_LIST = pathlib.Path(CURRENT_FILE_PATH, 'course_student_list.py')
 COURSE_ATTENDANCE_LIST = pathlib.Path(CURRENT_FILE_PATH, 'course_attendance_list.py')
 DATABASE_PATH = pathlib.Path(CURRENT_FILE_PATH, 'database', 'student_data.JSON')
 
-
 class CourseWindow(QWidget):
+    my_signal = pyqtSignal(str)
+
     def __init__(self, parent=None):
         super().__init__(parent)
         self.ui = uic.loadUi(UI_PATH, self)
@@ -26,7 +29,7 @@ class CourseWindow(QWidget):
         self.button_clicked_event()
         self.get_dataset(DATABASE_PATH)
         self.set_classes_info()
-        self.show()
+        
 
     def init_ui(self):
         self.course_qTW.setHorizontalHeaderLabels(['Código', 'Ano', 'Alunos', 'Turma'])
@@ -60,7 +63,20 @@ class CourseWindow(QWidget):
         run_subprocess(COURSE_ATTENDANCE_LIST)
 
     def go_to_course_student_list(self):
+        self.emit_signal()
         run_subprocess(COURSE_STUDENT_LIST)
+
+    def emit_signal(self):
+            Course = CourseStudentListWindow()
+            CourseData = Course.receive_data
+            self.my_signal.connect(CourseData)
+            self.send_data()
+    
+    def send_data(self):
+        selected_items = self.course_qTW.selectedItems()
+        if selected_items:
+            selected_class_code = selected_items[3].text()
+            self.my_signal.emit(selected_class_code)
 
 
 if __name__ == '__main__':
