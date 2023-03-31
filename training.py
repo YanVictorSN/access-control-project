@@ -15,7 +15,7 @@ from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QDesktopWidget
 from PyQt5.QtWidgets import QWidget
 
-from run_subprocess import run_subprocess
+from training_gallery import GalleryWindow
 from ui.ui_training import Ui_Training_qW
 
 
@@ -55,7 +55,8 @@ class TrainingWindow(QWidget, Ui_Training_qW):
         self.training_cam.ImageUpdate.connect(self.get_image)
 
     def go_to_gallery(self):
-        run_subprocess(TRAINING_GALLERY, self.student_name)
+        self.training_galery = GalleryWindow(student_name=self.student_name)
+        self.training_galery.show()
 
     def get_image(self, image):
         self.camera_qL.setPixmap(QPixmap.fromImage(image))
@@ -94,7 +95,7 @@ class TrainingWindow(QWidget, Ui_Training_qW):
             return json.load(f)
 
     def check_name_in_database(self):
-        data_students = self.student_DB["students"]
+        data_students = self.student_DB['students']
 
         for student in data_students:
             if student['student_name'].lower().strip().replace(' ', '.') == self.student_name:
@@ -111,7 +112,7 @@ class TrainingWindow(QWidget, Ui_Training_qW):
 
     def take_picture(self):
         self.saving_qPrB.setValue(0)
-        self.saving_qPrB.setMaximum(MAX_IMAGES)
+        self.saving_qPrB.setMaximum(self.counter)
         self.take_picture_with_delay(0, MAX_IMAGES)
 
     def take_picture_with_delay(self, count, max_count):
@@ -133,7 +134,7 @@ class TrainingWindow(QWidget, Ui_Training_qW):
         path_data = os.path.join(TRAINING_DATASET, filename)
         picture.save(path_data)
         self.counter += 1
-        self.message_qL.setText(f'Imagem {self.counter}/{MAX_IMAGES}.')
+        self.message_qL.setText(f'Imagem {self.counter+1}.')
         self.saving_qPrB.setValue(count + 1)
 
 

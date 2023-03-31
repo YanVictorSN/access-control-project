@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import os
 import pickle
-import sys
 
 import cv2
 import face_recognition
@@ -24,8 +23,9 @@ MAX_COLUMNS = 3
 
 
 class GalleryWindow(QWidget, Ui_Images_qW):
-    def __init__(self, parent=None):
+    def __init__(self, parent=None, student_name=None):
         super().__init__(parent)
+        self.student_argument = student_name
         self.CURRENT_FILE_PATH = CURRENT_FILE_PATH
         self.TRAINING_DATASET = TRAINING_DATASET
         self.EXTRACTED_DATASET = EXTRACTED_DATASET
@@ -39,7 +39,7 @@ class GalleryWindow(QWidget, Ui_Images_qW):
         self.show()
 
     def init_ui(self):
-        self.student_name = sys.argv[1] if len(sys.argv) > 1 else ''
+        self.student_name = self.student_argument or ''
         self.base_directory = os.path.abspath(os.path.dirname(__file__))
         self.image_directory = os.path.join(self.base_directory, self.TRAINING_DATASET)
         self.images = []
@@ -73,6 +73,7 @@ class GalleryWindow(QWidget, Ui_Images_qW):
         if selected_label is not None:
             filename = selected_label.property('filename') or self.images[selected_label.index][0]
             os.remove(os.path.join(self.image_directory, filename))
+            self.images.pop([selected_label.index][0])
             self.Gallery_qGL.removeWidget(selected_label)
             selected_label.deleteLater()
 
@@ -165,8 +166,8 @@ class GalleryWindow(QWidget, Ui_Images_qW):
                     known_faces.append(encoding)
                     known_names.append(name)
 
-        with open(self.FACES_DAT, 'wb') as f:
-            pickle.dump((known_names, known_faces), f)
+        f = open(self.FACES_DAT, 'wb')
+        pickle.dump((known_names, known_faces), f)
 
         self.message_qLB.setText('Faces extraidas e armazenadas com sucesso')
 

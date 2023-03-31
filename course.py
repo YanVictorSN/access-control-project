@@ -13,8 +13,6 @@ from course_student_list import CourseStudentListWindow
 from course_attendance_list import CourseAttendanceListWindow
 from PyQt5.QtWidgets import QApplication, QMessageBox
 
-from run_subprocess import run_subprocess
-
 
 CURRENT_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
 UI = os.path.join(CURRENT_FILE_PATH, 'ui', 'course.ui')
@@ -25,6 +23,7 @@ COURSE_DB = os.path.join(CURRENT_FILE_PATH, 'database', 'Course.json')
 
 class CourseWindow(QWidget):
     my_signal = pyqtSignal(str)
+
     def __init__(self, parent=None):
         super().__init__(parent)
         self.ui = uic.loadUi(UI, self)
@@ -85,7 +84,7 @@ class CourseWindow(QWidget):
             self.send_data()
         else:
             self.send_message_error()
-           
+
     def send_message_error(self):
         self.msgBox = QMessageBox()
         self.msgBox.setIcon(QMessageBox.Information)
@@ -97,7 +96,7 @@ class CourseWindow(QWidget):
         selected_items = self.course_qTW.selectedItems()
         selected_course_code = selected_items[3].text()
         data_courses = self.course_DB["courses"]
-        for i in  data_courses:  
+        for i in data_courses:
             course_name = i["course_name"]
             if course_name == selected_course_code:
                 course_id = i["course_id"]

@@ -20,23 +20,10 @@
    <string>4Safety</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="5" column="0" colspan="2">
+   <item row="4" column="0" colspan="2">
     <widget class="QPushButton" name="close_qPB">
      <property name="text">
       <string>Fechar</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="0" colspan="2">
-    <widget class="QPushButton" name="finish_qPB">
-     <property name="minimumSize">
-      <size>
-       <width>0</width>
-       <height>50</height>
-      </size>
-     </property>
-     <property name="text">
-      <string>Concluir a Chamada</string>
      </property>
     </widget>
    </item>
@@ -56,6 +43,9 @@
      </property>
      <property name="sizeAdjustPolicy">
       <enum>QAbstractScrollArea::AdjustToContents</enum>
+     </property>
+     <property name="editTriggers">
+      <set>QAbstractItemView::NoEditTriggers</set>
      </property>
      <property name="alternatingRowColors">
       <bool>true</bool>
@@ -237,9 +227,6 @@
    </item>
   </layout>
  </widget>
- <tabstops>
-  <tabstop>finish_qPB</tabstop>
- </tabstops>
  <resources/>
  <connections/>
 </ui>

@@ -24,7 +24,7 @@ colorama==0.4.6
     #   pytest
 distlib==0.3.6
     # via virtualenv
-dlib @ file:///C:/Users/Amorim/Documents/GitHub/access-control-project/face_recog_dlib_file/dlib-19.19.0-cp38-cp38-win_amd64.whl
+dlib @ file:///C:/Users/Bruno/Desktop/access-control-project/face_recog_dlib_file/dlib-19.19.0-cp38-cp38-win_amd64.whl
     # via
     #   -r requirements.in
     #   face-recognition
