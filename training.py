@@ -55,7 +55,7 @@ class TrainingWindow(QWidget, Ui_Training_qW):
         self.training_cam.ImageUpdate.connect(self.get_image)
 
     def go_to_gallery(self):
-        self.training_galery = GalleryWindow()
+        self.training_galery = GalleryWindow(student_name=self.student_name)
         self.training_galery.show()
 
     def get_image(self, image):
