@@ -22,7 +22,8 @@ from PyQt5.QtWidgets import QWidget
 from ui.ui_course_attendance import Ui_Attendance_qW
 
 CURRENT_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
-OLD_DB = os.path.join(CURRENT_FILE_PATH, 'database', 'OLD_DB.JSON')
+COURSE_DB = os.path.join(CURRENT_FILE_PATH, 'database', 'Course.json')
+STUDENT_DB = os.path.join(CURRENT_FILE_PATH, 'database', 'Student.json')
 
 
 class AttendanceListWindow(QWidget, Ui_Attendance_qW):
@@ -33,9 +34,9 @@ class AttendanceListWindow(QWidget, Ui_Attendance_qW):
         self.button_clicked_event()
         self.start_attendance_cam()
         self.set_attendance_time()
-        self.attendance_student_DB = self.get_database(OLD_DB)
-        self.set_course_info()
-        self.set_student_info()
+        self.student_DB = self.get_database(STUDENT_DB)
+        self.course_DB = self.get_database(COURSE_DB)
+        self.data = None
         self.show()
 
     def init_ui(self):
@@ -66,20 +67,31 @@ class AttendanceListWindow(QWidget, Ui_Attendance_qW):
         with open(path, encoding='utf-8') as f:
             return json.load(f)
 
-    def set_course_info(self):
-        course_info = self.attendance_student_DB['classes'][0]
-        self.course_name_qL.setText(f"{ course_info ['course_name']} {course_info['course_year']}")
+    def set_course_info(self, data):
+        data_courses = self.course_DB["courses"]
+        for i in data_courses:
+            class_id = i["course_id"]
+            if class_id == int(data):
+                self.data = class_id
+                course_name = i["course_name"]
+                course_year = i["course_year"]
+                name_and_year = f"{course_name} {course_year}"
+                self.course_name_qL.setText(f"{name_and_year}")
+                self.set_student_info()
+                break
 
     def set_student_info(self):
-        data_students = self.attendance_student_DB['students']
-        self.attendence_qTW.setRowCount(len(data_students))
+        data_students =  self.student_DB['students']
+        count = 0
+        for student in data_students:
+            if student["student_course_id"] == str(self.data):
+                self.insert_student_to_ui(count, student['student_code'], student['student_name'])
+                count += 1
 
-        for i, student in enumerate(data_students):
-            student_name = QTableWidgetItem(student['student_name'])
-            student_code = QTableWidgetItem(str(student['student_code']))
-            self.attendence_qTW.setItem(i, 0, student_code)
-            self.attendence_qTW.setItem(i, 1, student_name)
-
+    def insert_student_to_ui(self, row_position, code, name):
+        self.attendence_qTW.insertRow(row_position)
+        self.attendence_qTW.setItem(row_position, 0, QTableWidgetItem(code))
+        self.attendence_qTW.setItem(row_position, 1, QTableWidgetItem(name))
 
 class AttendanceCam(QThread):
     ImageUpdate = pyqtSignal(QImage)
@@ -125,8 +137,7 @@ class AttendanceCam(QThread):
         self.ThreadActive = False
         self.wait()
         self.quit()
-
-
+        
 class FaceRecognizer:
     def __init__(self):
         self.CURRENT_FILE_PATH = os.path.dirname(os.path.abspath(__file__))

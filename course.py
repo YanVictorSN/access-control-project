@@ -8,6 +8,10 @@ from PyQt5 import uic
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QTableWidgetItem
 from PyQt5.QtWidgets import QWidget
+from PyQt5.QtCore import QObject, pyqtSignal
+from course_student_list import CourseStudentListWindow
+from course_attendance_list import CourseAttendanceListWindow
+from PyQt5.QtWidgets import QApplication, QMessageBox
 
 from run_subprocess import run_subprocess
 
@@ -20,6 +24,7 @@ COURSE_DB = os.path.join(CURRENT_FILE_PATH, 'database', 'Course.json')
 
 
 class CourseWindow(QWidget):
+    my_signal = pyqtSignal(str)
     def __init__(self, parent=None):
         super().__init__(parent)
         self.ui = uic.loadUi(UI, self)
@@ -27,7 +32,6 @@ class CourseWindow(QWidget):
         self.button_clicked_event()
         self.course_DB = self.get_database(COURSE_DB)
         self.set_classes_info()
-        self.show()
 
     def init_ui(self):
         self.course_qTW.setHorizontalHeaderLabels(['Código', 'Ano', 'Alunos', 'Turma'])
@@ -57,10 +61,47 @@ class CourseWindow(QWidget):
             self.course_qTW.setItem(i, 3, course_name)
 
     def go_to_course_attendance_list(self):
-        run_subprocess(COURSE_ATTENDANCE_LIST)
+        self.emit_signal_to_attendance_list()
 
     def go_to_course_student_list(self):
-        run_subprocess(COURSE_STUDENT_LIST)
+        self.emit_signal_to_student_list()
+
+    def emit_signal_to_attendance_list(self):
+        selected_items = self.course_qTW.selectedItems()
+        if selected_items:
+            self.Attendance = CourseAttendanceListWindow()
+            self.AttendanceData = self.Attendance.receive_data
+            self.my_signal.connect(self.AttendanceData)
+            self.send_data()
+        else:
+            self.send_message_error()
+
+    def emit_signal_to_student_list(self):
+        selected_items = self.course_qTW.selectedItems()
+        if selected_items:
+            self.Course = CourseStudentListWindow()
+            self.CourseData = self.Course.receive_data
+            self.my_signal.connect(self.CourseData)
+            self.send_data()
+        else:
+            self.send_message_error()
+           
+    def send_message_error(self):
+        self.msgBox = QMessageBox()
+        self.msgBox.setIcon(QMessageBox.Information)
+        self.msgBox.setText("Por favor, selecione um turma.")
+        self.msgBox.setWindowTitle("Mensagem de informação")
+        self.msgBox.exec_()
+
+    def send_data(self):
+        selected_items = self.course_qTW.selectedItems()
+        selected_course_code = selected_items[3].text()
+        data_courses = self.course_DB["courses"]
+        for i in  data_courses:  
+            course_name = i["course_name"]
+            if course_name == selected_course_code:
+                course_id = i["course_id"]
+                self.my_signal.emit(str(course_id))
 
 
 if __name__ == '__main__':
