@@ -3,6 +3,11 @@
     {
       "student_id": 1,
       "student_code": "1",
+      "student_name": "Amorim"
+    },
+    {
+      "student_id": 2,
+      "student_code": "2",
       "student_name": "Bruno"
     }
   ],

@@ -1,1 +1,9 @@
-{"students": [{"student_id": 1, "student_code": "1", "student_name": "Amorim", "student_course_id": "3"}, {"student_id": 3, "student_code": "5", "student_name": "Aluno Visão", "student_course_id": "2"}, {"student_id": 4, "student_code": "6", "student_name": "Aluno Sistema", "student_course_id": "1"}, {"student_id": 4, "student_code": "103", "student_name": "bruno", "student_course_id": "1"}, {"student_id": 5, "student_code": "03", "student_name": "tita", "student_course_id": "2"}]}
+{
+  "students": [
+    { "student_id": 1, "student_code": "1", "student_name": "Amorim", "student_course_id": "3" },
+    { "student_id": 3, "student_code": "5", "student_name": "Aluno Visão", "student_course_id": "2" },
+    { "student_id": 4, "student_code": "6", "student_name": "Aluno Sistema", "student_course_id": "1" },
+    { "student_id": 4, "student_code": "103", "student_name": "bruno", "student_course_id": "1" },
+    { "student_id": 5, "student_code": "03", "student_name": "tita", "student_course_id": "2" }
+  ]
+}

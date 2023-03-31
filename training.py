@@ -15,9 +15,8 @@ from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QDesktopWidget
 from PyQt5.QtWidgets import QWidget
 
-
-from ui.ui_training import Ui_Training_qW
 from training_gallery import GalleryWindow
+from ui.ui_training import Ui_Training_qW
 
 
 CURRENT_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
@@ -96,7 +95,7 @@ class TrainingWindow(QWidget, Ui_Training_qW):
             return json.load(f)
 
     def check_name_in_database(self):
-        data_students = self.student_DB["students"]
+        data_students = self.student_DB['students']
 
         for student in data_students:
             if student['student_name'].lower().strip().replace(' ', '.') == self.student_name:
@@ -108,8 +107,7 @@ class TrainingWindow(QWidget, Ui_Training_qW):
 
     def get_student_image_count(self):
         filenames = os.listdir(TRAINING_DATASET)
-        student_filenames = [
-            f for f in filenames if f.startswith(self.student_name)]
+        student_filenames = [f for f in filenames if f.startswith(self.student_name)]
         self.counter = len(student_filenames)
 
     def take_picture(self):

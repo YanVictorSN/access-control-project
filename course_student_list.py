@@ -30,17 +30,17 @@ class CourseStudentListWindow(QWidget, Ui_StudentList_qW):
     def init_ui(self):
         self.student_qTW.setHorizontalHeaderLabels(['Matrícula', 'Nome'])
         self.student_qTW.resizeColumnsToContents()
-    
+
     def receive_data(self, data):
-        data_courses = self.course_DB["courses"]
+        data_courses = self.course_DB['courses']
         for i in data_courses:
-            class_id = i["course_id"]
+            class_id = i['course_id']
             if class_id == int(data):
                 self.data = class_id
-                course_name = i["course_name"]
-                course_year = i["course_year"]
-                name_and_year = f"{course_name} {course_year}"
-                self.course_name_qL.setText(f"Turma: {name_and_year}")
+                course_name = i['course_name']
+                course_year = i['course_year']
+                name_and_year = f'{course_name} {course_year}'
+                self.course_name_qL.setText(f'Turma: {name_and_year}')
                 self.show_students_from_database()
                 break
 
@@ -61,7 +61,7 @@ class CourseStudentListWindow(QWidget, Ui_StudentList_qW):
     def show_students_from_database(self):
         count = 0
         for student in self.student_DB['students']:
-            if student["student_course_id"] == str(self.data):
+            if student['student_course_id'] == str(self.data):
                 self.insert_student_to_ui(count, student['student_code'], student['student_name'])
                 count += 1
 
@@ -71,7 +71,7 @@ class CourseStudentListWindow(QWidget, Ui_StudentList_qW):
             'student_id': int(student_id),
             'student_code': str(code),
             'student_name': str(name),
-            'student_course_id':str(self.data)
+            'student_course_id': str(self.data)
         }
         self.student_DB['students'].append(student_data)
         self.set_database(self.student_DB)
@@ -85,7 +85,8 @@ class CourseStudentListWindow(QWidget, Ui_StudentList_qW):
 
     def remove_student_from_database(self, name):
         students = self.student_DB['students']
-        index_to_delete = next((index for (index, student) in enumerate(students) if student['student_name'] == name), None)
+        index_to_delete = next((index for (index, student) in enumerate(
+            students) if student['student_name'] == name), None)
         if index_to_delete is not None:
             students.remove(students[index_to_delete])
             self.set_database(self.student_DB)
