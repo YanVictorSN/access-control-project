@@ -13,18 +13,18 @@ from course_student_list import CourseStudentListWindow
 from course_attendance_list import CourseAttendanceListWindow
 from PyQt5.QtWidgets import QApplication, QMessageBox
 
-from run_subprocess import run_subprocess
-
 
 CURRENT_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
 UI = os.path.join(CURRENT_FILE_PATH, 'ui', 'course.ui')
 COURSE_STUDENT_LIST = os.path.join(CURRENT_FILE_PATH, 'course_student_list.py')
-COURSE_ATTENDANCE_LIST = os.path.join(CURRENT_FILE_PATH, 'course_attendance_list.py')
+COURSE_ATTENDANCE_LIST = os.path.join(
+    CURRENT_FILE_PATH, 'course_attendance_list.py')
 COURSE_DB = os.path.join(CURRENT_FILE_PATH, 'database', 'Course.json')
 
 
 class CourseWindow(QWidget):
     my_signal = pyqtSignal(str)
+
     def __init__(self, parent=None):
         super().__init__(parent)
         self.ui = uic.loadUi(UI, self)
@@ -34,12 +34,15 @@ class CourseWindow(QWidget):
         self.set_classes_info()
 
     def init_ui(self):
-        self.course_qTW.setHorizontalHeaderLabels(['Código', 'Ano', 'Alunos', 'Turma'])
+        self.course_qTW.setHorizontalHeaderLabels(
+            ['Código', 'Ano', 'Alunos', 'Turma'])
         self.course_qTW.resizeColumnsToContents()
 
     def button_clicked_event(self):
-        self.manage_attendance_qPB.clicked.connect(self.go_to_course_attendance_list)
-        self.manage_students_qPB.clicked.connect(self.go_to_course_student_list)
+        self.manage_attendance_qPB.clicked.connect(
+            self.go_to_course_attendance_list)
+        self.manage_students_qPB.clicked.connect(
+            self.go_to_course_student_list)
         self.close_qPB.clicked.connect(self.close)
 
     def get_database(self, path):
@@ -85,7 +88,7 @@ class CourseWindow(QWidget):
             self.send_data()
         else:
             self.send_message_error()
-           
+
     def send_message_error(self):
         self.msgBox = QMessageBox()
         self.msgBox.setIcon(QMessageBox.Information)
@@ -97,7 +100,7 @@ class CourseWindow(QWidget):
         selected_items = self.course_qTW.selectedItems()
         selected_course_code = selected_items[3].text()
         data_courses = self.course_DB["courses"]
-        for i in  data_courses:  
+        for i in data_courses:
             course_name = i["course_name"]
             if course_name == selected_course_code:
                 course_id = i["course_id"]

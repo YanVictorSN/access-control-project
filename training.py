@@ -15,13 +15,15 @@ from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QDesktopWidget
 from PyQt5.QtWidgets import QWidget
 
-from run_subprocess import run_subprocess
+
 from ui.ui_training import Ui_Training_qW
+from training_gallery import GalleryWindow
 
 
 CURRENT_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
 TRAINING_GALLERY = os.path.join(CURRENT_FILE_PATH, 'training_gallery.py')
-TRAINING_DATASET = os.path.join(CURRENT_FILE_PATH, 'resources', 'training_dataset')
+TRAINING_DATASET = os.path.join(
+    CURRENT_FILE_PATH, 'resources', 'training_dataset')
 STUDENT_DB = os.path.join(CURRENT_FILE_PATH, 'database', 'Student.json')
 
 MAX_IMAGES = 5
@@ -55,7 +57,8 @@ class TrainingWindow(QWidget, Ui_Training_qW):
         self.training_cam.ImageUpdate.connect(self.get_image)
 
     def go_to_gallery(self):
-        run_subprocess(TRAINING_GALLERY, self.student_name)
+        self.training_galery = GalleryWindow()
+        self.training_galery.show()
 
     def get_image(self, image):
         self.camera_qL.setPixmap(QPixmap.fromImage(image))
@@ -80,11 +83,14 @@ class TrainingWindow(QWidget, Ui_Training_qW):
 
     def validate_name(self):
         if not self.student_DB:
-            self.message_qL.setText('O campo está vazio. Digite um nome válido.')
+            self.message_qL.setText(
+                'O campo está vazio. Digite um nome válido.')
         elif any(char.isdigit() for char in self.student_name):
-            self.message_qL.setText('O nome não pode conter números. Digite um nome válido.')
+            self.message_qL.setText(
+                'O nome não pode conter números. Digite um nome válido.')
         elif not all(char.isalpha() or char.isspace() for char in self.student_name.replace('.', ' ')):
-            self.message_qL.setText('O nome não pode conter caracteres especiais. Digite um nome válido.')
+            self.message_qL.setText(
+                'O nome não pode conter caracteres especiais. Digite um nome válido.')
         else:
             self.message_qL.setText('Aluno(a) cadastrado com sucesso!')
             self.check_name_in_database()
@@ -102,11 +108,13 @@ class TrainingWindow(QWidget, Ui_Training_qW):
                 self.take_picture()
                 break
             else:
-                self.message_qL.setText('O nome não está cadastrado no banco de dados. Digite um nome válido.')
+                self.message_qL.setText(
+                    'O nome não está cadastrado no banco de dados. Digite um nome válido.')
 
     def get_student_image_count(self):
         filenames = os.listdir(TRAINING_DATASET)
-        student_filenames = [f for f in filenames if f.startswith(self.student_name)]
+        student_filenames = [
+            f for f in filenames if f.startswith(self.student_name)]
         self.counter = len(student_filenames)
 
     def take_picture(self):
@@ -122,7 +130,8 @@ class TrainingWindow(QWidget, Ui_Training_qW):
             self.message_qL.setText('Nenhuma imagem para salvar.')
 
         if count + 1 < max_count:
-            QTimer.singleShot(MS_IMAGE_DELAY, lambda: self.take_picture_with_delay(count + 1, max_count))
+            QTimer.singleShot(
+                MS_IMAGE_DELAY, lambda: self.take_picture_with_delay(count + 1, max_count))
         else:
             self.message_qL.setText(f'{max_count} imagens salvas com sucesso.')
             self.saving_qPrB.reset()

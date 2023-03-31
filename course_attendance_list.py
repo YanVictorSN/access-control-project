@@ -12,11 +12,14 @@ from PyQt5.QtCore import pyqtSignal
 from course_attendance import AttendanceListWindow
 from ui.ui_course_attendance_list import Ui_Images_qW
 
+
 CURRENT_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
 COURSE_DB = os.path.join(CURRENT_FILE_PATH, 'database', 'Course.json')
 
+
 class CourseAttendanceListWindow(QWidget, Ui_Images_qW):
     my_signal = pyqtSignal(str)
+
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setupUi(self)
@@ -46,14 +49,15 @@ class CourseAttendanceListWindow(QWidget, Ui_Images_qW):
 
     def grab_date(self):
         dateSelected = self.calendar.selectedDate()
-        self.label.setText('Data Selecionada: ' + dateSelected.toString('dd/MM/yyyy'))
+        self.label.setText('Data Selecionada: ' +
+                           dateSelected.toString('dd/MM/yyyy'))
 
     def button_clicked_event(self):
         self.new_entry_qPB.clicked.connect(self.go_to_course_attendance_list)
         self.close_qPB.clicked.connect(self.close)
 
     def go_to_course_attendance_list(self):
-        self.AttendanceList = AttendanceListWindow()    
+        self.AttendanceList = AttendanceListWindow()
         self.AttendanceListData = self.AttendanceList.set_course_info
         self.my_signal.connect(self.AttendanceListData)
         self.my_signal.emit(str(self.data))

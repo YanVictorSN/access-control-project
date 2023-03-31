@@ -15,8 +15,10 @@ from PyQt5.QtWidgets import QWidget
 from ui.ui_training_gallery import Ui_Images_qW
 
 CURRENT_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
-TRAINING_DATASET = os.path.join(CURRENT_FILE_PATH, 'resources', 'training_dataset')
-EXTRACTED_DATASET = os.path.join(CURRENT_FILE_PATH, 'resources', 'extracted_dataset')
+TRAINING_DATASET = os.path.join(
+    CURRENT_FILE_PATH, 'resources', 'training_dataset')
+EXTRACTED_DATASET = os.path.join(
+    CURRENT_FILE_PATH, 'resources', 'extracted_dataset')
 FACES_DAT = os.path.join(CURRENT_FILE_PATH, 'resources', 'faces.dat')
 ATTENDANCE = os.path.join(CURRENT_FILE_PATH, 'attendance')
 
@@ -41,7 +43,8 @@ class GalleryWindow(QWidget, Ui_Images_qW):
     def init_ui(self):
         self.student_name = sys.argv[1] if len(sys.argv) > 1 else ''
         self.base_directory = os.path.abspath(os.path.dirname(__file__))
-        self.image_directory = os.path.join(self.base_directory, self.TRAINING_DATASET)
+        self.image_directory = os.path.join(
+            self.base_directory, self.TRAINING_DATASET)
         self.images = []
         self.MAX_COLUMNS = 3
 
@@ -71,8 +74,10 @@ class GalleryWindow(QWidget, Ui_Images_qW):
     def delete_image(self):
         selected_label = self.get_selected_label()
         if selected_label is not None:
-            filename = selected_label.property('filename') or self.images[selected_label.index][0]
+            filename = selected_label.property(
+                'filename') or self.images[selected_label.index][0]
             os.remove(os.path.join(self.image_directory, filename))
+            self.images.pop([selected_label.index][0])
             self.Gallery_qGL.removeWidget(selected_label)
             selected_label.deleteLater()
 
@@ -121,15 +126,18 @@ class GalleryWindow(QWidget, Ui_Images_qW):
             widget.setProperty('filename', filename)
 
     def store_faces_with_names(self):
-        faceClassifer = cv2.CascadeClassifier(f'{cv2.data.haarcascades}haarcascade_frontalface_default.xml')
+        faceClassifer = cv2.CascadeClassifier(
+            f'{cv2.data.haarcascades}haarcascade_frontalface_default.xml')
 
         for imgPath in os.scandir(TRAINING_DATASET):
             if imgPath.is_file() and imgPath.name.endswith('.jpg'):
                 imgName = os.path.splitext(imgPath.name)[0]
-                image = cv2.imread(os.path.join(TRAINING_DATASET, imgPath.name))
+                image = cv2.imread(os.path.join(
+                    TRAINING_DATASET, imgPath.name))
                 faces = faceClassifer.detectMultiScale(image, 1.1, 5)
                 name = imgName
-                personPath = os.path.join(self.EXTRACTED_DATASET, name.split('_')[0])
+                personPath = os.path.join(
+                    self.EXTRACTED_DATASET, name.split('_')[0])
 
                 if not os.path.exists(personPath):
                     os.makedirs(personPath)
@@ -160,7 +168,8 @@ class GalleryWindow(QWidget, Ui_Images_qW):
 
                 image = face_recognition.load_image_file(imagePath)
                 face_locations = face_recognition.face_locations(image)
-                face_encodings = face_recognition.face_encodings(image, face_locations)
+                face_encodings = face_recognition.face_encodings(
+                    image, face_locations)
                 for encoding in face_encodings:
                     known_faces.append(encoding)
                     known_names.append(name)

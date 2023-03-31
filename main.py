@@ -6,8 +6,10 @@ import sys
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QWidget
 
-from run_subprocess import run_subprocess
+
 from ui.ui_main import Ui_Main_qW
+from course import CourseWindow
+from training import TrainingWindow
 
 CURRENT_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
 TRAINING = os.path.join(CURRENT_FILE_PATH, 'training.py')
@@ -27,10 +29,12 @@ class MainWindow(QWidget, Ui_Main_qW):
         self.close_qPB.clicked.connect(self.close)
 
     def go_to_training(self):
-        run_subprocess(TRAINING)
+        self.training = TrainingWindow()
+        self.training.show()
 
     def go_to_course(self):
-        run_subprocess(COURSE)
+        self.course = CourseWindow()
+        self.course.show()
 
 
 if __name__ == '__main__':
