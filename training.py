@@ -22,7 +22,7 @@ from ui.ui_training import Ui_Training_qW
 CURRENT_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
 TRAINING_GALLERY = os.path.join(CURRENT_FILE_PATH, 'training_gallery.py')
 TRAINING_DATASET = os.path.join(CURRENT_FILE_PATH, 'resources', 'training_dataset')
-OLD_DB = os.path.join(CURRENT_FILE_PATH, 'database', 'OLD_DB.JSON')
+STUDENT_DB = os.path.join(CURRENT_FILE_PATH, 'database', 'Student.json')
 
 MAX_IMAGES = 5
 MS_IMAGE_DELAY = 400
@@ -35,7 +35,7 @@ class TrainingWindow(QWidget, Ui_Training_qW):
         self.init_ui()
         self.button_clicked_event()
         self.start_training_cam()
-        self.database = self.get_database(OLD_DB)
+        self.student_DB = self.get_database(STUDENT_DB)
         self.show()
 
     def init_ui(self):
@@ -79,7 +79,7 @@ class TrainingWindow(QWidget, Ui_Training_qW):
         os.makedirs(TRAINING_DATASET, exist_ok=True)
 
     def validate_name(self):
-        if not self.student_name:
+        if not self.student_DB:
             self.message_qL.setText('O campo está vazio. Digite um nome válido.')
         elif any(char.isdigit() for char in self.student_name):
             self.message_qL.setText('O nome não pode conter números. Digite um nome válido.')
@@ -94,15 +94,14 @@ class TrainingWindow(QWidget, Ui_Training_qW):
             return json.load(f)
 
     def check_name_in_database(self):
-        data_students = self.database['students']
+        data_students = self.student_DB["students"]
+
         for student in data_students:
-            if student['student_name'].lower() == self.student_name:
-                print(student['student_code'])
+            if student['student_name'].lower().strip().replace(' ', '.') == self.student_name:
                 self.get_student_image_count()
                 self.take_picture()
                 break
             else:
-                print(self.student_name)
                 self.message_qL.setText('O nome não está cadastrado no banco de dados. Digite um nome válido.')
 
     def get_student_image_count(self):

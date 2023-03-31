@@ -31,9 +31,9 @@ class CourseStudentListWindow(QWidget, Ui_StudentList_qW):
         self.student_qTW.setHorizontalHeaderLabels(['Matrícula', 'Nome'])
         self.student_qTW.resizeColumnsToContents()
     
-    def receive_data(self,data):
+    def receive_data(self, data):
         data_courses = self.course_DB["courses"]
-        for i in  data_courses:
+        for i in data_courses:
             class_id = i["course_id"]
             if class_id == int(data):
                 self.data = class_id
