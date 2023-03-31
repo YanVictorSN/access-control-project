@@ -31,14 +31,7 @@
         {
             "class_id": 3,
             "class_code": "AA_23_1",
-            "class_name": "Analise de Algoritmos",
-            "class_year": 2023.1,
-            "number_of_students": 35
-        },
-        {
-            "class_id": 3,
-            "class_code": "AA_23_1",
-            "class_name": "Analise de Algoritmos",
+            "class_name": "Análise de Algoritmos",
             "class_year": 2023.1,
             "number_of_students": 35
         },

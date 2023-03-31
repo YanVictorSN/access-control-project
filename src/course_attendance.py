@@ -27,6 +27,7 @@ DATABASE_PATH = pathlib.Path(CURRENT_FILE_PATH, 'database', 'student_data.JSON')
 
 
 class AttendanceListWindow(QWidget):
+    my_signal = pyqtSignal(str)
     def __init__(self, parent=None):
         super().__init__(parent)
         self.ui = uic.loadUi(UI_PATH, self)
@@ -35,7 +36,6 @@ class AttendanceListWindow(QWidget):
         self.start_attendance_cam()
         self.set_attendance_time()
         self.get_dataset(DATABASE_PATH)
-        self.set_class_info()
         self.set_student_info()
         self.show()
 
@@ -68,9 +68,17 @@ class AttendanceListWindow(QWidget):
             self.database = json.load(f)
             return self.database
 
-    def set_class_info(self):
-        class_info = self.database['classes'][0]
-        self.course_name_qL.setText(f"{ class_info ['class_name']} {class_info['class_year']}")
+    def set_class_info(self, data):
+        data_classes = self.database["classes"]
+        for i in data_classes:
+            class_id = i["class_id"]
+            if class_id == int(data):
+                self.data = class_id
+                class_name = i["class_name"]
+                class_year = i["class_year"]
+                name_and_year = f"{class_name} {class_year}"
+                self.course_name_qL.setText(f"{name_and_year}")
+                break
 
     def set_student_info(self):
         data_students = self.database['students']

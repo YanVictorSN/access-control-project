@@ -8,9 +8,10 @@ from PyQt5 import uic
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QTableWidgetItem
 from PyQt5.QtWidgets import QWidget
-from run_subprocess import run_subprocess
 from PyQt5.QtCore import QObject, pyqtSignal
 from course_student_list import CourseStudentListWindow
+from course_attendance_list import CourseAttendanceListWindow
+from PyQt5.QtWidgets import QApplication, QMessageBox
 
 
 CURRENT_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
@@ -60,23 +61,44 @@ class CourseWindow(QWidget):
             self.course_qTW.setItem(i, 3,  class_name)
 
     def go_to_course_attendance_list(self):
-        run_subprocess(COURSE_ATTENDANCE_LIST)
+        self.emit_signal_to_attendance_list()
+        # run_subprocess(COURSE_ATTENDANCE_LIST)
 
     def go_to_course_student_list(self):
-        self.emit_signal()
-        run_subprocess(COURSE_STUDENT_LIST)
+        self.emit_signal_to_student_list()
+        # run_subprocess(COURSE_STUDENT_LIST)
 
-    def emit_signal(self):
+    def emit_signal_to_attendance_list(self):
+        Attendance = CourseAttendanceListWindow()
+        AttendanceData = Attendance.receive_data
+        self.my_signal.connect(AttendanceData)
+        self.send_data()
+      
+    def emit_signal_to_student_list(self):
+        selected_items = self.course_qTW.selectedItems()
+        if selected_items:
             Course = CourseStudentListWindow()
             CourseData = Course.receive_data
             self.my_signal.connect(CourseData)
             self.send_data()
-    
+        else:
+            msgBox = QMessageBox()
+            msgBox.setIcon(QMessageBox.Information)
+            msgBox.setText("Por favor, selecione um turma.")
+            msgBox.setWindowTitle("Mensagem de informação")
+            msgBox.exec_()
+
     def send_data(self):
         selected_items = self.course_qTW.selectedItems()
         if selected_items:
             selected_class_code = selected_items[3].text()
-            self.my_signal.emit(selected_class_code)
+
+            data_classes = self.database["classes"]
+            for i in data_classes:  
+                class_name = i["class_name"]
+                if class_name == selected_class_code:
+                    class_id = i["class_id"]
+                    self.my_signal.emit(str(class_id))
 
 
 if __name__ == '__main__':

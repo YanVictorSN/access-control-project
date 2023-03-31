@@ -9,9 +9,7 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QTableWidgetItem
 from PyQt5.QtWidgets import QWidget
-from PyQt5.QtWidgets import QApplication, QLabel, QWidget, QVBoxLayout
-from PyQt5.QtCore import QTimer
-# from course import Sender
+from PyQt5.QtWidgets import QApplication
 
 CURRENT_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
 UI_PATH = pathlib.Path(CURRENT_FILE_PATH, 'ui', 'course_student_list.ui')
@@ -25,10 +23,20 @@ class CourseStudentListWindow(QWidget):
         self.button_clicked_event()
         self.get_dataset(DATABASE_PATH)
         self.show_students_database()
-
+        self.data = None
+        self.show()
+    
     def receive_data(self,data):
-        print(data)
-        print(self.class_name_qL.text())
+        data_classes = self.database["classes"]
+        for i in data_classes:
+            class_id = i["class_id"]
+            if class_id == int(data):
+                self.data = class_id
+                class_name = i["class_name"]
+                class_year = i["class_year"]
+                name_and_year = f"{class_name} {class_year}"
+                self.class_name_qL.setText(f"Turma: {name_and_year}")
+                break
     
     def init_ui(self):
         self.student_qTW.setHorizontalHeaderLabels(['Matrícula', 'Nome'])
@@ -166,5 +174,5 @@ class CourseStudentListWindow(QWidget):
 if __name__ == '__main__':
     App = QApplication([])
     Home = CourseStudentListWindow()
-    Home.show()
+   
     sys.exit(App.exec())
