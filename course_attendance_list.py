@@ -11,6 +11,8 @@ from PyQt5.QtWidgets import QWidget
 from course_attendance import AttendanceListWindow
 from ui.ui_course_attendance_list import Ui_Images_qW
 
+from class_reports import ClassReportsWindow
+
 CURRENT_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
 
 
@@ -30,12 +32,18 @@ class CourseAttendanceListWindow(QWidget, Ui_Images_qW):
 
     def button_clicked_event(self):
         self.new_entry_qPB.clicked.connect(self.go_to_course_attendance_list)
+        self.view_report_qPB.clicked.connect(self.go_to_class_reports)
         self.close_qPB.clicked.connect(self.close)
 
     def go_to_course_attendance_list(self):
         self.close()
         self.course_attendance_list = AttendanceListWindow()
         self.course_attendance_list.show()
+
+    def go_to_class_reports(self):
+        self.close()
+        self.class_reports = ClassReportsWindow()
+        self.class_reports.show()
 
 
 if __name__ == '__main__':
