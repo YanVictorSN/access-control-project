@@ -11,8 +11,10 @@ from run_subprocess import convert_ui_files
 
 CURRENT_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
 RESOURCES = os.path.join(CURRENT_FILE_PATH, 'resources')
-TRAINING_DATASET = os.path.join(CURRENT_FILE_PATH, 'resources', 'training_dataset')
-EXTRACTED_DATASET = os.path.join(CURRENT_FILE_PATH, 'resources', 'extracted_dataset')
+TRAINING_DATASET = os.path.join(
+    CURRENT_FILE_PATH, 'resources', 'training_dataset')
+EXTRACTED_DATASET = os.path.join(
+    CURRENT_FILE_PATH, 'resources', 'extracted_dataset')
 ATTENDANCE = os.path.join(CURRENT_FILE_PATH, 'attendance')
 
 

@@ -1,5 +1,11 @@
 {
-  "students": [{ "student_id": 1, "student_code": "1", "student_name": "Amorim" }],
+  "students": [
+    {
+      "student_id": 1,
+      "student_code": "1",
+      "student_name": "Bruno"
+    }
+  ],
   "classes": [
     {
       "course_id": 1,
@@ -37,5 +43,15 @@
       "number_of_students": 50
     }
   ],
-  "attendance_list": [{ "course_id": 1, "data": "26/03/2023", "students_present": [{ "name": "Nome" }] }]
+  "attendance_list": [
+    {
+      "course_id": 1,
+      "data": "26/03/2023",
+      "students_present": [
+        {
+          "name": "Nome"
+        }
+      ]
+    }
+  ]
 }

@@ -68,7 +68,8 @@ class AttendanceListWindow(QWidget, Ui_Attendance_qW):
 
     def set_course_info(self):
         course_info = self.attendance_student_DB['classes'][0]
-        self.course_name_qL.setText(f"{ course_info ['course_name']} {course_info['course_year']}")
+        self.course_name_qL.setText(
+            f"{ course_info ['course_name']} {course_info['course_year']}")
 
     def set_student_info(self):
         data_students = self.attendance_student_DB['students']
@@ -97,10 +98,12 @@ class AttendanceCam(QThread):
                 flipped_frame = cv2.flip(frame, 1)
                 if counter % 10 == 0:
                     # Recognize faces and draw bounding boxes and names
-                    face_locations, face_names = face_recognizer.recognize_faces(flipped_frame)
+                    face_locations, face_names = face_recognizer.recognize_faces(
+                        flipped_frame)
 
                     # Remove faces that have already been found
-                    face_names = [name for name in face_names if name not in faces_found]
+                    face_names = [
+                        name for name in face_names if name not in faces_found]
 
                     # Add new faces to the list of found faces
                     faces_found.extend(face_names)
@@ -130,7 +133,8 @@ class AttendanceCam(QThread):
 class FaceRecognizer:
     def __init__(self):
         self.CURRENT_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
-        self.FACES_DAT = os.path.join(self.CURRENT_FILE_PATH, 'resources', 'faces.dat')
+        self.FACES_DAT = os.path.join(
+            self.CURRENT_FILE_PATH, 'resources', 'faces.dat')
         self.ATTENDANCE = os.path.join(self.CURRENT_FILE_PATH, 'attendance')
 
     def load_known_faces(self):
@@ -141,7 +145,8 @@ class FaceRecognizer:
         face_names = []
         face_encodings = face_recognition.face_encodings(rgb_small_frame)
         for face_encoding in face_encodings:
-            matches = face_recognition.compare_faces(known_faces, face_encoding)
+            matches = face_recognition.compare_faces(
+                known_faces, face_encoding)
             name = 'Unknown'
             if True in matches:
                 first_match_index = matches.index(True)
@@ -168,11 +173,14 @@ class FaceRecognizer:
                 df_existing = pd.read_excel(full_path)
                 if capitalized_name not in df_existing['Name'].values:
                     # Add a new row to the existing DataFrame with the name and "present" on today's date
-                    new_row = pd.DataFrame({'Name': [capitalized_name], today: ['PRESENTE']})
-                    df_existing = df_existing.append(new_row, ignore_index=True)
+                    new_row = pd.DataFrame(
+                        {'Name': [capitalized_name], today: ['PRESENTE']})
+                    df_existing = df_existing.append(
+                        new_row, ignore_index=True)
                 else:
                     # Update the value in the row corresponding to the name and today's date to "present"
-                    df_existing.loc[df_existing['Name'] == capitalized_name, today] = 'PRESENTE'
+                    df_existing.loc[df_existing['Name'] ==
+                                    capitalized_name, today] = 'PRESENTE'
                 df_existing.to_excel(full_path, index=False)
             added_names.add(capitalized_name)
 
@@ -186,10 +194,12 @@ class FaceRecognizer:
         # Find the locations and names of the faces in the image
         face_locations = face_recognition.face_locations(rgb_small_frame)
         known_names, known_faces = self.load_known_faces()
-        face_names = self.recognize_face_names(known_names, known_faces, rgb_small_frame)
+        face_names = self.recognize_face_names(
+            known_names, known_faces, rgb_small_frame)
 
         # Scale up the face locations to match the original frame size
-        face_locations = [(top * 4, right * 4, bottom * 4, left * 4) for (top, right, bottom, left) in face_locations]
+        face_locations = [(top * 4, right * 4, bottom * 4, left * 4)
+                          for (top, right, bottom, left) in face_locations]
 
         # Mark attendance for the recognized faces
         added_names = set()
