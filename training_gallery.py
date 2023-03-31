@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import os
 import pickle
-import sys
 
 import cv2
 import face_recognition

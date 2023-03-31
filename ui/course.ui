@@ -58,7 +58,7 @@
           </size>
          </property>
          <property name="text">
-          <string>Cadastrar Alunos</string>
+          <string>Lista de Alunos</string>
          </property>
         </widget>
        </item>
@@ -91,6 +91,9 @@
          </property>
          <property name="sizeAdjustPolicy">
           <enum>QAbstractScrollArea::AdjustToContents</enum>
+         </property>
+         <property name="editTriggers">
+          <set>QAbstractItemView::NoEditTriggers</set>
          </property>
          <property name="alternatingRowColors">
           <bool>true</bool>

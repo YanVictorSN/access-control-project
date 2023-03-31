@@ -112,7 +112,7 @@ class TrainingWindow(QWidget, Ui_Training_qW):
 
     def take_picture(self):
         self.saving_qPrB.setValue(0)
-        self.saving_qPrB.setMaximum(MAX_IMAGES)
+        self.saving_qPrB.setMaximum(self.counter)
         self.take_picture_with_delay(0, MAX_IMAGES)
 
     def take_picture_with_delay(self, count, max_count):
@@ -134,7 +134,7 @@ class TrainingWindow(QWidget, Ui_Training_qW):
         path_data = os.path.join(TRAINING_DATASET, filename)
         picture.save(path_data)
         self.counter += 1
-        self.message_qL.setText(f'Imagem {self.counter}/{MAX_IMAGES}.')
+        self.message_qL.setText(f'Imagem {self.counter+1}.')
         self.saving_qPrB.setValue(count + 1)
 
 
