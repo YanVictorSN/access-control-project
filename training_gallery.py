@@ -40,7 +40,7 @@ class GalleryWindow(QWidget, Ui_Images_qW):
         self.show()
 
     def init_ui(self):
-        self.student_name = self.student_argument if self.student_argument else ''
+        self.student_name = self.student_argument or ''
         self.base_directory = os.path.abspath(os.path.dirname(__file__))
         self.image_directory = os.path.join(self.base_directory, self.TRAINING_DATASET)
         self.images = []
