@@ -23,6 +23,7 @@ from ui.ui_course_attendance import Ui_Attendance_qW
 
 CURRENT_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
 OLD_DB = os.path.join(CURRENT_FILE_PATH, 'database', 'OLD_DB.JSON')
+COURSE_DB = os.path.join(CURRENT_FILE_PATH, 'database', 'Course.json')
 
 
 class AttendanceListWindow(QWidget, Ui_Attendance_qW):
@@ -34,7 +35,7 @@ class AttendanceListWindow(QWidget, Ui_Attendance_qW):
         self.start_attendance_cam()
         self.set_attendance_time()
         self.attendance_student_DB = self.get_database(OLD_DB)
-        self.set_course_info()
+        self.course_DB = self.get_database(COURSE_DB)
         self.set_student_info()
         self.show()
 
@@ -66,9 +67,17 @@ class AttendanceListWindow(QWidget, Ui_Attendance_qW):
         with open(path, encoding='utf-8') as f:
             return json.load(f)
 
-    def set_course_info(self):
-        course_info = self.attendance_student_DB['classes'][0]
-        self.course_name_qL.setText(f"{ course_info ['course_name']} {course_info['course_year']}")
+    def set_course_info(self, data):
+        data_courses = self.course_DB["courses"]
+        for i in  data_courses:
+            class_id = i["course_id"]
+            if class_id == int(data):
+                self.data = class_id
+                course_name = i["course_name"]
+                course_year = i["course_year"]
+                name_and_year = f"{course_name} {course_year}"
+                self.course_name_qL.setText(f"{name_and_year}")
+                break
 
     def set_student_info(self):
         data_students = self.attendance_student_DB['students']
@@ -125,7 +134,7 @@ class AttendanceCam(QThread):
         self.ThreadActive = False
         self.wait()
         self.quit()
-
+        
 
 class FaceRecognizer:
     def __init__(self):

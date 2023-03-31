@@ -13,6 +13,7 @@ from ui.ui_course_student_list import Ui_StudentList_qW
 
 CURRENT_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
 STUDENT_DB = os.path.join(CURRENT_FILE_PATH, 'database', 'Student.json')
+COURSE_DB = os.path.join(CURRENT_FILE_PATH, 'database', 'Course.json')
 
 
 class CourseStudentListWindow(QWidget, Ui_StudentList_qW):
@@ -22,12 +23,26 @@ class CourseStudentListWindow(QWidget, Ui_StudentList_qW):
         self.init_ui()
         self.button_clicked_event()
         self.student_DB = self.get_database(STUDENT_DB)
-        self.show_students_from_database()
+        self.course_DB = self.get_database(COURSE_DB)
+        self.data = None
         self.show()
 
     def init_ui(self):
         self.student_qTW.setHorizontalHeaderLabels(['Matrícula', 'Nome'])
         self.student_qTW.resizeColumnsToContents()
+    
+    def receive_data(self,data):
+        data_courses = self.course_DB["courses"]
+        for i in  data_courses:
+            class_id = i["course_id"]
+            if class_id == int(data):
+                self.data = class_id
+                course_name = i["course_name"]
+                course_year = i["course_year"]
+                name_and_year = f"{course_name} {course_year}"
+                self.course_name_qL.setText(f"Turma: {name_and_year}")
+                self.show_students_from_database()
+                break
 
     def button_clicked_event(self):
         self.add_student_qPB.clicked.connect(self.add_student_to_ui)
@@ -44,15 +59,19 @@ class CourseStudentListWindow(QWidget, Ui_StudentList_qW):
             json.dump(data, f, ensure_ascii=False)
 
     def show_students_from_database(self):
-        for i, student in enumerate(self.student_DB['students']):
-            self.insert_student_to_ui(i, student['student_code'], student['student_name'])
+        count = 0
+        for student in self.student_DB['students']:
+            if student["student_course_id"] == str(self.data):
+                self.insert_student_to_ui(count, student['student_code'], student['student_name'])
+                count += 1
 
     def add_student_to_database(self, code, name):
         student_id = len(self.student_DB['students']) + 1
         student_data = {
             'student_id': int(student_id),
             'student_code': str(code),
-            'student_name': str(name)
+            'student_name': str(name),
+            'student_course_id':str(self.data)
         }
         self.student_DB['students'].append(student_data)
         self.set_database(self.student_DB)
@@ -160,4 +179,5 @@ class CourseStudentListWindow(QWidget, Ui_StudentList_qW):
 if __name__ == '__main__':
     App = QApplication([])
     Home = CourseStudentListWindow()
+    Home.show()
     sys.exit(App.exec())
