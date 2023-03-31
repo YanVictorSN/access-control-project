@@ -166,8 +166,8 @@ class GalleryWindow(QWidget, Ui_Images_qW):
                     known_faces.append(encoding)
                     known_names.append(name)
 
-        with open(self.FACES_DAT, 'wb') as f:
-            pickle.dump((known_names, known_faces), f)
+        f = open(self.FACES_DAT, 'wb')
+        pickle.dump((known_names, known_faces), f)
 
         self.message_qLB.setText('Faces extraidas e armazenadas com sucesso')
 
