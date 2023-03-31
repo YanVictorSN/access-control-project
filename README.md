@@ -19,15 +19,15 @@ access-control-project> .venv\Scripts\activate
 (.venv) access-control-project> python -m pip install pip-tools
 
 # Windows
-# Gera o requirements.txt (Se for Windows)
+# Gera o requirements.txt
 (.venv) access-control-project> pip-compile --upgrade --resolver=backtracking
-# Instala as dependências (Se for Windows)
+# Instala as dependências
 (.venv) access-control-project> pip-sync
 
-# Linux
-# Gera o requirements.txt (Se for Linux)
+# Linux (Não testado)
+# Gera o requirements.txt
 (.venv) access-control-project> pip-compile requirements_linux.in --upgrade --resolver=backtracking
-# Instala as dependências (Se for Linux)
+# Instala as dependências
 (.venv) access-control-project> pip-sync requirements_linux.txt
 ```
 
@@ -38,7 +38,7 @@ Tudo junto, para facilitar:
 > python -m pip install virtualenv & virtualenv .venv & .venv\Scripts\activate & python -m pip install pip-tools & pip-compile --upgrade --resolver=backtracking & pip-sync
 > python -m pip install virtualenv ; virtualenv .venv ; .venv\Scripts\activate ; python -m pip install pip-tools ; pip-compile --upgrade --resolver=backtracking ; pip-sync
 
-# Linux
+# Linux (Não testado)
 > python -m pip install virtualenv ; virtualenv .venv ; .venv\Scripts\activate ; python -m pip install pip-tools ; pip-compile requirements_linux.in --upgrade --resolver=backtracking ; pip-sync requirements_linux.txt
 ```
 
@@ -57,15 +57,15 @@ Temos duas opções para instalar as dependências:
 access-control-project> .venv\Scripts\activate
 
 # Windows
-# Gera o requirements.txt (Se for Windows)
+# Gera o requirements.txt
 (.venv) access-control-project> pip-compile --upgrade --resolver=backtracking
-# Instala as dependências (Se for Windows)
+# Instala as dependências
 (.venv) access-control-project> pip-sync
 
-# Linux
-# Gera o requirements.txt (Se for Linux)
+# Linux (Não testado)
+# Gera o requirements.txt
 (.venv) access-control-project> pip-compile requirements_linux.in --upgrade --resolver=backtracking
-# Instala as dependências (Se for Linux)
+# Instala as dependências
 (.venv) access-control-project> pip-sync requirements_linux.txt
 ```
 
@@ -76,7 +76,7 @@ Tudo junto, para facilitar:
 > .venv\Scripts\activate & pip-compile --upgrade --resolver=backtracking & pip-sync
 > .venv\Scripts\activate ; pip-compile --upgrade --resolver=backtracking ; pip-sync
 
-# Linux
+# Linux (Não testado)
 > .venv\Scripts\activate ; pip-compile requirements_linux.in --upgrade --resolver=backtracking ; pip-sync requirements_linux.txt
 ```
 
@@ -105,3 +105,7 @@ Para rodar o pre-commit manualmente, basta rodar o comando `pre-commit run --all
 ## **Testes**
 
 Para rodar os testes, basta rodar o comando `pytest` no terminal.
+
+## **Problemas conhecidos**
+
+Atualmente não roda em sistemas operacionais Linux.
