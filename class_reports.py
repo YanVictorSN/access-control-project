@@ -15,7 +15,7 @@ UI_PATH = os.path.join(os.path.dirname(CURRENT_FILE_PATH), 'ui', 'ui_class_repor
 
 #Assigning paths to import functions from course_attendance_list.py and course_attendance.py
 ATTENDACE_LIST = os.path.join(os.path.dirname(CURRENT_FILE_PATH), 'course_attendance_list.py')
-TRAINING = os.path.join(os.path.dirname(CURRENT_FILE_PATH), 'course_attendance.py')
+ATTENDANCE = os.path.join(os.path.dirname(CURRENT_FILE_PATH), 'course_attendance.py')
 
 class ClassReportsWindow(QWidget):
 
@@ -38,14 +38,14 @@ class ClassReportsWindow(QWidget):
         #Throw to the course_attendance_list window when called on next lines
         self.btn_back.clicked.connect(self.go_to_course_attendance_list)
 
-        #Throw to the training window when called on next lines
-        self.btn_training.clicked.connect(self.go_to_training)
+        #Throw to the course_attendance window when called on next lines
+        self.btn_training.clicked.connect(self.go_to_attendance)
 
     def go_to_course_attendance_list(self):
         run_subprocess(ATTENDACE_LIST)
 
-    def go_to_training(self):
-        run_subprocess(TRAINING)
+    def go_to_attendance(self):
+        run_subprocess(ATTENDANCE)
 
 if __name__ == '__main__':
     App = QApplication(sys.argv)
