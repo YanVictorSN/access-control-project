@@ -36,7 +36,7 @@ class ClassReportsWindow(QWidget):
     def button_clicked_event(self):
 
         #Throw to the course_attendance_list window when called on next lines
-        self.btn_back.clicked.connect(self.close)
+        self.close__qPB.clicked.connect(self.close)
 
         #Throw to the course_attendance window when called on next lines
         self.btn_training.clicked.connect(self.go_to_attendance)
