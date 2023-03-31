@@ -85,8 +85,7 @@ class CourseStudentListWindow(QWidget, Ui_StudentList_qW):
 
     def remove_student_from_database(self, name):
         students = self.student_DB['students']
-        index_to_delete = next((index for (index, student) in enumerate(
-            students) if student['student_name'] == name), None)
+        index_to_delete = next((index for (index, student) in enumerate(students) if student['student_name'] == name), None)
         if index_to_delete is not None:
             students.remove(students[index_to_delete])
             self.set_database(self.student_DB)

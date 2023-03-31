@@ -49,8 +49,7 @@ class CourseAttendanceListWindow(QWidget, Ui_Images_qW):
 
     def grab_date(self):
         dateSelected = self.calendar.selectedDate()
-        self.label.setText('Data Selecionada: ' +
-                           dateSelected.toString('dd/MM/yyyy'))
+        self.label.setText('Data Selecionada: ' + dateSelected.toString('dd/MM/yyyy'))
 
     def button_clicked_event(self):
         self.new_entry_qPB.clicked.connect(self.go_to_course_attendance_list)

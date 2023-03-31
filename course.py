@@ -17,8 +17,7 @@ from PyQt5.QtWidgets import QApplication, QMessageBox
 CURRENT_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
 UI = os.path.join(CURRENT_FILE_PATH, 'ui', 'course.ui')
 COURSE_STUDENT_LIST = os.path.join(CURRENT_FILE_PATH, 'course_student_list.py')
-COURSE_ATTENDANCE_LIST = os.path.join(
-    CURRENT_FILE_PATH, 'course_attendance_list.py')
+COURSE_ATTENDANCE_LIST = os.path.join(CURRENT_FILE_PATH, 'course_attendance_list.py')
 COURSE_DB = os.path.join(CURRENT_FILE_PATH, 'database', 'Course.json')
 
 
@@ -34,15 +33,12 @@ class CourseWindow(QWidget):
         self.set_classes_info()
 
     def init_ui(self):
-        self.course_qTW.setHorizontalHeaderLabels(
-            ['Código', 'Ano', 'Alunos', 'Turma'])
+        self.course_qTW.setHorizontalHeaderLabels(['Código', 'Ano', 'Alunos', 'Turma'])
         self.course_qTW.resizeColumnsToContents()
 
     def button_clicked_event(self):
-        self.manage_attendance_qPB.clicked.connect(
-            self.go_to_course_attendance_list)
-        self.manage_students_qPB.clicked.connect(
-            self.go_to_course_student_list)
+        self.manage_attendance_qPB.clicked.connect(self.go_to_course_attendance_list)
+        self.manage_students_qPB.clicked.connect(self.go_to_course_student_list)
         self.close_qPB.clicked.connect(self.close)
 
     def get_database(self, path):

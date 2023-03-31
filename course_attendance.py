@@ -121,13 +121,11 @@ class AttendanceCam(QThread):
 
                 if face_names:
                     for (top, right, bottom, left), name in zip(face_locations, face_names):
-                        cv2.putText(flipped_frame, f'{name.capitalize()} presente',
-                                    (15, 27), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 50), 1)
+                        cv2.putText(flipped_frame, f'{name.capitalize()} presente',(15, 27), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 50), 1)
 
                 # Convert the modified frame to Qt format and emit the image
                 flipped_image = cv2.cvtColor(flipped_frame, cv2.COLOR_BGR2RGB)
-                qimage = QImage(flipped_image.data, flipped_image.shape[1],
-                                flipped_image.shape[0], QImage.Format_RGB888)
+                qimage = QImage(flipped_image.data, flipped_image.shape[1], flipped_image.shape[0], QImage.Format_RGB888)
                 scaled_qimage = qimage.scaled(640, 480, Qt.KeepAspectRatio)
 
                 self.ImageUpdate.emit(scaled_qimage)
